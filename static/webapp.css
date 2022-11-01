@@ -1,0 +1,14 @@
+/*
+    webapp.css
+    Jeff Ondich
+    6 November 2020
+
+    CSS for the tiny web app for CS257.
+*/
+
+body {
+    margin: 20px;
+    font-family: Helvetica;
+    background: #ddffdd;
+}
+
