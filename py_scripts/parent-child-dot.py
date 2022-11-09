@@ -25,8 +25,8 @@ def calculate_parent_child_distance(tree1, tree2):
   return len(symmetric_difference)
    
    
-tree1_filename = "../examples/trees/tree1.dot" 
-tree2_filename = "../examples/trees/tree2.dot" 
+tree1_filename = "../examples/trees/tree3.dot" 
+tree2_filename = "../examples/trees/tree4.dot" 
 tree1 = read_dot_file(tree1_filename)
 tree2 = read_dot_file(tree2_filename)
 print(calculate_parent_child_distance(tree1, tree2))
