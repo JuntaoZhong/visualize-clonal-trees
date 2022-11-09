@@ -1,0 +1,156 @@
+/*
+var data = {
+  "name": "A1",
+  "children": [
+    {
+      "name": "B1",
+      "children": [
+        {
+          "name": "C1",
+          "value": 100
+        },
+        {
+          "name": "C2",
+          "value": 300
+        },
+        {
+          "name": "C3",
+          "value": 200
+        }
+      ]
+    },
+    {
+      "name": "B2",
+      "value": 200
+    }
+  ]
+}*/
+
+var data = {
+  "name": "B", 
+  "children": [
+    {
+      "name": "D",
+      "incoming": "#d41826",
+      "children": [
+         {
+           "name": "F",
+           "incoming": "#ec616a",
+           "children": [
+            { "name": "E", "incoming":"#f9cdd1" }
+           ]
+         },
+         {
+           "name": "G",
+           "incoming": "#d41826",
+           "children": [
+           {
+               "name": "C",
+               "incoming": "#730d15",
+               "children": [
+                {
+                    "name": "I",
+                    "incoming": "#d41826",
+                    "children": [
+                     { "name": "A", "incoming":"#e51e2c" }
+                     ]
+                }
+                ]
+           }
+         
+           ]
+         }
+      ]
+    },
+    { 
+       "name": "H",
+       "incoming": "#f29399",
+       "children": [ { "name": "J", "incoming": "#f29399"} ]
+    }
+  ]
+}
+
+var tree2 = {
+
+  "name": "F",
+  "children": [
+    {
+      "name": "A",
+      "children": [
+        {
+          "name": "C",
+          "children": [
+            {
+              "name": "J",
+              "children": [
+
+            {
+              "name": "D",
+              "children": [
+
+            {
+              "name": "H",
+              "children": [
+
+            {
+              "name": "E",
+              "children": [
+              {"name": "I"}
+              ]
+            }
+              ]
+            }
+              ]
+            }
+              ]
+            },
+            {
+              "name":"B", 
+              "children": [
+                {
+              "name":"G"
+                }
+              ]
+
+            }
+          ]
+        }
+      ]
+    }
+  ]
+
+}
+
+var treeLayout = d3.tree()
+  .size([400, 200])
+
+var root = d3.hierarchy(data)
+
+treeLayout(root);
+
+// Nodes
+d3.select('svg g.nodes')
+  .selectAll('circle.node')
+  .data(root.descendants())
+  .join('circle')
+  .classed('node', true)
+  .style("stroke", "black")
+  .style("stroke-width", "2px")
+  .attr('cx', function(d) {return d.x;})
+  .attr('cy', function(d) {return d.y;})
+  .attr('r', 10);
+
+// Links
+d3.select('svg g.links')
+  .selectAll('line.link')
+  .data(root.links())
+  .join('line')
+  .classed('link', true)
+  .style("stroke", function(d) { return d.target.data.incoming;})
+  .style("stroke-width", "5px") 
+  .attr('x1', function(d) {return d.source.x;})
+  .attr('y1', function(d) {return d.source.y;})
+  .attr('x2', function(d) {return d.target.x;})
+  .attr('y2', function(d) {return d.target.y;});
+
+
