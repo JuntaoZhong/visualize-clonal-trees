@@ -1,31 +1,3 @@
-/*
-var data = {
-  "name": "A1",
-  "children": [
-    {
-      "name": "B1",
-      "children": [
-        {
-          "name": "C1",
-          "value": 100
-        },
-        {
-          "name": "C2",
-          "value": 300
-        },
-        {
-          "name": "C3",
-          "value": 200
-        }
-      ]
-    },
-    {
-      "name": "B2",
-      "value": 200
-    }
-  ]
-}*/
-
 var data = {
   "name": "B", 
   "children": [
@@ -141,9 +113,28 @@ for (var i = 0; i < 2; i++) {
     .style("transform", "translate(5, 20), scale(0.5)")
     .attr('cx', function(d) {return d.x;})
     .attr('cy', function(d) {return d.y;})
-    .on("click", function(d) { console.log("Poop");})
+    .on("click", function(d) { 
+        console.log(d.target.cx.baseVal.value) ;
+        document.addEventListener("mousemove", function move(e) {
+          d.target.cx.baseVal.value = event.clientX - 5; 
+          d.target.cy.baseVal.value = event.clientY - 70;
+          document.onclick = function(ev) {
+            document.removeEventListener("mousemove", move);
+          }
+        });
+    }) 
     .attr('r', 10);
   
+  d3.select('#' + svg_names[i] +  ' g.nodes')
+    .selectAll("text.label")
+    .data(root.descendants())
+    .join("text")
+    .classed("label", true)
+    .attr("x", function(d) { return d.x + 15 })
+    .attr("y", function(d) { return d.y + 15})
+    .text(d => {
+        return d.data.name;
+    });
   // Links
   d3.select('#' + svg_names[i] +  ' g.links')
     .selectAll('line.link')

@@ -1,0 +1,7 @@
+.legend {
+    width: 100px;
+    height: 100px;
+    background-color: pink;
+    position: fixed;
+    font-size: 11px;
+}
