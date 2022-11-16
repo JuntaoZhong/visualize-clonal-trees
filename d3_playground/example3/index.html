@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title></title>
+  <link rel="stylesheet" href="style.css">
+  <script src="https://d3js.org/d3.v7.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-dispatch@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-selection@3"></script>
+  <script src="https://cdn.jsdelivr.net/npm/d3-drag@3"></script>
+</head>
+<body>
+  <table>
+    <tr>
+      <td style="height:500px;" style="border:1px solid black;">
+          <svg id="svg1" width="370" height="400"> 
+            <g transform="translate(5,20)">
+              <g class="links"></g>
+              <g class="nodes"></g>
+            </g>
+          </svg>
+      </td>
+      <td>
+          <svg id="svg2" width="370" height="400">
+            <g transform="translate(5,20)">
+              <g class="links"></g>
+              <g class="nodes"></g>
+            </g>
+          </svg>
+      </td>
+    </tr>
+  </table>
+<script src="script.js"></script>
+</body>
+</html>
