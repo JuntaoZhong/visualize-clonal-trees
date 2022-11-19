@@ -8,8 +8,53 @@ def ancestor_descendant(g_1, g_2):
 def ancestor_descendant_symmetric_difference(g_1,g_2):
     set_1 = get_anc_desc_pairs(g_1)
     set_2 = get_anc_desc_pairs(g_2)
-    print(set_1.symmetric_difference(set_2))
     return set_1.symmetric_difference(set_2)
+
+def get_pair_differences(g_1,g_2):
+    set_1 = get_anc_desc_pairs(g_1)
+    set_2 = get_anc_desc_pairs(g_2)
+    dif_set_1 = set_1 - set_2
+    dif_set_2 = set_2 - set_1
+    return dif_set_1, dif_set_2
+
+def get_contributions(g_1,g_2):
+    '''returns two dictionaries where keys are nodes and values 
+    are contributions according to get_pair_differences'''
+    dif_set_1 = get_pair_differences(g_1,g_2)[0]
+    dif_set_2 = get_pair_differences(g_1,g_2)[1]
+    dict_1 = {}
+    dict_2 = {}
+    for pair in dif_set_1:
+        anc = pair[0]
+        desc = pair[1]
+        if anc in dict_1:
+            dict_1[anc]["contribution"] = dict_1[anc]["contribution"] +1
+        else:
+            teeny_dict = {}
+            teeny_dict["contribution"] = 1
+            dict_1[anc] = teeny_dict
+        if desc in dict_1:
+            dict_1[desc]["contribution"] = dict_1[desc]["contribution"] +1
+        else:
+            teeny_dict = {}
+            teeny_dict["contribution"] = 1
+            dict_1[desc] = teeny_dict
+    for pair in dif_set_2:
+        anc = pair[0]
+        desc = pair[1]
+        if anc in dict_2:
+            dict_2[anc]["contribution"] = dict_2[anc]["contribution"] +1
+        else:
+            teeny_dict = {}
+            teeny_dict["contribution"] = 1
+            dict_2[anc] = teeny_dict
+        if desc in dict_2:
+            dict_2[desc]["contribution"] = dict_2[desc]["contribution"] +1
+        else:
+            teeny_dict = {}
+            teeny_dict["contribution"] = 1
+            dict_2[desc] = teeny_dict
+    return dict_1, dict_2
 
 def get_anc_desc_pairs(g):
     ''' Returns list of 2-tuples whose first element
