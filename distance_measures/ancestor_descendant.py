@@ -8,6 +8,7 @@ def ancestor_descendant(g_1, g_2):
 def ancestor_descendant_symmetric_difference(g_1,g_2):
     set_1 = get_anc_desc_pairs(g_1)
     set_2 = get_anc_desc_pairs(g_2)
+    print(set_1.symmetric_difference(set_2))
     return set_1.symmetric_difference(set_2)
 
 def get_anc_desc_pairs(g):
