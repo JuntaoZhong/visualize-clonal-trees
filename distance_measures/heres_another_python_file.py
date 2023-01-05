@@ -19,5 +19,4 @@ if __name__=="__main__":
     s_2 = json.dumps(data_2)
     print(s_1)
     print(s_2)
-    
-    # ancestor_descendant(g_1, g_2)
+    ancestor_descendant(g_1, g_2)
