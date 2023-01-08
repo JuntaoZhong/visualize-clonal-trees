@@ -1,0 +1,1 @@
+DiGraph my_graph {  a [label="a"],   b [label="b"],  c [label="c"],  d [label="d"],  a -- b,  a -- c,  c -- d}
