@@ -10,14 +10,14 @@ def read_dot_file(filename):
   return tree 
 
 def get_parent_child_sets(tree):
-  parent_child_relationships = tree.pred;
+  parent_child_relationships = tree.pred
   cleaned_parent_child_relationships = []
   for node in parent_child_relationships:
     cur_preds = list(parent_child_relationships[node])
     if cur_preds:
       cleaned_parent_child_relationships.append((node, cur_preds[0]))
   return cleaned_parent_child_relationships 
-    
+
 def calculate_parent_child_distance(tree1, tree2): 
   tree1_set = set(get_parent_child_sets(tree1))
   tree2_set = set(get_parent_child_sets(tree2)) 
