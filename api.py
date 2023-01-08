@@ -6,9 +6,9 @@ import flask
 import json
 sys.path.append('py_scripts')
 import check_input
-import psycopg2
 import os
 import pydot
+import py_scripts.parent_child_dot as pc_dot 
 
 api = flask.Blueprint('api', __name__)
 
@@ -43,4 +43,42 @@ def get_dogs():
     dogs = [{'name':'Ruby', 'birth_year':2003, 'death_year':2016, 'description':'a very good dog'},
             {'name':'Maisie', 'birth_year':2017, 'death_year':None, 'description':'a very good dog'}]
     return json.dumps(dogs)
+
+@api.route('/parent_child_distance')
+def run_parent_child_distance():
+  """
+  Required:
+    - N/A 
+  Returns:
+    - JSON object containing edges involved in
+      the calculation of parent-child distance
+
+  Note:
+    This url that invokes this route should have
+    two GET parameters, one that includes the
+    Newick string representing tree1 and a Newick
+    string representing tree2 
+  """
+  tree1_dot = flask.request.args.get('tree1') 
+  tree2_dot = flask.request.args.get('tree2') 
+  temp_t1 = open("t1.txt", "w")
+  temp_t2 = open("t2.txt", "w")
+  temp_t1.write(tree1_dot)
+  temp_t2.write(tree2_dot)
+  temp_t1.close()
+  temp_t2.close()
+  tree1 = pc_dot.read_dot_file("t1.txt")
+  tree2 = pc_dot.read_dot_file("t2.txt")
+  tree1_edges, tree2_edges, unshared_edges, dist = pc_dot.calculate_parent_child_distance(tree1, tree2) 
+  unshared_edges = [{"source": edge[1], "target": edge[0]} for edge in unshared_edges]
+  tree1_edges= [{"source": edge[1], "target": edge[0]} for edge in tree1_edges]
+  tree2_edges= [{"source": edge[1], "target": edge[0]} for edge in tree2_edges]
+  jsonObject = {
+                 "tree1_edges": tree1_edges,
+                 "tree2_edges": tree2_edges,
+                 "unshared_edges": unshared_edges,
+                 "pc_distance": dist
+               }
+  return(json.dumps(jsonObject))
+  
 

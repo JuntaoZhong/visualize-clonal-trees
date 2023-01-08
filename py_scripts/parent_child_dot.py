@@ -3,6 +3,7 @@ import networkx
 
 def read_dot_file(filename):
   graphs = pydot.graph_from_dot_file(filename)
+  print(graphs)
   graph = graphs[0]
   tree = networkx.drawing.nx_pydot.from_pydot(graph)
   print(tree.pred)
@@ -22,11 +23,4 @@ def calculate_parent_child_distance(tree1, tree2):
   tree2_set = set(get_parent_child_sets(tree2)) 
   symmetric_difference = tree1_set ^ tree2_set
   print(symmetric_difference)
-  return len(symmetric_difference)
-   
-   
-tree1_filename = "../examples/trees/tree3.dot" 
-tree2_filename = "../examples/trees/tree4.dot" 
-tree1 = read_dot_file(tree1_filename)
-tree2 = read_dot_file(tree2_filename)
-print(calculate_parent_child_distance(tree1, tree2))
+  return (tree1_set, tree2_set, symmetric_difference, len(symmetric_difference))

@@ -1,0 +1,28 @@
+#visualizations-container {
+  background-color: orange;
+  display: flex;
+}
+
+#visualizations-container > div {
+  width: 500px;
+  height: 500px;
+  background-color: white;  
+  border: 1px solid black;
+  margin: 5px;
+}
+
+#input-container {
+  width: 500px;
+  display: flex;
+  flex-direction: column;
+}
+
+#input-container > textarea {
+  margin: 5px;
+}
+
+
+#input-container > input[type=submit] {
+  width: 100px;
+  margin: auto;
+}
