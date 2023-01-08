@@ -60,10 +60,17 @@ def get_contributions(g_1,g_2):
     are contributions according to get_pair_differences'''
     dif_set_1 = get_pair_differences(g_1,g_2)[0]
     dif_set_2 = get_pair_differences(g_1,g_2)[1]
-    # print(dif_set_1)
-    # print(dif_set_2)
+
     dict_1 = {}
     dict_2 = {}
+
+    for node in g_1.nodes:
+        dict_1[node] = {}
+        dict_1[node]["contribution"] = 0
+    for node in g_2.nodes:
+        dict_2[node] = {}
+        dict_2[node]["contribution"] = 0
+
     for pair in dif_set_1:
         anc_mut = pair[0]
         desc_mut = pair[1]
