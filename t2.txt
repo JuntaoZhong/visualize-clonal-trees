@@ -1,1 +1,1 @@
-DiGraph my_graph {  a [label="a"],   b [label="b"],  c [label="c"],  d [label="d"],  a -- b,  a -- c,  c -- d}
+digraph graph2 {    1 [label="A,E"];    2 [label="B"];    3 [label="C"];    4 [label="D"];    1 -> 2 -> 3 -> 4;}

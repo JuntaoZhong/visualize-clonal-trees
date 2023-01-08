@@ -5,10 +5,12 @@ import sys
 import flask
 import json
 sys.path.append('py_scripts')
+sys.path.append('distance_measures')
 import check_input
 import os
 import pydot
-import py_scripts.parent_child_dot as pc_dot 
+import py_scripts.parent_child_dot as pc_dot
+import distance_measures.ancestor_descendant_to_json as ad_dot
 
 api = flask.Blueprint('api', __name__)
 
@@ -25,24 +27,6 @@ def view_tree(dot_fname):
         graph.write_png('static/static-img/tree-display.png')
 
     return json.dumps(str_cycle)
-
-@api.route('/cats/') 
-def get_cats():
-    # Of course, your API will be extracting data from your postgresql database.
-    # To keep the structure of this tiny API crystal-clear, I'm just hard-coding data here.
-    cats = [{'name':'Emma', 'birth_year':1983, 'death_year':2003, 'description':'the boss'},
-            {'name':'Aleph', 'birth_year':1984, 'death_year':2002, 'description':'sweet and cranky'},
-            {'name':'Curby', 'birth_year':1999, 'death_year':2000, 'description':'gone too soon'},
-            {'name':'Digby', 'birth_year':2000, 'death_year':2018, 'description':'the epitome of Cat'},
-            {'name':'Max', 'birth_year':1998, 'death_year':2009, 'description':'seismic'},
-            {'name':'Scout', 'birth_year':2007, 'death_year':None, 'description':'accident-prone'}]
-    return json.dumps(cats)
-
-@api.route('/dogs/') 
-def get_dogs():
-    dogs = [{'name':'Ruby', 'birth_year':2003, 'death_year':2016, 'description':'a very good dog'},
-            {'name':'Maisie', 'birth_year':2017, 'death_year':None, 'description':'a very good dog'}]
-    return json.dumps(dogs)
 
 @api.route('/parent_child_distance')
 def run_parent_child_distance():
@@ -81,4 +65,17 @@ def run_parent_child_distance():
                }
   return(json.dumps(jsonObject))
   
-
+@api.route('/ancestor_descendant_distance')
+def run_ancestor_descendant_distance():
+  tree1_dot = flask.request.args.get('tree1') 
+  tree2_dot = flask.request.args.get('tree2') 
+  temp_t1 = open("t1.txt", "w")
+  temp_t2 = open("t2.txt", "w")
+  temp_t1.write(tree1_dot)
+  temp_t2.write(tree2_dot)
+  temp_t1.close()
+  temp_t2.close()
+  data_1, data_2 = ad_dot.ad_main("t1.txt", "t2.txt")
+  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2}
+  print(json.dumps(jsonObject))
+  return(json.dumps(jsonObject))
