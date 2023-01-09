@@ -11,6 +11,7 @@ import os
 import pydot
 import py_scripts.parent_child_dot as pc_dot
 import distance_measures.ancestor_descendant_to_json as ad_dot
+import distance_measures.caset_to_json as cs_dot
 
 api = flask.Blueprint('api', __name__)
 
@@ -76,6 +77,21 @@ def run_ancestor_descendant_distance():
   temp_t1.close()
   temp_t2.close()
   data_1, data_2 = ad_dot.ad_main("t1.txt", "t2.txt")
+  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2}
+  print(json.dumps(jsonObject))
+  return(json.dumps(jsonObject))
+
+@api.route('/caset_distance')
+def run_caset_distance():
+  tree1_dot = flask.request.args.get('tree1') 
+  tree2_dot = flask.request.args.get('tree2') 
+  temp_t1 = open("t1.txt", "w")
+  temp_t2 = open("t2.txt", "w")
+  temp_t1.write(tree1_dot)
+  temp_t2.write(tree2_dot)
+  temp_t1.close()
+  temp_t2.close()
+  data_1, data_2 = cs_dot.cs_main("t1.txt", "t2.txt")
   jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2}
   print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))
