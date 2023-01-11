@@ -11,7 +11,7 @@ import os
 import pydot
 import py_scripts.parent_child_dot as pc_dot
 import distance_measures.ancestor_descendant_to_json as ad_dot
-import distance_measures.caset_to_json as cs_dot
+import distance_measures.caset as cs_dot
 
 api = flask.Blueprint('api', __name__)
 

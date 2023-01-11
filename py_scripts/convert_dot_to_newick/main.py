@@ -21,9 +21,7 @@ def convert_dot_to_newick(filename):
     parent_node = nodes_dict[parent] 
     child_node = nodes_dict[child] 
     parent_node.add_descendant(child_node)
-  print(newick.dumps(nodes_dict["a"]))
-     
-    
-convert_dot_to_newick("../../examples/trees/tree1.dot")
 
+convert_dot_to_newick("../../examples/trees/tree1.dot")
+# convert_dot_to_newick("../../distance_measures/test1.txt")
 
