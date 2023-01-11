@@ -39,6 +39,10 @@ def ancestor_descendant():
 def caset():
     return flask.render_template('caset.html')
 
+@app.route('/disc')
+def caset():
+    return flask.render_template('disc.html')
+
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('A tiny Flask application, including API')
     parser.add_argument('host', help='the host on which this application is running')
