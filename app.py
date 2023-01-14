@@ -27,26 +27,6 @@ def home():
 def shared_header_catchall(path):
     return flask.render_template(path)
 
-@app.route('/parent_child')
-def parent_child():
-    return flask.render_template('parent_child.html')
-
-@app.route('/ancestor_descendant')
-def ancestor_descendant():
-    return flask.render_template('ancestor_descendant.html')
-
-@app.route('/caset')
-def caset():
-    return flask.render_template('caset.html')
-
-@app.route('/disc')
-def disc():
-    return flask.render_template('disc.html')
-
-@app.route('/dual_tree')
-def dual_tree():
-    return flask.render_template('dual_tree.html')
-
 if __name__ == '__main__':
     parser = argparse.ArgumentParser('A tiny Flask application, including API')
     parser.add_argument('host', help='the host on which this application is running')
