@@ -1,57 +1,93 @@
-
-div{
-    background-color: rgb(51, 141, 206);
-}
-.navbar{
-    border: 3px solid rgb(16, 16, 16);
-    padding: 10px;
-}
-.navbar img {
-    float: left;
-    width: 50px;
-    height: 50px;
-}
-
-.navbar h1 {
-    position: relative;
-    justify-content: center;
-    align-items: center;
-    font-size: 80;
-    top: 7px;
-    left: 300px;
-}
-#sidebar{
-    width:30%;
-    height:600px;
-}
-#main{
-    width:64.14%;
-    height:600px;
-    position: relative;
-}
-<!-- .child{
-    width: 65%;
-    float: left;
-    padding: 20px;
-    border: 2px solid red;
-} -->
-.try{
-    padding: 20px;
-}
-.box{
-    float:left;
-    padding: 30px;
-    background-color: white;
-    border: 2px solid black;
-}
-#visualizations-container {
-    display: flex;
-  }
-  
-#visualizations-container > div {
-    width: 500px;
-    height: 500px;
-    background-color: white;  
-    border: 1px solid black;
-    margin: 5px;
-  }
+            .navbar{
+                background-color: #2C7A7A; 
+                border: 2px solid rgb(16, 16, 16);
+            }
+            .navbar button {
+                float: left;
+                padding-bottom: 2px;
+                width: 90px;
+                height: 90px;
+                background-color: #2C7A7A;
+                border: #F5F5F5;
+                appearance: none;
+                margin: 10px;
+                margin-bottom: 5px;
+            }
+            button:active {
+                box-shadow: none;
+                opacity:initial;
+            }
+            #sidebar{
+                background-color: #D9DEDE;
+            }
+            #topbox{
+                background-color: #D9DEDE;
+            }
+            #bottombox{
+                background-color: #D9DEDE;
+            }
+            .navbar h1 {
+                margin: 15px;
+                position: center;
+                font-size: 50px;
+                justify-content: center;
+                font-family: 'Poppins';
+               
+            }
+            #sidebar{
+                width:20%;
+                height:600px;
+            }
+            #main{
+                width:74.54%;
+                height:600px;
+                position: relative;
+                padding: 20px;
+                background-color: #F5F5F5;
+            }
+            .child{
+                width: 65%;
+                float: left;
+                padding: 20px;
+            }
+            .box{
+                float:left;
+                padding: 30px;
+                background-color: white;
+                border: 2px solid black;
+            }
+            .VE{
+                background-color: #2C7A7A;
+                color: #F5F5F5;
+                font-family: 'Poppins', sans-serif;
+                font-size: 15px;
+                border-radius: 8px;
+                border: 0%;
+                margin-right: 20px;
+            }
+            #visualizations-container {
+                display: flex;
+              }
+              
+            #visualizations-container > div {
+                width: 500px;
+                height: 500px;
+                background-color: white;  
+                border: 1px solid black;
+                margin: 5px;
+                margin-left: 40px;
+              }
+            body{
+                font-family: 'Poppins', sans-serif;
+            }
+            select, input{
+                font-family: 'Poppins', sans-serif;
+                background-color:#2C7A7A;
+                color: #F5F5F5;
+                border-radius: 8px;
+            }
+            option{
+                font-family: 'Poppins', sans-serif;
+                background-color:#2C7A7A;
+                color: #F5F5F5;
+            }
