@@ -1,0 +1,57 @@
+
+div{
+    background-color: rgb(51, 141, 206);
+}
+.navbar{
+    border: 3px solid rgb(16, 16, 16);
+    padding: 10px;
+}
+.navbar img {
+    float: left;
+    width: 50px;
+    height: 50px;
+}
+
+.navbar h1 {
+    position: relative;
+    justify-content: center;
+    align-items: center;
+    font-size: 80;
+    top: 7px;
+    left: 300px;
+}
+#sidebar{
+    width:30%;
+    height:600px;
+}
+#main{
+    width:64.14%;
+    height:600px;
+    position: relative;
+}
+<!-- .child{
+    width: 65%;
+    float: left;
+    padding: 20px;
+    border: 2px solid red;
+} -->
+.try{
+    padding: 20px;
+}
+.box{
+    float:left;
+    padding: 30px;
+    background-color: white;
+    border: 2px solid black;
+}
+#visualizations-container {
+    display: flex;
+  }
+  
+#visualizations-container > div {
+    width: 500px;
+    height: 500px;
+    background-color: white;  
+    border: 1px solid black;
+    margin: 5px;
+  }

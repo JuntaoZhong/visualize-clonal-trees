@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css"href="/visualize-clonal-trees/static/dual_tree.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+        <title>TreeVizTitle</title>
+    </head>
+    <body>
+        <style>
+            .navbar{
+                background-color: #2C7A7A; 
+                border: 2px solid rgb(16, 16, 16);
+            }
+            .navbar button {
+                float: left;
+                padding-bottom: 2px;
+                width: 90px;
+                height: 90px;
+                background-color: #2C7A7A;
+                border: #F5F5F5;
+                appearance: none;
+                margin: 10px;
+                margin-bottom: 5px;
+            }
+            button:active {
+                box-shadow: none;
+                opacity:initial;
+            }
+            #sidebar{
+                background-color: #D9DEDE;
+            }
+            #topbox{
+                background-color: #D9DEDE;
+            }
+            #bottombox{
+                background-color: #D9DEDE;
+            }
+            .navbar h1 {
+                margin: 15px;
+                position: center;
+                font-size: 50px;
+                justify-content: center;
+                font-family: 'Poppins';
+               
+            }
+            #sidebar{
+                width:20%;
+                height:600px;
+            }
+            #main{
+                width:74.54%;
+                height:600px;
+                position: relative;
+                padding: 20px;
+                background-color: #F5F5F5;
+            }
+            .child{
+                width: 65%;
+                float: left;
+                padding: 20px;
+            }
+            .box{
+                float:left;
+                padding: 30px;
+                background-color: white;
+                border: 2px solid black;
+            }
+            .VE{
+                background-color: #2C7A7A;
+                color: #F5F5F5;
+                font-family: 'Poppins', sans-serif;
+                font-size: 15px;
+                border-radius: 8px;
+                border: 0%;
+                margin-right: 20px;
+            }
+            #visualizations-container {
+                display: flex;
+              }
+              
+            #visualizations-container > div {
+                width: 500px;
+                height: 500px;
+                background-color: white;  
+                border: 1px solid black;
+                margin: 5px;
+                margin-left: 40px;
+              }
+            body{
+                font-family: 'Poppins', sans-serif;
+            }
+            select, input{
+                font-family: 'Poppins', sans-serif;
+                background-color:#2C7A7A;
+                color: #F5F5F5;
+                border-radius: 8px;
+            }
+            option{
+                font-family: 'Poppins', sans-serif;
+                background-color:#2C7A7A;
+                color: #F5F5F5;
+            }
+        </style>
+        <div class="navbar">
+            <button><img src="C:\Users\Owner\Pictures\Screenshots\Screenshot (32).png"></button>
+            <h1>CATCHY TREEVIZ TITLE</h1>    
+            <!-- <div class="navbar">
+                <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+            </div> -->
+        </div>
+        <div class="container">
+            <div class="child" id="sidebar">
+                <div id="topbox">
+                    <h2>Tree Visualization</h2>
+                    <h4>Distance Metric<h4>
+                    <div class="dropdown"> 
+                        <label for="distance_metric"></label>
+                        <select name="distance_metric" id="distance_metric"> 
+                            <option value="" selected disabled hidden>Select Metric</option>
+                            <option value="ad">Ancestor-Descendant</option>
+                            <option value="pc">Parent-Child</option>
+                            <option value="caset">CASet</option>
+                            <option value="disc">DISC</option>
+                        </select>
+                    </div>
+                    <h4>Visualization Emphasis</h4>
+                    <button class="VE" id="node_button">Node</button>
+                    <button class="VE" id="edge_button">Edge</button>
+                </div>
+                <hr size="2" noshade="", width="300px">
+                <div id="bottombox">
+                    <h2>Input</h2>
+                    <div class="dropdown"> 
+                        <h4>Tree 1</h4>
+                        <label for="input1">Select Input Type</label>
+                        <select name="input1" id="input1"> 
+                            <option value="" selected disabled hidden>Select Input Format</option>
+                            <option value="dot">DOT</option>
+                            <option value="newick">Newick</option>
+                            <option value="bourque">Bourque</option>
+                            <option value="mlted">MLTED</option>
+                        </select>
+                    </div>
+                    <label for="file1"></label>
+                    <input type="file" id="file1" name="file1">
+                    <div class="dropdown"> 
+                        <h4>Tree 2</h4>
+                        <label for="input2">Select Input Type</label>
+                        <select name="input2" id="input2"> 
+                            <option value="" selected disabled hidden>Select Input Format</option>
+                            <option value="dot">DOT</option>
+                            <option value="newick">Newick</option>
+                            <option value="bourque">Bourque</option>
+                            <option value="mlted">MLTED</option>
+                        </select>
+                    </div>    
+                    <label for="file2"></label>
+                    <input type="file" id="file2" name="file2">
+                </div>
+            </div>
+            <div class="child" id="main">
+                <div class="try">
+                    <div id="visualizations-container">
+                        <div id="tree1_visualization">
+                              <svg id="svg1" width="400" height="400"> 
+                                <g transform="translate(5,20)">
+                                  <g class="links"></g>
+                                  <g class="nodes"></g>
+                                </g>
+                              </svg>
+                        </div>
+                        <div id="tree2_visualization">
+                          <svg id="svg2" width="370" height="400"> 
+                            <g transform="translate(5,20)">
+                              <g class="links"></g>
+                              <g class="nodes"></g>
+                            </g>
+                          </svg>
+                        </div>
+                      </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>

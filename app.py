@@ -40,7 +40,7 @@ def caset():
     return flask.render_template('caset.html')
 
 @app.route('/disc')
-def caset():
+def disc():
     return flask.render_template('disc.html')
 
 if __name__ == '__main__':
