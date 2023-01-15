@@ -1,93 +1,127 @@
-            .navbar{
-                background-color: #2C7A7A; 
-                border: 2px solid rgb(16, 16, 16);
-            }
-            .navbar button {
-                float: left;
-                padding-bottom: 2px;
-                width: 90px;
-                height: 90px;
-                background-color: #2C7A7A;
-                border: #F5F5F5;
-                appearance: none;
-                margin: 10px;
-                margin-bottom: 5px;
-            }
-            button:active {
-                box-shadow: none;
-                opacity:initial;
-            }
-            #sidebar{
-                background-color: #D9DEDE;
-            }
-            #topbox{
-                background-color: #D9DEDE;
-            }
-            #bottombox{
-                background-color: #D9DEDE;
-            }
-            .navbar h1 {
-                margin: 15px;
-                position: center;
-                font-size: 50px;
-                justify-content: center;
-                font-family: 'Poppins';
-               
-            }
-            #sidebar{
-                width:20%;
-                height:600px;
-            }
-            #main{
-                width:74.54%;
-                height:600px;
-                position: relative;
-                padding: 20px;
-                background-color: #F5F5F5;
-            }
-            .child{
-                width: 65%;
-                float: left;
-                padding: 20px;
-            }
-            .box{
-                float:left;
-                padding: 30px;
-                background-color: white;
-                border: 2px solid black;
-            }
-            .VE{
-                background-color: #2C7A7A;
-                color: #F5F5F5;
-                font-family: 'Poppins', sans-serif;
-                font-size: 15px;
-                border-radius: 8px;
-                border: 0%;
-                margin-right: 20px;
-            }
-            #visualizations-container {
-                display: flex;
-              }
-              
-            #visualizations-container > div {
-                width: 500px;
-                height: 500px;
-                background-color: white;  
-                border: 1px solid black;
-                margin: 5px;
-                margin-left: 40px;
-              }
-            body{
-                font-family: 'Poppins', sans-serif;
-            }
-            select, input{
-                font-family: 'Poppins', sans-serif;
-                background-color:#2C7A7A;
-                color: #F5F5F5;
-                border-radius: 8px;
-            }
-            option{
-                font-family: 'Poppins', sans-serif;
-                background-color:#2C7A7A;
-                color: #F5F5F5;
-            }
+.navbar{
+    background-color: #2C7A7A;
+    border: 2px solid rgb(16, 16, 16);
+}
+.navbar button {
+    float: left;
+    padding-bottom: 2px;
+    width: 90px;
+    height: 90px;
+    background-color: #2C7A7A;
+    border: #F5F5F5;
+    appearance: none;
+    margin: 10px;
+    margin-bottom: 5px;
+}
+#cell{
+    width: 70px;
+    height: 70px;
+    padding: 5px;
+    border: 2px solid #F5F5F5;
+}
+button:active {
+    box-shadow: none;
+    opacity:initial;
+}
+#sidebar{
+    background-color: #D9DEDE;
+    vertical-align: top;
+}
+#topbox{
+    background-color: #D9DEDE;
+}
+#bottombox{
+    background-color: #D9DEDE;
+}
+.navbar h1 {
+    margin: 15px;
+    position: center;
+    font-size: 50px;
+    justify-content: center;
+    font-family: 'Poppins';
+}
+#sidebar{
+    width:30%;
+    height:100%;
+}
+#main{
+    height:600px;
+    position: relative;
+    padding: 20px;
+    background-color: #F5F5F5;
+}
+.container{
+    display:table;
+    width: 100%;
+}
+.child{
+    width: 70%;
+    display: table-cell;
+    /* border: 2px solid black; */
+}
+.box{
+    float:left;
+    padding: 30px;
+    background-color: white;
+    border: 2px solid black;
+}
+.VE{
+    background-color: #2C7A7A;
+    color: #F5F5F5;
+    font-family: 'Poppins', sans-serif;
+    font-size: 15px;
+    border-radius: 8px;
+    border: 0%;
+    margin-right: 20px;
+}
+#visualizations-container {
+    display: flex;
+}
+   
+#visualizations-container > div {
+    width: 500px;
+    height: 500px;
+    background-color: white;  
+    border: 1px solid black;
+    margin: 5px;
+    margin-left: 40px;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+select, input{
+    font-family: 'Poppins', sans-serif;
+    background-color:#2C7A7A;
+    color: #F5F5F5;
+    border-radius: 8px;
+}
+
+#file1, #file2{
+    margin: 25px;
+}
+
+option{
+    font-family: 'Poppins', sans-serif;
+    background-color:#2C7A7A;
+    color: #F5F5F5;
+}
+
+#submit-trees-btn:active{
+    background-color: #D9DEDE;
+    margin-top: 3px;
+}
+
+.indent{
+    margin: 25px;
+    margin-right: 5px;
+}
+
+h4{
+    margin: 15px;
+}
+
+.text-box{
+    margin: 25px;
+}
