@@ -1,7 +1,11 @@
 .navbar{
     background-color: #2C7A7A;
-    border: 2px solid rgb(16, 16, 16);
+    /* border: 2px solid rgb(16, 16, 16); */
+    padding:6px;
 }
+/* .navbar h1{
+    margin: 60px;
+} */
 .navbar button {
     float: left;
     padding-bottom: 2px;
@@ -55,7 +59,6 @@ button:active {
     width: 100%;
 }
 .child{
-    width: 70%;
     display: table-cell;
     /* border: 2px solid black; */
 }
@@ -89,6 +92,7 @@ button:active {
 
 body{
     font-family: 'Poppins', sans-serif;
+    background-color: #2C7A7A;
 }
 
 select, input{
@@ -96,6 +100,7 @@ select, input{
     background-color:#2C7A7A;
     color: #F5F5F5;
     border-radius: 8px;
+    padding: 7px;
 }
 
 #file1, #file2{
@@ -106,11 +111,17 @@ option{
     font-family: 'Poppins', sans-serif;
     background-color:#2C7A7A;
     color: #F5F5F5;
+    
 }
 
+#submit-trees-btn{
+    margin-left: 25px;
+    margin-bottom: 10px;
+}
 #submit-trees-btn:active{
     background-color: #D9DEDE;
     margin-top: 3px;
+    color: black;
 }
 
 .indent{
@@ -118,10 +129,63 @@ option{
     margin-right: 5px;
 }
 
+#metric_drp{
+    margin: 10px;
+}
+#distance_metric{
+    padding: 7px;
+}
+
 h4{
     margin: 15px;
+    font-size: large;
+}
+h2{
+    margin: 5px;
 }
 
 .text-box{
     margin: 25px;
+    margin-top: 15px;
+    margin-bottom: 2px;
+}
+#file2, #file1{
+    margin-left: 30px;
+}
+
+.custom-file-input::-webkit-file-upload-button {
+  visibility: hidden;
+  padding: 0%;
+  margin: 0%;
+}
+
+.custom-file-input::before {
+  content: 'Choose File';
+  display: inline-block;
+  background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3);
+  border: 1px solid #999;
+  border-radius: 1px;
+  padding: 5px;
+  white-space: wrap;
+  -webkit-user-select: none;
+  cursor: default;
+  font-family: 'Poppins', sans-serif;
+  color: black;
+  text-shadow: 1px 1px #fff;
+  font-weight: 700;
+  font-size: 10pt;
+  border-radius: 8px;
+}
+
+.custom-file-input:hover::before {
+  border-color: black;
+}
+
+.custom-file-input:active::before {
+  background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9);
+}
+
+p{
+    margin-left: 30px;
+    font-size: 10pt;
 }
