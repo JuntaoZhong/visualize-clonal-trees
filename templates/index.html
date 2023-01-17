@@ -1,28 +1,106 @@
 <!DOCTYPE html>
-<html>
-<head>
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='webapp.css') }}" />
-    <script type="text/javascript" src="{{ url_for('static', filename='webapp.js') }}"></script>
-    <title>CS 257: Software Design</title>
-</head>
-
-<body>
-    <h3>Tiny Web App Home Page</h3>
-
-    <p><button id="cats_button">Cats</button></p>
-    <p><button id="dogs_button">Dogs</button></p>
-
-    <ul id="animal_list"></ul>
-
-    <p><button id="dot_file_button">Send Dot File</button> <input type="text" id="dot_file_input" size="20"> (try "test-tree.dot")</p>
-
-    <div>
-        <div id="cycle_img"><img src="{{ url_for('static', filename='static-img/blank.jpg') }}" alt="nothing yet"></div>
-        <p id="cycle_text"> Give me a file </p>
-    </div>
-
-    <h3>One other page</h3>
-    <p>You can go to <a href="other.html">this other page</a>.</p>
-</body>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dual_tree.css') }}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+        <script src="https://d3js.org/d3.v7.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/d3-dispatch@3"></script>
+        <script src="https://cdn.jsdelivr.net/npm/d3-selection@3"></script>
+        <script src="https://cdn.jsdelivr.net/npm/d3-drag@3"></script>        
+        <title>TreeVizTitle</title>
+    </head>
+    <body>
+        <div class="navbar">
+            <button><img id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button>
+            <h1>CATCHY TREEVIZ TITLE</h1>    
+            <!-- <div class="navbar">
+                <a class="active" href="#"><i class="fa fa-fw fa-home"></i> Home</a>
+            </div> -->
+        </div>
+        <div class="container">
+            <div class="child" id="sidebar">
+                <div id="topbox">
+                    <h2>Tree Visualization</h2>
+                    <h4>Distance Metric<h4>
+                    <div class="dropdown"> 
+                        <label id="metric_drp" for="distance_metric"></label>
+                        <select name="distance_metric" id="distance_metric"> 
+                            <option value="" selected disabled hidden>Select Metric</option>
+                            <option value="ancestor_descendant_distance">Ancestor-Descendant</option>
+                            <option value="parent_child_distance">Parent-Child</option>
+                            <option value="caset_distance">CASet</option>
+                            <option value="disc_distance">DISC</option>
+                        </select>
+                    </div>
+                    <!--
+                    <h4>Visualization Emphasis</h4>
+                    <button class="VE" id="node_button">Node</button>
+                    <button class="VE" id="edge_button">Edge</button>
+                    -->
+                </div>
+                <hr size="2" noshade="", width="350px">
+                <div id="bottombox">
+                    <h2>Input</h2>
+                    <div class="dropdown"> 
+                        <h4>Tree 1</h4>
+                        <label class="indent" for="input1"></label>
+                        <select name="input1" id="input-type-tree1"> 
+                            <option value="" selected disabled hidden>Select Input Format</option>
+                            <option value="dot">DOT</option>
+                            <option value="newick">Newick</option>
+                            <option value="bourque">Bourque</option>
+                            <option value="mlted">MLTED</option>
+                        </select>
+                    </div>
+                    <label for="file1"></label>
+                    <input class="custom-file-input" type="file" id="file1" name="file1">
+                    <p>Input Tree Manually</p>
+                    <textarea class="text-box" id="tree1-text" name="" cols="30" rows="10"></textarea>
+                    <div class="dropdown"> 
+                        <h4>Tree 2</h4>
+                        <label class="indent" for="input2"></label>
+                        <select name="input2" id="input-type-tree2"> 
+                            <option value="" selected disabled hidden>Select Input Format</option>
+                            <option value="dot">DOT</option>
+                            <option value="newick">Newick</option>
+                            <option value="bourque">Bourque</option>
+                            <option value="mlted">MLTED</option>
+                        </select>
+                    </div>    
+                    <label for="file2"></label>
+                    <input class="custom-file-input" type="file" id="file2" name="file2">
+                    <p>Input Tree Manually</p>
+                    <textarea class="text-box" id="tree2-text" name="" cols="30" rows="10"></textarea>
+                </div>
+                <input id="submit-trees-btn" type="submit">
+            </div>
+            <div class="child" id="main">
+                <div id="visualizations-container">
+                    <div id="tree1_visualization">
+                            <svg id="svg1" width="400" height="400"> 
+                            <g transform="translate(5,20)">
+                                <g class="links"></g>
+                                <g class="nodes"></g>
+                            </g>
+                            </svg>
+                    </div>
+                    <div id="tree2_visualization">
+                        <svg id="svg2" width="370" height="400"> 
+                        <g transform="translate(5,20)">
+                            <g class="links"></g>
+                            <g class="nodes"></g>
+                        </g>
+                        </svg>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script src="{{ url_for('static', filename='dual_tree.js') }}"></script>
 </html>

@@ -70,11 +70,7 @@ submitBtn.onclick = () => {
         .join('line')
         .classed('link', true)
         .style("stroke", function(d) { 
-          var scale = d3.scaleLinear()
-          .domain([0, 2, 4])
-          .range(["blue", "red", "yellow"]);
-          console.log(d.target.data.contribution);
-          return scale(d.target.data.contribution);
+          return "black";
           }) //d.target.data.contribution;
         .style("transform", "translate(5, 20), scale(0.5)")
         .style("stroke-width", "5px") 
