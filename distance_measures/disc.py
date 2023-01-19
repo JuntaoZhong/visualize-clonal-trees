@@ -95,8 +95,6 @@ def fill_mutation_anc_dict(g, node, dict):
                 anc_mutations = get_mutations_from_node(g,anc)
                 desc_mutation_ancestors = desc_mutation_ancestors + anc_mutations
             mutation_dict[desc_mutation] = desc_mutation_ancestors
-    
-    # print("mutation dict: " + str(mutation_dict))
     return mutation_dict
 
 def get_root(g):
