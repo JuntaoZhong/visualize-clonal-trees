@@ -1,9 +1,33 @@
 tree1TextArea = document.querySelector("#tree1-text"); 
 tree2TextArea = document.querySelector("#tree2-text"); 
+tree1file = document.getElementById("file1");
+tree2file = document.getElementById("file2");
 inputTypeTree1 = document.getElementById("input-type-tree1"); 
-inputTypeTree2 = document.getElementById("input-type-tree2"); 
+inputTypeTree2 = document.getElementById("input-type-tree2");
 submitTreesBtn = document.getElementById("submit-trees-btn"); 
 distanceMetric = document.getElementById("distance_metric"); 
+
+
+
+tree1file.addEventListener("change", function () {
+    var fr = new FileReader();
+    fr.readAsText(this.files[0]);
+    fr.onload = function () {
+      // console.log(fr.result);
+      tree1TextArea.value = fr.result
+    };  
+  });
+
+
+tree2file.addEventListener("change", function () {
+  var fr = new FileReader();
+  fr.readAsText(this.files[0]);
+  fr.onload = function () {
+    // console.log(fr.result);
+    tree2TextArea.value = fr.result
+  };  
+});
+
 
 function dist_caset_d3_tress(jsonData) {
   console.log(jsonData);
@@ -81,9 +105,12 @@ function dist_caset_d3_tress(jsonData) {
   }
 }
 
+
+
 submitTreesBtn.onclick = () => {
   var tree1Input = tree1TextArea.value;
   var tree2Input = tree2TextArea.value;
+  console.log(tree1Input.value);
   console.log(inputTypeTree1.value);
   console.log(inputTypeTree2.value);
   console.log(distanceMetric.value);
