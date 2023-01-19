@@ -49,7 +49,7 @@ function dist_caset_d3_tress(jsonData) {
       .style("fill", function(d) { 
         var scale = d3.scaleLinear()
         .domain([0, 5, 9])
-        .range(["blue", "red", "yellow"]);
+        .range(["#deebf7","#9ecae1","#3182bd"]); 
         return scale(d.data.contribution);
         })
       .style("stroke-width", "3px")
@@ -79,7 +79,7 @@ function dist_caset_d3_tress(jsonData) {
       .style("stroke", function(d) { 
         var scale = d3.scaleLinear()
         .domain([0, 2, 4])
-        .range(["blue", "red", "yellow"]);
+        .range(["#fee8c8", "#fdbb84", "#e34a33"]);
         return scale(d.target.data.contribution);
         }) //d.target.data.contribution;
       .style("transform", "translate(5, 20), scale(0.5)")
@@ -96,13 +96,11 @@ function dist_caset_d3_tress(jsonData) {
 submitTreesBtn.onclick = () => {
   var tree1Input = tree1TextArea.value;
   var tree2Input = tree2TextArea.value;
-<<<<<<< HEAD
-=======
   console.log(tree1Input.value);
   console.log(inputTypeTree1.value);
   console.log(inputTypeTree2.value);
   console.log(distanceMetric.value);
->>>>>>> f45d41b9ecd3faaaffcd7c4678e7370ef0ff03ec
+
   var baseURL = "http://localhost:5000/api/";
   var url = baseURL + distanceMetric.value + "?";
   var url_components = [url, "tree1=", tree1Input, "&tree2=", tree2Input]
@@ -111,7 +109,7 @@ submitTreesBtn.onclick = () => {
     fetch(url)
     .then(response => response.json())
     .then(jsonData => {
-      if (distanceMetric.value == "ancestor_descendant_distance") {
+      if ((distanceMetric.value == "ancestor_descendant_distance") || (distanceMetric.value == "parent_child_distance")) {
         data1 = jsonData.tree1_edges
         data2 = jsonData.tree2_edges
         console.log(jsonData)
@@ -131,7 +129,8 @@ submitTreesBtn.onclick = () => {
             .style("fill", function(d) { 
               var scale = d3.scaleLinear()
               .domain([0, 5, 9])
-              .range(["blue", "red", "yellow"]);
+              // .range(["#fee8c8", "#fdbb84", "#e34a33"]);
+              .range(["#deebf7","#9ecae1","#3182bd"]); 
               return scale(d.data.contribution);
               })
             .style("stroke-width", "3px")
@@ -147,7 +146,10 @@ submitTreesBtn.onclick = () => {
                   }
                 });
             }) 
-            .attr('r', 10);
+            .attr('r', function(d) {
+              labels_array = d.data.label.split(',');
+              return Math.sqrt(labels_array.length) * 10;
+            });
           
           // Links
           d3.select('#' + svg_names[i] +  ' g.links')
@@ -172,9 +174,9 @@ submitTreesBtn.onclick = () => {
       else if (distanceMetric.value = "disc_distance") {
         dist_caset_d3_tress(jsonData);
       }
-      else if (distanceMetric.value == "parent_child_distance") {
-        console.log("under development");
-      }
+      // else if (distanceMetric.value == "parent_child_distance") {
+      //   console.log("under development");
+      // }
       else {
         console.log("Please select a valid distance measure. If you have question email ealexander@carleton.edu");
       }

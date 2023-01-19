@@ -139,7 +139,7 @@ def get_all_mutations(g):
         mutation_set = mutation_set.union(set(get_mutations_from_node(g, node)))
     return mutation_set
 
-def cs_main(filename_1, filename_2):
+def disc_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
     dict_1, dict_2 = get_contributions(g_1,g_2)

@@ -9,7 +9,7 @@ sys.path.append('distance_measures')
 import check_input
 import os
 import pydot
-import py_scripts.parent_child_dot as pc_dot
+import distance_measures.parent_child_to_json as pc_dot
 import distance_measures.ancestor_descendant_to_json as ad_dot
 import distance_measures.caset as cs_dot
 import distance_measures.disc as disc_dot
@@ -53,18 +53,9 @@ def run_parent_child_distance():
   temp_t2.write(tree2_dot)
   temp_t1.close()
   temp_t2.close()
-  tree1 = pc_dot.read_dot_file("t1.txt")
-  tree2 = pc_dot.read_dot_file("t2.txt")
-  tree1_edges, tree2_edges, unshared_edges, dist = pc_dot.calculate_parent_child_distance(tree1, tree2) 
-  unshared_edges = [{"source": edge[1], "target": edge[0]} for edge in unshared_edges]
-  tree1_edges= [{"source": edge[1], "target": edge[0]} for edge in tree1_edges]
-  tree2_edges= [{"source": edge[1], "target": edge[0]} for edge in tree2_edges]
-  jsonObject = {
-                 "tree1_edges": tree1_edges,
-                 "tree2_edges": tree2_edges,
-                 "unshared_edges": unshared_edges,
-                 "pc_distance": dist
-               }
+  data_1, data_2 = pc_dot.pc_main("t1.txt", "t2.txt")
+  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2}
+  print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))
   
 @api.route('/ancestor_descendant_distance')
