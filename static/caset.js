@@ -33,7 +33,7 @@ submitBtn.onclick = () => {
         .style("fill", function(d) { 
           var scale = d3.scaleLinear()
           .domain([0, 5, 9])
-          .range(["blue", "red", "yellow"]);
+          .range(["#fee8c8", "#fdbb84", "#e34a33"]);
           console.log(d.data.contribution);
           return scale(d.data.contribution);
           })

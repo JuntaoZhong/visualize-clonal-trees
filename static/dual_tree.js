@@ -27,8 +27,7 @@ function dist_caset_d3_tress(jsonData) {
       .style("fill", function(d) { 
         var scale = d3.scaleLinear()
         .domain([0, 5, 9])
-        .range(["blue", "red", "yellow"]);
-        console.log(d.data.contribution);
+        .range(["#deebf7","#9ecae1","#3182bd"]); 
         return scale(d.data.contribution);
         })
       .style("stroke-width", "3px")
@@ -68,8 +67,12 @@ function dist_caset_d3_tress(jsonData) {
       .style("stroke", function(d) { 
         var scale = d3.scaleLinear()
         .domain([0, 2, 4])
+<<<<<<< HEAD
         .range(["blue", "red", "yellow"]);
         console.log(d.target.data.contribution);
+=======
+        .range(["#fee8c8", "#fdbb84", "#e34a33"]);
+>>>>>>> 2c05f1982fd9b392a6f49425d6f9989f3beeeb1d
         return scale(d.target.data.contribution);
         }) //d.target.data.contribution;
       .style("transform", "translate(5, 20), scale(0.5)")
@@ -84,9 +87,17 @@ function dist_caset_d3_tress(jsonData) {
 submitTreesBtn.onclick = () => {
   var tree1Input = tree1TextArea.value;
   var tree2Input = tree2TextArea.value;
+<<<<<<< HEAD
   console.log(inputTypeTree1.value);
   console.log(inputTypeTree2.value);
   console.log(distanceMetric.value);
+=======
+  console.log(tree1Input.value);
+  console.log(inputTypeTree1.value);
+  console.log(inputTypeTree2.value);
+  console.log(distanceMetric.value);
+
+>>>>>>> 2c05f1982fd9b392a6f49425d6f9989f3beeeb1d
   var baseURL = "http://localhost:5000/api/";
   var url = baseURL + distanceMetric.value + "?";
   var url_components = [url, "tree1=", tree1Input, "&tree2=", tree2Input]

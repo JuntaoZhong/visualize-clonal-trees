@@ -3,6 +3,14 @@ from graphviz import Source
 import sys
 import networkx as nx
 
+def parent_child(g_1, g_2):
+    return len(parent_child_symmetric_difference(g_1, g_2))
+
+def parent_child_symmetric_difference(g_1,g_2):
+    set_1 = get_parent_child_pairs(g_1)
+    set_2 = get_parent_child_pairs(g_2)
+    return set_1.symmetric_difference(set_2)
+
 def get_pair_differences(g_1,g_2):
     set_1 = set(get_parent_child_pairs(g_1))
     set_2 = set(get_parent_child_pairs(g_2))
@@ -106,3 +114,4 @@ if __name__=="__main__":
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
     print(get_contributions(g_1,g_2))
+    
