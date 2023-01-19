@@ -16,7 +16,6 @@ Command line arguments:
 [-o --outputFile file] [-u --union] [-p --pickle file] [-t --treePrint] [-m --minmax]
 """
 
-
 def get_contributions(g_1, g_2):
     dict_1 = {}
     dict_2 = {}
@@ -26,7 +25,6 @@ def get_contributions(g_1, g_2):
     for node in g_2.nodes:
         dict_2[node] = {}
         dict_2[node]["contribution"] = 0
-    # print(dict_1)
     mutation_anc_dict_1 = {}
     root_1 = get_root(g_1)
     mutation_anc_dict_1[root_1] = {root_1}
@@ -41,26 +39,26 @@ def get_contributions(g_1, g_2):
     caset_distance = 0
     for mut_1 in full_mutation_set:
         for mut_2 in full_mutation_set:
-            if not mut_1 == mut_2:
+            if (not mut_1 == mut_2):
                 caset_1 = get_common_ancestor_set(mut_1, mut_2, mutation_anc_dict_1)
                 caset_2 = get_common_ancestor_set(mut_1, mut_2, mutation_anc_dict_2)
                 print("printing caset1:", caset_1)
                 print("printing caset2", caset_2)
                 caset_union = caset_1.union(caset_2)
                 x = len(caset_union)
-                caset_intersection = caset_1.intersection(caset_2)
-                y = len(caset_intersection)
-                # print(caset_union)
-                jacc_dist = (x - y) / x
-                caset_set_minus_1 = caset_1.difference(caset_2)
-                caset_set_minus_2 = caset_2.difference(caset_1)
-                for set_minus_1_mut in caset_set_minus_1:
-                    dict_1[get_node_from_mutation(g_1, set_minus_1_mut)]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2
-                    caset_distance += jacc_dist / len(caset_set_minus_1) / 2 
-                for set_minus_2_mut in caset_set_minus_2:                
-                    dict_2[get_node_from_mutation(g_2, set_minus_2_mut)]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2
-                    caset_distance +=  jacc_dist / len(caset_set_minus_2) / 2
-    # return caset_distance, dict_1, dict_2
+                if not x==0:
+                    caset_intersection = caset_1.intersection(caset_2)
+                    y = len(caset_intersection)
+                    jacc_dist = (x - y) / x
+                    caset_set_minus_1 = caset_1.difference(caset_2)
+                    caset_set_minus_2 = caset_2.difference(caset_1)
+                    caset_distance += jacc_dist / 2
+                    for set_minus_1_mut in caset_set_minus_1:
+                        dict_1[get_node_from_mutation(g_1, set_minus_1_mut)]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2
+                        # caset_distance += jacc_dist / len(caset_set_minus_1) / 2 
+                    for set_minus_2_mut in caset_set_minus_2:                
+                        dict_2[get_node_from_mutation(g_2, set_minus_2_mut)]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2
+                        # caset_distance +=  jacc_dist / len(caset_set_minus_2) / 2
     m = len(full_mutation_set)
     dist = (1/(m*((m-1)/2)) * caset_distance) # m choose 2
     print(dist)
@@ -93,8 +91,6 @@ def fill_mutation_anc_dict(g, node, dict):
         for desc_mutation in desc_mutations:
             desc_mutation_ancestors = []
             for anc in anc_set:
-                # print('anc type: ')
-                # print(type(anc))
                 anc_mutations = get_mutations_from_node(g,anc)
                 desc_mutation_ancestors = desc_mutation_ancestors + anc_mutations
             mutation_dict[desc_mutation] = desc_mutation_ancestors

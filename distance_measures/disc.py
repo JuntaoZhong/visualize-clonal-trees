@@ -4,8 +4,15 @@ from graphviz import Source
 import sys
 from networkx.readwrite import json_graph
 import networkx as nx
+import json
 
 from utils import *
+
+"""
+Defaults to intersection distance.
+Command line arguments:
+[-o --outputFile file] [-u --union] [-p --pickle file] [-t --treePrint] [-m --minmax]
+"""
 
 def get_contributions(g_1, g_2):
     dict_1 = {}
@@ -16,7 +23,6 @@ def get_contributions(g_1, g_2):
     for node in g_2.nodes:
         dict_2[node] = {}
         dict_2[node]["contribution"] = 0
-    # print(dict_1)
     mutation_anc_dict_1 = {}
     root_1 = get_root(g_1)
     mutation_anc_dict_1[root_1] = {root_1}
@@ -28,26 +34,42 @@ def get_contributions(g_1, g_2):
     mutation_set_1 = get_all_mutations(g_1)
     mutation_set_2 = get_all_mutations(g_2)
     full_mutation_set = mutation_set_1.union(mutation_set_2)
-    disc_distance = 0
+    caset_distance = 0
     for mut_1 in full_mutation_set:
         for mut_2 in full_mutation_set:
-            disc_1 = get_distinctly_inherited(mut_1, mut_2, mutation_anc_dict_1)
-            disc_2 = get_distinctly_inherited(mut_1, mut_2, mutation_anc_dict_2)
-            disc_union = disc_1.union(disc_2)
-            x = len(disc_union)
-            disc_set_minus_1 = disc_1.difference(disc_2)
-            disc_set_minus_2 = disc_2.difference(disc_1)
-            for set_minus_1_mut in disc_set_minus_1:
-                dict_1[get_node_from_mutation(g_1, set_minus_1_mut)]["contribution"] += 1/x
-                disc_distance += 1/x
-            for set_minus_2_mut in disc_set_minus_2:                
-                dict_2[get_node_from_mutation(g_2, set_minus_2_mut)]["contribution"] += 1/x
-                disc_distance += 1/x
+            if (not mut_1 == mut_2):
+                disc_1 = get_distinct_ancestor_set(mut_1, mut_2, mutation_anc_dict_1)
+                disc_2 = get_distinct_ancestor_set(mut_1, mut_2, mutation_anc_dict_2)
+                disc_union = disc_1.union(disc_2)
+                print("tree 1: ",mut_1,",",mut_2,":",disc_1)
+                print("tree 2: ",mut_1,", ",mut_2,": ",disc_2)
+                print(disc_union)
+                x = len(disc_union)
+                if not x==0:
+                    disc_intersection = disc_1.intersection(disc_2)
+                    y = len(disc_intersection)
+                    jacc_dist = (x - y) / x
+                    disc_set_minus_1 = disc_1.difference(disc_2)
+                    disc_set_minus_2 = disc_2.difference(disc_1)
+                    caset_distance += jacc_dist
+                    for set_minus_1_mut in disc_set_minus_1:
+                        dict_1[get_node_from_mutation(g_1, set_minus_1_mut)]["contribution"] += jacc_dist / len(disc_set_minus_1)
+                        # caset_distance += jacc_dist / len(caset_set_minus_1) / 2 
+                    for set_minus_2_mut in disc_set_minus_2:                
+                        dict_2[get_node_from_mutation(g_2, set_minus_2_mut)]["contribution"] += jacc_dist / len(disc_set_minus_2)
+                        # caset_distance +=  jacc_dist / len(caset_set_minus_2) / 2
+    m = len(full_mutation_set)
+    dist = (1/(m*((m-1))) * caset_distance) # m choose 2
+    print(dist)
     return dict_1, dict_2
 
-def get_distinctly_inherited(mutation_1, mutation_2, mutation_anc_dict):
+# def jacc(mutation_1, mutation_2, mutation_anc_dict_1, mutation_anc_dict_2):  
+
+def get_distinct_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
     if(mutation_1 in mutation_anc_dict and mutation_2 in mutation_anc_dict):
         return set(mutation_anc_dict[mutation_1]).difference(set(mutation_anc_dict[mutation_2]))
+    elif(mutation_1 in mutation_anc_dict and not mutation_2 in mutation_anc_dict):
+        return set(mutation_anc_dict[mutation_1])
     else:
         return set()
 
@@ -70,8 +92,6 @@ def fill_mutation_anc_dict(g, node, dict):
         for desc_mutation in desc_mutations:
             desc_mutation_ancestors = []
             for anc in anc_set:
-                # print('anc type: ')
-                # print(type(anc))
                 anc_mutations = get_mutations_from_node(g,anc)
                 desc_mutation_ancestors = desc_mutation_ancestors + anc_mutations
             mutation_dict[desc_mutation] = desc_mutation_ancestors
@@ -83,6 +103,7 @@ def get_root(g):
     ''' Returns node with in-degree 0. Exits and
         prints error if multiple such nodes exist '''
     root_candidates = set(g.nodes)
+    root_candidates = set([x for x in root_candidates if "\\" not in x])
     all_nodes = g.nodes
     for a in all_nodes:
         for b in g.successors(a):
@@ -102,8 +123,11 @@ def get_mutations_from_node(g, node):
     ''' Returns list of strings representing mutations at node'''
     label =  g.nodes[node]['label']
     label_list = label.split(",")
+    #print("label list: " + str(label_list))
     label_list[0] = label_list[0][1:]
+    #print("label list now: " + str(label_list))
     label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
+    #print("and now: " + str(label_list))
     return label_list
 
 def get_node_from_mutation(g, mutation):
@@ -117,7 +141,7 @@ def get_all_mutations(g):
         mutation_set = mutation_set.union(set(get_mutations_from_node(g, node)))
     return mutation_set
 
-def disc_main(filename_1, filename_2):
+def cs_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
     dict_1, dict_2 = get_contributions(g_1,g_2)
@@ -127,19 +151,17 @@ def disc_main(filename_1, filename_2):
     data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
     return (data_1, data_2)
 
-
 if __name__=="__main__":
     filename_1 = sys.argv[1]
     filename_2 = sys.argv[2]
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2 = cs.get_contributions(g_1,g_2)
+    dict_1, dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=cs.get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=cs.get_root(g_2))
+    data_1 = json_graph.tree_data(g_1, root=get_root(g_1))
+    data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
     s_1 = json.dumps(data_1)
     s_2 = json.dumps(data_2)
     print(s_1)
     print(s_2)
-    cs.ancestor_descendant(g_1, g_2)
