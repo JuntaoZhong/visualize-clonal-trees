@@ -1,6 +1,8 @@
 from graphviz import Source
 import sys
 import networkx as nx
+from networkx.readwrite import json_graph
+import json
 
 def ancestor_descendant(g_1, g_2):
     return len(ancestor_descendant_symmetric_difference(g_1, g_2))
@@ -17,44 +19,6 @@ def get_pair_differences(g_1,g_2):
     dif_set_2 = set_2 - set_1
     return dif_set_1, dif_set_2
 
-# def get_contributions(g_1,g_2):
-#     '''returns two dictionaries where keys are nodes and values 
-#     are contributions according to get_pair_differences'''
-#     dif_set_1 = get_pair_differences(g_1,g_2)[0]
-#     dif_set_2 = get_pair_differences(g_1,g_2)[1]
-#     dict_1 = {}
-#     dict_2 = {}
-#     for pair in dif_set_1:
-#         anc = pair[0]
-#         desc = pair[1]
-#         if anc in dict_1:
-#             dict_1[anc]["contribution"] = dict_1[anc]["contribution"] +1
-#         else:
-#             teeny_dict = {}
-#             teeny_dict["contribution"] = 1
-#             dict_1[anc] = teeny_dict
-#         if desc in dict_1:
-#             dict_1[desc]["contribution"] = dict_1[desc]["contribution"] +1
-#         else:
-#             teeny_dict = {}
-#             teeny_dict["contribution"] = 1
-#             dict_1[desc] = teeny_dict
-#     for pair in dif_set_2:
-#         anc = pair[0]
-#         desc = pair[1]
-#         if anc in dict_2:
-#             dict_2[anc]["contribution"] = dict_2[anc]["contribution"] +1
-#         else:
-#             teeny_dict = {}
-#             teeny_dict["contribution"] = 1
-#             dict_2[anc] = teeny_dict
-#         if desc in dict_2:
-#             dict_2[desc]["contribution"] = dict_2[desc]["contribution"] +1
-#         else:
-#             teeny_dict = {}
-#             teeny_dict["contribution"] = 1
-#             dict_2[desc] = teeny_dict
-#     return dict_1, dict_2
 def get_contributions(g_1,g_2):
     '''returns two dictionaries where keys are nodes and values 
     are contributions according to get_pair_differences'''
@@ -106,24 +70,6 @@ def get_contributions(g_1,g_2):
             teeny_dict["contribution"] = 1
             dict_2[desc] = teeny_dict
     return dict_1, dict_2
-
-# def get_anc_desc_pairs(g):
-#     ''' Returns list of 2-tuples of nodes in g whose
-#         second element is a descendant of the first element '''
-#     # key = node 
-#     # value = ancestor set of node
-#     node_anc_dict = {}
-#     root = get_root(g)
-#     node_anc_dict[root] = {root}
-#     # adds key-value pairs to dictionary
-#     node_anc_dict = fill_dict(g,root,node_anc_dict)
-#     # uses node_anc_dict to find ancestor-descendant pairs
-#     anc_desc_pairs = set()
-#     for desc in node_anc_dict:
-#         anc_set = node_anc_dict[desc]
-#         for anc in anc_set:
-#             anc_desc_pairs.add((anc, desc))
-#     return anc_desc_pairs
 
 def get_anc_desc_pairs(g):
     ''' Returns list of 2-tuples of nodes in g whose
@@ -209,6 +155,18 @@ def get_node_from_mutation(g, mutation):
     for node in g.nodes:
         if mutation in get_mutations_from_node(g, node):
             return node
+
+def ad_main(filename_1, filename_2):
+    g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
+    g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
+    dict_1, dict_2 = get_contributions(g_1,g_2)
+    nx.set_node_attributes(g_1,dict_1)
+    nx.set_node_attributes(g_2,dict_2)
+    data_1 = json_graph.tree_data(g_1, root=get_root(g_1))
+    data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
+    return (data_1, data_2)
+
+
 
 if __name__=="__main__":
     # filename_1 = sys.argv[1]

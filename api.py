@@ -9,8 +9,8 @@ sys.path.append('distance_measures')
 import check_input
 import os
 import pydot
-import distance_measures.parent_child_to_json as pc_dot
-import distance_measures.ancestor_descendant_to_json as ad_dot
+import distance_measures.parent_child as pc_dot
+import distance_measures.ancestor_descendant as ad_dot
 import distance_measures.caset as cs_dot
 import distance_measures.disc as disc_dot
 
