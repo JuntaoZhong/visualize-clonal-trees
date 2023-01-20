@@ -166,8 +166,6 @@ def ad_main(filename_1, filename_2):
     data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
     return (data_1, data_2)
 
-
-
 if __name__=="__main__":
     # filename_1 = sys.argv[1]
     # filename_2 = sys.argv[2]
