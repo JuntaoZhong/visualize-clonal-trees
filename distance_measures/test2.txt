@@ -1,7 +1,0 @@
-digraph graph2 {
-    1 [label="A,E"];
-    2 [label="B"];
-    3 [label="C"];
-    4 [label="D"];
-    1 -> 2 -> 3 -> 4;
-}
