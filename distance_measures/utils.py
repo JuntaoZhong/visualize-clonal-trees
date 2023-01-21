@@ -34,6 +34,18 @@ def get_mutations_from_label(label):
     #print("and now: " + str(label_list))
     return label_list
 
+def get_mutations_from_node(g, node):
+    ''' Returns list of strings representing mutations at node'''
+    print(g.nodes[node])
+    label =  g.nodes[node]['label']
+    label_list = label.split(",")
+    #print("label list: " + str(label_list))
+    label_list[0] = label_list[0][1:]
+    #print("label list now: " + str(label_list))
+    label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
+    #print("and now: " + str(label_list))
+    return label_list
+
 def fill_mutation_anc_dict(g, node, dict):
     ''' Creates dictionary matching each mutation to its
         set of ancestor mutations '''
@@ -43,11 +55,11 @@ def fill_mutation_anc_dict(g, node, dict):
     # Fills mutation-ancestor dictionary 
     for desc in node_dict:
         anc_set = node_dict[desc]
-        desc_mutations = get_mutations_from_label(g.nodes[desc])
+        desc_mutations = get_mutations_from_node(g, desc)
         for desc_mutation in desc_mutations:
             desc_mutation_ancestors = []
             for anc in anc_set:
-                anc_mutations = get_mutations_from_label(g.nodes[anc])
+                anc_mutations = get_mutations_from_node(g, anc)
                 desc_mutation_ancestors = desc_mutation_ancestors + anc_mutations
             mutation_dict[desc_mutation] = desc_mutation_ancestors
     return mutation_dict

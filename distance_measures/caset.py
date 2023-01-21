@@ -17,10 +17,7 @@ Command line arguments:
 [-o --outputFile file] [-u --union] [-p --pickle file] [-t --treePrint] [-m --minmax]
 """
 
-
-
 def get_contributions(g_1, g_2):
-    
     # maps each node to a contribution
     dict_1 = {}
     dict_2 = {}
@@ -29,16 +26,18 @@ def get_contributions(g_1, g_2):
     mutations_to_nodes_dict_1 = {}
     mutations_to_nodes_dict_2 = {}
 
+    print(g_1)
     # filling dictionaries
     for node in g_1.nodes:
         dict_1[node] = {}
         dict_1[node]["contribution"] = 0
-        for mutation in utils.get_mutations_from_label(node['label']):
+        print(node)
+        for mutation in utils.get_mutations_from_node(g_1, node):
             mutations_to_nodes_dict_1[mutation] = node
     for node in g_2.nodes:
         dict_2[node] = {}
         dict_2[node]["contribution"] = 0
-        for mutation in utils.get_mutations_from_label(node['label']):
+        for mutation in utils.get_mutations_from_node(g_2, node):
             mutations_to_nodes_dict_2[mutation] = node
     
     mutation_anc_dict_1 = {}
@@ -49,8 +48,8 @@ def get_contributions(g_1, g_2):
     root_2 = utils.get_root(g_2)
     mutation_anc_dict_2[root_2] = {root_2}
     mutation_anc_dict_2 = utils.fill_mutation_anc_dict(g_2, root_2, mutation_anc_dict_2)
-    mutation_set_1 = mutations_to_nodes_dict_1.keys()
-    mutation_set_2 = mutations_to_nodes_dict_2.keys()
+    mutation_set_1 = set(mutations_to_nodes_dict_1.keys())
+    mutation_set_2 = set(mutations_to_nodes_dict_2.keys())
     full_mutation_set = mutation_set_1.union(mutation_set_2)
     caset_distance = 0
     for mut_1 in full_mutation_set:
@@ -85,28 +84,6 @@ def get_common_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
         return set(mutation_anc_dict[mutation_1]).intersection(set(mutation_anc_dict[mutation_2]))
     else:
         return set()
-
-# def get_mutations_from_node(g, node):
-#     ''' Returns list of strings representing mutations at node'''
-#     label =  g.nodes[node]['label']
-#     label_list = label.split(",")
-#     #print("label list: " + str(label_list))
-#     label_list[0] = label_list[0][1:]
-#     #print("label list now: " + str(label_list))
-#     label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
-#     #print("and now: " + str(label_list))
-#     return label_list
-
-# def get_node_from_mutation(g, mutation):
-#     for node in g.nodes:
-#         if mutation in get_mutations_from_node(g, node):
-#             return node
-
-# def get_all_mutations(g):
-#     mutation_set = set()
-#     for node in g.nodes:
-#         mutation_set = mutation_set.union(set(get_mutations_from_node(g, node)))
-#     return mutation_set
 
 def cs_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
