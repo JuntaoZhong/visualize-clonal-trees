@@ -24,6 +24,44 @@ def get_root(g):
         (root,) = root_candidates
         return root
 
+def get_mutations_from_label(label):
+    ''' Returns list of mutations in a label '''
+    label_list = label.split(",")
+    #print("label list: " + str(label_list))
+    label_list[0] = label_list[0][1:]
+    #print("label list now: " + str(label_list))
+    label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
+    #print("and now: " + str(label_list))
+    return label_list
+
+def fill_mutation_anc_dict(g, node, dict):
+    ''' Creates dictionary matching each mutation to its
+        set of ancestor mutations '''
+    # Fills node-ancestor dictionary
+    node_dict = fill_node_anc_dict(g, node, dict)
+    mutation_dict = {}
+    # Fills mutation-ancestor dictionary 
+    for desc in node_dict:
+        anc_set = node_dict[desc]
+        desc_mutations = get_mutations_from_label(g.nodes[desc])
+        for desc_mutation in desc_mutations:
+            desc_mutation_ancestors = []
+            for anc in anc_set:
+                anc_mutations = get_mutations_from_label(g.nodes[anc])
+                desc_mutation_ancestors = desc_mutation_ancestors + anc_mutations
+            mutation_dict[desc_mutation] = desc_mutation_ancestors
+    return mutation_dict
+
+def fill_node_anc_dict(g, node, node_anc_dict):
+    ''' Recursively creates dictionary matching each node
+        in g to its set of ancestor nodes'''
+    for child in g.successors(node):
+        child_anc_set = node_anc_dict[node].copy()
+        child_anc_set.add(child)
+        node_anc_dict[child] = child_anc_set
+        node_anc_dict.update(fill_node_anc_dict(g, child, node_anc_dict))
+    return node_anc_dict
+
 
 # def jaccard(a, b):
 #     """
