@@ -20,31 +20,35 @@ Command line arguments:
 
 
 def get_contributions(g_1, g_2):
+    
+    # maps each node to a contribution
     dict_1 = {}
     dict_2 = {}
 
-    # initializing dictionaries
+    # maps each mutation to a node
     mutations_to_nodes_dict_1 = {}
     mutations_to_nodes_dict_2 = {}
+
+    # filling dictionaries
     for node in g_1.nodes:
         dict_1[node] = {}
         dict_1[node]["contribution"] = 0
-        for mutation in get_mutations_from_label(node['label']):
+        for mutation in utils.get_mutations_from_label(node['label']):
             mutations_to_nodes_dict_1[mutation] = node
     for node in g_2.nodes:
         dict_2[node] = {}
         dict_2[node]["contribution"] = 0
-        for mutation in get_mutations_from_label(node['label']):
+        for mutation in utils.get_mutations_from_label(node['label']):
             mutations_to_nodes_dict_2[mutation] = node
     
     mutation_anc_dict_1 = {}
     root_1 = utils.get_root(g_1)
     mutation_anc_dict_1[root_1] = {root_1}
-    mutation_anc_dict_1 = fill_mutation_anc_dict(g_1, root_1, mutation_anc_dict_1)
+    mutation_anc_dict_1 = utils.fill_mutation_anc_dict(g_1, root_1, mutation_anc_dict_1)
     mutation_anc_dict_2 = {}
     root_2 = utils.get_root(g_2)
     mutation_anc_dict_2[root_2] = {root_2}
-    mutation_anc_dict_2 = fill_mutation_anc_dict(g_2, root_2, mutation_anc_dict_2)
+    mutation_anc_dict_2 = utils.fill_mutation_anc_dict(g_2, root_2, mutation_anc_dict_2)
     mutation_set_1 = mutations_to_nodes_dict_1.keys()
     mutation_set_2 = mutations_to_nodes_dict_2.keys()
     full_mutation_set = mutation_set_1.union(mutation_set_2)
@@ -82,53 +86,16 @@ def get_common_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
     else:
         return set()
 
-def fill_mutation_anc_dict(g, node, dict):
-    ''' Creates dictionary matching each mutation to its
-        set of ancestor mutations '''
-    # Fills node-ancestor dictionary
-    node_dict = fill_node_anc_dict(g, node, dict)
-    mutation_dict = {}
-    # Fills mutation-ancestor dictionary 
-    for desc in node_dict:
-        anc_set = node_dict[desc]
-        desc_mutations = get_mutations_from_node(g,desc)
-        for desc_mutation in desc_mutations:
-            desc_mutation_ancestors = []
-            for anc in anc_set:
-                anc_mutations = get_mutations_from_node(g,anc)
-                desc_mutation_ancestors = desc_mutation_ancestors + anc_mutations
-            mutation_dict[desc_mutation] = desc_mutation_ancestors
-    return mutation_dict
-
-def fill_node_anc_dict(g, node, node_anc_dict):
-    ''' Recursively creates dictionary matching each node
-        in g to its set of ancestor nodes'''
-    for child in g.successors(node):
-        child_anc_set = node_anc_dict[node].copy()
-        child_anc_set.add(child)
-        node_anc_dict[child] = child_anc_set
-        node_anc_dict.update(fill_node_anc_dict(g, child, node_anc_dict))
-    return node_anc_dict
-
-def get_mutations_from_node(g, node):
-    ''' Returns list of strings representing mutations at node'''
-    label =  g.nodes[node]['label']
-    label_list = label.split(",")
-    #print("label list: " + str(label_list))
-    label_list[0] = label_list[0][1:]
-    #print("label list now: " + str(label_list))
-    label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
-    #print("and now: " + str(label_list))
-    return label_list
-
-def get_mutations_from_label(label):
-    label_list = label.split(",")
-    #print("label list: " + str(label_list))
-    label_list[0] = label_list[0][1:]
-    #print("label list now: " + str(label_list))
-    label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
-    #print("and now: " + str(label_list))
-    return label_list
+# def get_mutations_from_node(g, node):
+#     ''' Returns list of strings representing mutations at node'''
+#     label =  g.nodes[node]['label']
+#     label_list = label.split(",")
+#     #print("label list: " + str(label_list))
+#     label_list[0] = label_list[0][1:]
+#     #print("label list now: " + str(label_list))
+#     label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
+#     #print("and now: " + str(label_list))
+#     return label_list
 
 # def get_node_from_mutation(g, mutation):
 #     for node in g.nodes:
