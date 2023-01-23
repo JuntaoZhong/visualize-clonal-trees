@@ -1,1 +1,1 @@
-digraph Tree {A [label="A"];C [label="C"];B_D_E_F_G [label="B,D,E,F,G"];A -> C;A -> B_D_E_F_G;}
+digraph Tree {B [label="B"];D_E_F_G [label="D,E,F,G"];C [label="C"];A [label="A"];B -> D_E_F_G;D_E_F_G -> C;B -> A;}

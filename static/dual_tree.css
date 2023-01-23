@@ -79,6 +79,8 @@ button:active {
 }
 #visualizations-container {
     display: flex;
+    position: sticky;
+    top: 0;
 }
    
 #visualizations-container > div {
