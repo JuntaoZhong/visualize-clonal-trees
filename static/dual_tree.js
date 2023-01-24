@@ -37,7 +37,7 @@ function dist_caset_d3_trees(jsonData) {
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     root = d3.hierarchy(datas[i]);
-    var treeLayout = d3.tree().size([400, 200]);
+    var treeLayout = d3.tree().size([400, 200])
     treeLayout(root);
     // Nodes
     d3.select('#' + svg_names[i] +  ' g.nodes')
@@ -46,10 +46,14 @@ function dist_caset_d3_trees(jsonData) {
       .join('circle')
       .classed('node', true)
       .style("stroke", "black")
-      .style("fill", function(d) { 
+      .style("fill", function(d) {
+        var nodes = root.descendants();
+        var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
+        console.log(t_max);
+
         var scale = d3.scaleLinear()
-        .domain([0, 5, 9])
-        .range(["#deebf7","#9ecae1","#3182bd"]); 
+        .domain([0, t_max/2, t_max])
+        .range(["#fee8c8", "#fdbb84", "#e34a33"]);
         return scale(d.data.contribution);
         })
       .style("stroke-width", "3px")
@@ -69,6 +73,21 @@ function dist_caset_d3_trees(jsonData) {
         labels_array = d.data.label.split(',');
         return Math.sqrt(labels_array.length) * 10;
       });
+
+      d3.select('#' + svg_names[i] +  ' g.nodes')
+      .selectAll("text.label")
+      .data(root.descendants())
+      .join("text")
+      .classed("label", true)
+      .attr("x", function(d) { return d.x + 15 })
+      .attr("y", function(d) { return d.y + 15})
+      .text(d => {
+          var str = d.data.label;
+          while (str.indexOf('\"') > -1) {
+            str = str.replace("\"", '')
+          }
+          return str;
+      });
     
     // Links
     d3.select('#' + svg_names[i] +  ' g.links')
@@ -77,8 +96,12 @@ function dist_caset_d3_trees(jsonData) {
       .join('line')
       .classed('link', true)
       .style("stroke", function(d) { 
+        var nodes = root.descendants();
+        var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
+        console.log(t_max);
+
         var scale = d3.scaleLinear()
-        .domain([0, 2, 4])
+        .domain([0, t_max/2, t_max])
         .range(["#fee8c8", "#fdbb84", "#e34a33"]);
         return scale(d.target.data.contribution);
         }) //d.target.data.contribution;
@@ -99,7 +122,7 @@ function pc_ad_d3_trees(jsonData, treetype) {
   //default for ad
   node_color_function = function(d) { 
     var scale = d3.scaleLinear()
-    .domain([0, 5, 9])
+    .domain([0, 1, 2])
     .range(["#deebf7","#9ecae1","#3182bd"]); 
     return scale(d.data.contribution);
   }
@@ -109,7 +132,7 @@ function pc_ad_d3_trees(jsonData, treetype) {
     node_color_function = function(d) { return "black";}
     edge_color_function = function(d) {
       var scale = d3.scaleLinear()
-      .domain([0, 5, 9])
+      .domain([0, 1])
       .range(["#deebf7","#9ecae1","#3182bd"]); 
       return scale(d.target.data.contribution);
     }
@@ -118,7 +141,7 @@ function pc_ad_d3_trees(jsonData, treetype) {
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     root = d3.hierarchy(datas[i]);
-    var treeLayout = d3.tree().size([400, 200])
+    var treeLayout = d3.tree().size([400, 200]);
     treeLayout(root);
     // Nodes
     d3.select('#' + svg_names[i] +  ' g.nodes')
@@ -144,6 +167,21 @@ function pc_ad_d3_trees(jsonData, treetype) {
       .attr('r', function(d) {
         labels_array = d.data.label.split(',');
         return Math.sqrt(labels_array.length) * 10;
+      });
+
+    d3.select('#' + svg_names[i] +  ' g.nodes')
+      .selectAll("text.label")
+      .data(root.descendants())
+      .join("text")
+      .classed("label", true)
+      .attr("x", function(d) { return d.x + 15 })
+      .attr("y", function(d) { return d.y + 15})
+      .text(d => {
+          var str = d.data.label;
+          while (str.indexOf('\"') > -1) {
+            str = str.replace("\"", '')
+          }
+          return str;
       });
     
     // Links
