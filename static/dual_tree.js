@@ -121,18 +121,27 @@ function pc_ad_d3_trees(jsonData, treetype) {
 
   //default for ad
   node_color_function = function(d) { 
+    var nodes = root.descendants();
+    var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
+    console.log(t_max);
+
     var scale = d3.scaleLinear()
-    .domain([0, 1, 2])
+    .domain([0, t_max/2, t_max])
     .range(["#deebf7","#9ecae1","#3182bd"]); 
     return scale(d.data.contribution);
+
   }
   edge_color_function = function(d) { return "black";}
 
   if (treetype == "pc") {
     node_color_function = function(d) { return "black";}
     edge_color_function = function(d) {
+      var nodes = root.descendants();
+      var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
+      console.log(t_max);
+
       var scale = d3.scaleLinear()
-      .domain([0, 1])
+      .domain([0, t_max/2, t_max])
       .range(["#deebf7","#9ecae1","#3182bd"]); 
       return scale(d.target.data.contribution);
     }
