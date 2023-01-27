@@ -39,8 +39,8 @@ function dist_caset_d3_trees(jsonData) {
     var treeLayout = d3.tree().size([400, 200])
     treeLayout(root);
     // Nodes
-    d3.select('#' + svg_names[i] +  ' g.nodes')
-      .selectAll('circle.node')
+    var nodes = d3.select('#' + svg_names[i] +  ' g.nodes')
+    nodes.selectAll('circle.node')
       .data(root.descendants())
       .join('circle')
       .classed('node', true)
@@ -215,6 +215,7 @@ function submit_tree() {
   console.log(inputTypeTree1.value);
   console.log(inputTypeTree2.value);
   console.log(distanceMetric.value);
+  console.log("Tree", tree1Input);
 
   var baseURL = "http://localhost:5000/api/";
   var url = baseURL + distanceMetric.value + "?";
@@ -247,6 +248,10 @@ submitTreesBtn.onclick = () => {
 }
 
 window.onload = () => {
+  tree1TextArea = document.getElementById("tree1-text"); 
+  tree1TextArea.innerHTML = "digraph Tree { 1 [label=\"PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9\"]; 2 [label=\"ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7\"]; 3 [label=\"NTRK, AFF4\"]; 4 [label=\"CHRM5\"]; 5 [label=\"ECM1\"]; 6 [label=\"CBX4\"]; 7 [label=\"TNC\"]; 8 [label=\"PPP2R1A, SYNE2\"]; 9 [label=\"AURKA\"]; 10 [label=\"TGFB2\"]; 1 -> 2; 2 -> 3; 3 -> 4; 3 -> 5; 5 -> 8; 5 -> 7;5 -> 6;8 -> 9; 4 -> 10;}";  
+  tree2TextArea = document.getElementById("tree2-text"); 
+  tree2TextArea.innerHTML = "digraph Tree { 1 [label=\"PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9\"]; 2 [label=\"ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7\"]; 3 [label=\"NTRK, AFF4\"]; 4 [label=\"CHRM5\"]; 5 [label=\"ECM1\"]; 6 [label=\"CBX4\"]; 7 [label=\"TNC\"]; 8 [label=\"PPP2R1A, SYNE2\"]; 9 [label=\"AURKA\"]; 10 [label=\"TGFB2\"]; 1 -> 2; 2 -> 3; 3 -> 4; 3 -> 5; 5 -> 8; 5 -> 7;5 -> 6;8 -> 9; 4 -> 10;}";  
   submit_tree();
 }
 
