@@ -1,0 +1,21 @@
+digraph Tree {
+  1 ["PTEN", "TBX3", "SETBP1", "JAK1", "CDH6", "AKAP9"];
+  2 ["ECM2", "NOTCH3", "ARAF", "NOTCH2", "MAP2K7"];
+  3 ["NTRK", "AFF4"];
+  4 ["CHRM5"];
+  5 ["ECM1"];
+  6 ["CBX4"];
+  7 ["TNC"];
+  8 ["PPP2R1A", "SYNE2"];
+  9 ["AURKA"];
+  10 ["TGFB2"];
+  1 -> 2
+  2 -> 3
+  3 -> 4
+  3 -> 5
+  5 -> 8
+  5 -> 7
+  5 -> 6
+  8 -> 9
+  4 -> 10
+} 
