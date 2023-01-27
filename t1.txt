@@ -1,1 +1,1 @@
-digraph Tree {        F [label="F"];D [label="D"];B [label="B"];A [label="A"];C [label="C"];        F -> D;D -> B;B -> C;B -> A;}
+digraph Tree {1 [label="PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9"];2 [label="ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7"]; 3 [label="NTRK, AFF4"]; 4 [label="CHRM5"]; 3 -> 4; 3 -> 5; 5 -> 8; 5 -> 7; 5 -> 6; 8 -> 9; 4 -> 10;} 

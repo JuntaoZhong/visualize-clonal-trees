@@ -1,13 +1,12 @@
-tree1TextArea = document.querySelector("#tree1-text"); 
-tree2TextArea = document.querySelector("#tree2-text"); 
+tree1TextArea = document.querySelector("#tree1-text");
+tree2TextArea = document.querySelector("#tree2-text");
 tree1file = document.getElementById("file1");
 tree2file = document.getElementById("file2");
-inputTypeTree1 = document.getElementById("input-type-tree1"); 
+inputTypeTree1 = document.getElementById("input-type-tree1");
 inputTypeTree2 = document.getElementById("input-type-tree2");
-submitTreesBtn = document.getElementById("submit-trees-btn"); 
-distanceMetric = document.getElementById("distance_metric"); 
-
-
+submitTreesBtn = document.getElementById("submit-trees-btn");
+distanceMetric = document.getElementById("distance_metric");
+demoTreesBtn = document.getElementById("demo-trees-btn");
 
 tree1file.addEventListener("change", function () {
     var fr = new FileReader();
@@ -209,7 +208,7 @@ function pc_ad_d3_trees(jsonData, treetype) {
   }
 }
 
-submitTreesBtn.onclick = () => {
+function submit_tree() {
   var tree1Input = tree1TextArea.value;
   var tree2Input = tree2TextArea.value;
   console.log(tree1Input.value);
@@ -242,3 +241,12 @@ submitTreesBtn.onclick = () => {
       }
     })
 }
+
+submitTreesBtn.onclick = () => {
+  submit_tree();
+}
+
+window.onload = () => {
+  submit_tree();
+}
+
