@@ -53,7 +53,26 @@
                     <label for="file1"></label>
                     <input class="custom-file-input" type="file" id="file1" name="file1">
                     <p>Input Tree Manually</p>
-                    <textarea class="text-box" id="tree1-text" name="" cols="30" rows="10"> digraph Tree {1 [label="PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9"];2 [label="ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7"]; 3 [label="NTRK, AFF4"]; 4 [label="CHRM5"]; 3 -> 4; 3 -> 5; 5 -> 8; 5 -> 7; 5 -> 6; 8 -> 9; 4 -> 10;} </textarea>
+                    <textarea class="text-box" id="tree1-text" name="" cols="30" rows="10">digraph Tree {
+1 [label="PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9"];
+2 [label="ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7"];
+3 [label="NTRK, AFF4"];
+4 [label="CHRM5"];
+5 [label="ECM1"];
+6 [label="CBX4"];
+7 [label="TNC"];
+8 [label="PPP2R1A, SYNE2"];
+9 [label="AURKA"];
+10 [label="TGFB2"];
+1 -> 2;
+2 -> 3;
+3 -> 4;
+3 -> 5;
+5 -> 8;
+5 -> 7;
+5 -> 6;
+8 -> 9;
+4 -> 10;}</textarea>
                     <div class="dropdown"> 
                         <h4>Tree 2</h4>
                         <label class="indent" for="input2"></label>
@@ -68,7 +87,27 @@
                     <label for="file2"></label>
                     <input class="custom-file-input" type="file" id="file2" name="file2">
                     <p>Input Tree Manually</p>
-                    <textarea class="text-box" id="tree2-text" name="" cols="30" rows="10"> digraph Tree {1 [label="PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9"];2 [label="ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7"]; 3 [label="NTRK, AFF4"]; 4 [label="CHRM5"]; 3 -> 4; 3 -> 5; 5 -> 8; 5 -> 7; 5 -> 6; 8 -> 9; 4 -> 10;} </textarea>
+                    <textarea class="text-box" id="tree2-text" name="" cols="30" rows="10">digraph Tree {
+    1 [label="PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9"];
+    2 [label="ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7"];
+    3 [label="NTRK, AFF4"];
+    4 [label="CHRM5"];
+    5 [label="ECM1"];
+    6 [label="CBX4"];
+    7 [label="TNC"];
+    8 [label="PPP2R1A, SYNE2"];
+    9 [label="AURKA"];
+    10 [label="TGFB2"];
+    1 -> 2;
+    2 -> 3;
+    3 -> 4;
+    3 -> 5;
+    5 -> 8;
+    5 -> 7;
+    5 -> 6;
+    8 -> 9;
+    4 -> 10;
+}</textarea>
                 </div>
                 <input id="submit-trees-btn" type="submit">
             </div>
