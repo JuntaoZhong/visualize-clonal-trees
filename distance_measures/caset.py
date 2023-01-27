@@ -18,40 +18,34 @@ Command line arguments:
 """
 
 def get_contributions(g_1, g_2):
-    # maps each node to a contribution
-    dict_1 = {}
-    dict_2 = {}
+    # maps node to contribution
+    node_contribution_dict_1 = {}
+    node_contribution_dict_2 = {}
 
-    # maps each mutation to a node
-    mutations_to_nodes_dict_1 = {}
-    mutations_to_nodes_dict_2 = {}
+    # maps mutation to node
+    mutations_node_dict_1 = {}
+    mutations_node_dict_2 = {}
 
-    print(g_1)
     # filling dictionaries
     for node in g_1.nodes:
-        dict_1[node] = {}
-        dict_1[node]["contribution"] = 0
-        print(node)
+        node_contribution_dict_1[node] = {}
+        node_contribution_dict_1[node]["contribution"] = 0
         for mutation in utils.get_mutations_from_node(g_1, node):
-            mutations_to_nodes_dict_1[mutation] = node
+            mutations_node_dict_1[mutation] = node
     for node in g_2.nodes:
-        dict_2[node] = {}
-        dict_2[node]["contribution"] = 0
+        node_contribution_dict_2[node] = {}
+        node_contribution_dict_2[node]["contribution"] = 0
         for mutation in utils.get_mutations_from_node(g_2, node):
-            mutations_to_nodes_dict_2[mutation] = node
+            mutations_node_dict_2[mutation] = node
     
-    mutation_anc_dict_1 = {}
-    root_1 = utils.get_root(g_1)
-    mutation_anc_dict_1[root_1] = {root_1}
-    mutation_anc_dict_1 = utils.fill_mutation_anc_dict(g_1, root_1, mutation_anc_dict_1)
-    mutation_anc_dict_2 = {}
-    root_2 = utils.get_root(g_2)
-    mutation_anc_dict_2[root_2] = {root_2}
-    mutation_anc_dict_2 = utils.fill_mutation_anc_dict(g_2, root_2, mutation_anc_dict_2)
-    mutation_set_1 = set(mutations_to_nodes_dict_1.keys())
-    mutation_set_2 = set(mutations_to_nodes_dict_2.keys())
-    full_mutation_set = mutation_set_1.union(mutation_set_2)
+    # maps mutation to set of ancestor mutations
+    mutation_anc_dict_1 = utils.make_mutation_anc_dict(g_1) 
+    mutation_anc_dict_2 = utils.make_mutation_anc_dict(g_2)
+    
+    full_mutation_set = set(mutations_node_dict_1.keys()).union(set(mutations_node_dict_2.keys()))
+    
     caset_distance = 0
+
     for mut_1 in full_mutation_set:
         for mut_2 in full_mutation_set:
             if (not mut_1 == mut_2):
@@ -67,17 +61,12 @@ def get_contributions(g_1, g_2):
                     caset_set_minus_2 = caset_2.difference(caset_1)
                     caset_distance += jacc_dist / 2
                     for mut in caset_set_minus_1:
-                        dict_1[mutations_to_nodes_dict_1[mut]]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2
-                        # caset_distance += jacc_dist / len(caset_set_minus_1) / 2 
+                        dict_1[mutations_node_dict_1[mut]]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2
                     for mut in caset_set_minus_2:                
-                        dict_2[mutations_to_nodes_dict_2[mut]]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2
-                        # caset_distance +=  jacc_dist / len(caset_set_minus_2) / 2
+                        dict_2[mutations_node_dict_2[mut]]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2
     m = len(full_mutation_set)
-    dist = (1/(m*((m-1)/2)) * caset_distance) # m choose 2
-    print(dist)
+    dist = caset_distance/(m*((m-1)/2)) # caset_distance/(m choose 2)
     return dict_1, dict_2
-
-# def jacc(mutation_1, mutation_2, mutation_anc_dict_1, mutation_anc_dict_2):  
 
 def get_common_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
     if(mutation_1 in mutation_anc_dict and mutation_2 in mutation_anc_dict):
@@ -91,8 +80,8 @@ def cs_main(filename_1, filename_2):
     dict_1, dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
+    data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
+    data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
     return (data_1, data_2)
 
 if __name__=="__main__":
@@ -103,8 +92,8 @@ if __name__=="__main__":
     dict_1, dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
+    data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
+    data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
     s_1 = json.dumps(data_1)
     s_2 = json.dumps(data_2)
     print(s_1)
