@@ -54,17 +54,6 @@ function visualize_trees(jsonData, distance_measure) {
 
   var t_max = Math.max(t_max1,t_max2);
 
-  var nodes1 = d3.hierarchy(data1).descendants();
-  var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
-  //console.log(t_max1);
-
-  var nodes2 = d3.hierarchy(data2).descendants();
-  var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
-  //console.log(t_max2);
-
-  var t_max = Math.max(t_max1,t_max2);
-  console.log(t_max)
-
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     var root = d3.hierarchy(data[i]);
