@@ -33,6 +33,17 @@ function dist_caset_d3_trees(jsonData) {
   data2 = jsonData.tree2_edges;
   datas = [data1, data2];
 
+  var nodes1 = d3.hierarchy(data1).descendants();
+  var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
+  //console.log(t_max1);
+
+  var nodes2 = d3.hierarchy(data2).descendants();
+  var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
+  //console.log(t_max2);
+
+  var t_max = Math.max(t_max1,t_max2);
+  console.log(t_max)
+
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     root = d3.hierarchy(datas[i]);
@@ -46,10 +57,10 @@ function dist_caset_d3_trees(jsonData) {
       .classed('node', true)
       .style("stroke", "black")
       .style("fill", function(d) {
-        var nodes = root.descendants();
-        var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
-        console.log(t_max);
-
+        //var nodes = root.descendants();
+        //var t_max = d3.max(nodes, function(d) { return d.data.contribution;});
+        //console.log(t_max);
+        console.log(t_max)
         var scale = d3.scaleLinear()
         .domain([0, t_max/2, t_max])
         .range(["#fee8c8", "#fdbb84", "#e34a33"]);
@@ -95,9 +106,9 @@ function dist_caset_d3_trees(jsonData) {
       .join('line')
       .classed('link', true)
       .style("stroke", function(d) { 
-        var nodes = root.descendants();
-        var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
-        console.log(t_max);
+        //var nodes = root.descendants();
+        //var t_max = d3.max(nodes, function(d) { return d.data.contribution;});
+        //console.log(t_max);
 
         var scale = d3.scaleLinear()
         .domain([0, t_max/2, t_max])
@@ -117,12 +128,22 @@ function pc_ad_d3_trees(jsonData, treetype) {
   data1 = jsonData.tree1_edges;
   data2 = jsonData.tree2_edges;
   datas = [data1, data2];
+  var nodes1 = d3.hierarchy(data1).descendants();
+  var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
+  console.log(t_max1);
+
+  var nodes2 = d3.hierarchy(data2).descendants();
+  var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
+  console.log(t_max2);
+  
+  var t_max = Math.max(t_max1,t_max2);
+  console.log(t_max)
 
   //default for ad
   node_color_function = function(d) { 
     var nodes = root.descendants();
-    var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
-    console.log(t_max);
+    //var t_max = d3.max(nodes, function(d) { return d.data.contribution;});
+    //console.log(t_max);
 
     var scale = d3.scaleLinear()
     .domain([0, t_max/2, t_max])
@@ -136,8 +157,8 @@ function pc_ad_d3_trees(jsonData, treetype) {
     node_color_function = function(d) { return "black";}
     edge_color_function = function(d) {
       var nodes = root.descendants();
-      var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
-      console.log(t_max);
+      //var t_max = d3.max(nodes, function(d) { return d.data.contribution;});
+      //console.log(t_max);
 
       var scale = d3.scaleLinear()
       .domain([0, t_max/2, t_max])
@@ -211,10 +232,10 @@ function pc_ad_d3_trees(jsonData, treetype) {
 function submit_tree() {
   var tree1Input = tree1TextArea.value;
   var tree2Input = tree2TextArea.value;
-  console.log(tree1Input.value);
-  console.log(inputTypeTree1.value);
-  console.log(inputTypeTree2.value);
-  console.log(distanceMetric.value);
+  //console.log(tree1Input.value);
+  //console.log(inputTypeTree1.value);
+  //console.log(inputTypeTree2.value);
+  //console.log(distanceMetric.value);
 
   var baseURL = "http://localhost:5000/api/";
   var url = baseURL + distanceMetric.value + "?";
