@@ -137,8 +137,8 @@ function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
         //var nodes = root.descendants();
 
         var scale = d3.scaleLinear()
-        .domain([0, t_max/2, t_max])
-        .range(["#fee8c8", "#fdbb84", "#e34a33"]);
+        .domain([0, t_max/3, 2*t_max/3, t_max])
+        .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
         return scale(d.data.contribution);
         })
 
@@ -147,9 +147,9 @@ function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
         //var nodes = root.descendants();
 
         var scale = d3.scaleLinear()
-        .domain([0, t_max/2, t_max])
-        .range(["#fee8c8", "#fdbb84", "#e34a33"]);
-        return scale(d.target.data.contribution);
+        .domain([0, t_max/3, 2*t_max/3, t_max])
+        .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
+        return "black" //scale(d.target.data.contribution);
       }) 
       .style("stroke-width", "5px") 
 }
@@ -161,8 +161,8 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
     var nodes = root.descendants();
 
     var scale = d3.scaleLinear()
-    .domain([0, t_max/2, t_max])
-    .range(["#deebf7","#9ecae1","#3182bd"]); 
+    .domain([0, t_max/3, 2*t_max/3, t_max])
+    .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
     return scale(d.data.contribution);
 
   }
@@ -170,13 +170,13 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
 
   // Coloring scheme for parent-child
   if (treetype == "pc") {
-    node_color_function = () => { return "black";}
+    node_color_function = () => { return "#e6e6e3";}
     edge_color_function = d => {
       var nodes = root.descendants();
 
       var scale = d3.scaleLinear()
-      .domain([0, t_max/2, t_max])
-      .range(["#deebf7","#9ecae1","#3182bd"]); 
+      .domain([0, t_max/3, 2*t_max/3, t_max])
+      .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
       return scale(d.target.data.contribution);
     }
   }
@@ -186,11 +186,13 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
       .style("fill", function(d) { return node_color_function(d); })
       .style("stroke-width", "3px")
 
-    
+      
   d3_links.selectAll('line.link')
       .style("stroke", function(d) { return edge_color_function(d); })
       .style("transform", "translate(5, 20), scale(0.5)")
       .style("stroke-width", "5px") 
+
+  
 }
 
 function submit_tree() {
