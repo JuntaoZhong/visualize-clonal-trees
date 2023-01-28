@@ -43,6 +43,17 @@ function visualize_trees(jsonData, distance_measure) {
   var tree1_data = jsonData.tree1_edges;
   var tree2_data = jsonData.tree2_edges;
   var data = [tree1_data, tree2_data]
+
+  var nodes1 = d3.hierarchy(tree1_data).descendants();
+  var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
+  //console.log(t_max1);
+
+  var nodes2 = d3.hierarchy(tree2_data).descendants();
+  var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
+  //console.log(t_max2);
+
+  var t_max = Math.max(t_max1,t_max2);
+
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     var root = d3.hierarchy(data[i]);
@@ -100,16 +111,16 @@ function visualize_trees(jsonData, distance_measure) {
     // Set the coloring scheme based off of the distance measure
     switch (distanceMetric.value) {
       case "ancestor_descendant_distance":
-        pc_ad_d3_trees(root, d3_nodes, d3_links, "ad");
+        pc_ad_d3_trees(root, d3_nodes, d3_links, "ad", t_max);
         break;
       case "caset_distance": 
-        dist_caset_d3_trees(root, d3_nodes, d3_links);
+        dist_caset_d3_trees(root, d3_nodes, d3_links, t_max);
         break;
       case "disc_distance": 
-        dist_caset_d3_trees(root, d3_nodes, d3_links);
+        dist_caset_d3_trees(root, d3_nodes, d3_links, t_max);
         break;
       case "parent_child_distance": 
-        pc_ad_d3_trees(root, d3_nodes, d3_links, "pc");
+        pc_ad_d3_trees(root, d3_nodes, d3_links, "pc", t_max);
         break;
       default:
         console.log("Please select a valid distance measure. If you have question email ealexander@carleton.edu");
@@ -119,12 +130,11 @@ function visualize_trees(jsonData, distance_measure) {
 }
 
 
-function dist_caset_d3_trees(root, d3_nodes, d3_links) {
+function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
 
     d3_nodes.selectAll('circle.node')
       .style("fill", function(d) {
-        var nodes = root.descendants();
-        var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
+        //var nodes = root.descendants();
 
         var scale = d3.scaleLinear()
         .domain([0, t_max/2, t_max])
@@ -134,8 +144,7 @@ function dist_caset_d3_trees(root, d3_nodes, d3_links) {
 
     d3_links.selectAll('line.link')
       .style("stroke", function(d) { 
-        var nodes = root.descendants();
-        var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
+        //var nodes = root.descendants();
 
         var scale = d3.scaleLinear()
         .domain([0, t_max/2, t_max])
@@ -145,12 +154,11 @@ function dist_caset_d3_trees(root, d3_nodes, d3_links) {
       .style("stroke-width", "5px") 
 }
 
-function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype) {
+function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
 
   // Coloring scheme for ancestor-descendant
   var node_color_function = d => { 
     var nodes = root.descendants();
-    var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
 
     var scale = d3.scaleLinear()
     .domain([0, t_max/2, t_max])
@@ -165,7 +173,6 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype) {
     node_color_function = () => { return "black";}
     edge_color_function = d => {
       var nodes = root.descendants();
-      var t_max = d3.max(nodes, function(d) { return d.data.contribution;})
 
       var scale = d3.scaleLinear()
       .domain([0, t_max/2, t_max])
