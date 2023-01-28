@@ -6,7 +6,7 @@ from networkx.readwrite import json_graph
 import networkx as nx
 import json
 
-from utils import *
+import distance_measures.utils as utils
 
 """
 Defaults to intersection distance.

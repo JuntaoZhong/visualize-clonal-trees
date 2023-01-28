@@ -5,9 +5,7 @@ import sys
 from networkx.readwrite import json_graph
 import networkx as nx
 import json
-import utils
-
-from utils import *
+import distance_measures.utils as utils
 
 """
 CASet.py calculates pairwise CASet distances between all trees in an input file with 
@@ -41,7 +39,7 @@ def get_contributions(g_1, g_2):
     # maps mutation to set of ancestor mutations
     mutation_anc_dict_1 = utils.make_mutation_anc_dict(g_1) 
     mutation_anc_dict_2 = utils.make_mutation_anc_dict(g_2)
-    
+    print(mutation_anc_dict_1, "mutation anc dict")
     full_mutation_set = set(mutations_node_dict_1.keys()).union(set(mutations_node_dict_2.keys()))
     
     caset_distance = 0
@@ -61,12 +59,12 @@ def get_contributions(g_1, g_2):
                     caset_set_minus_2 = caset_2.difference(caset_1)
                     caset_distance += jacc_dist / 2
                     for mut in caset_set_minus_1:
-                        dict_1[mutations_node_dict_1[mut]]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2
+                        node_contribution_dict_1[mutations_node_dict_1[mut]]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2
                     for mut in caset_set_minus_2:                
-                        dict_2[mutations_node_dict_2[mut]]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2
+                        node_contribution_dict_2[mutations_node_dict_2[mut]]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2
     m = len(full_mutation_set)
     dist = caset_distance/(m*((m-1)/2)) # caset_distance/(m choose 2)
-    return dict_1, dict_2
+    return node_contribution_dict_1, node_contribution_dict_2
 
 def get_common_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
     if(mutation_1 in mutation_anc_dict and mutation_2 in mutation_anc_dict):
