@@ -23,8 +23,7 @@
         <div class="container">
             <div class="child" id="sidebar">
                 <div id="topbox">
-                    <h2>Tree Visualization</h2>
-                    <h4>Distance Metric<h4>
+                    <h2>Distance Metric<h2>
                     <div class="dropdown"> 
                         <label id="metric_drp" for="distance_metric"></label>
                         <select name="distance_metric" id="distance_metric"> 
@@ -38,9 +37,8 @@
                 </div>
                 <hr size="2" noshade="", width="350px">
                 <div id="bottombox">
-                    <h2>Input</h2>
                     <div class="dropdown"> 
-                        <h4>Tree 1</h4>
+                        <h4>Input Tree 1</h4>
                         <label class="indent" for="input1"></label>
                         <select name="input1" id="input-type-tree1"> 
                             <option value="" selected disabled hidden>Select Input Format</option>
@@ -54,27 +52,27 @@
                     <input class="custom-file-input" type="file" id="file1" name="file1">
                     <p>Input Tree Manually</p>
                     <textarea class="text-box" id="tree1-text" name="" cols="30" rows="10">digraph Tree {
-1 [label="PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9"];
-2 [label="ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7"];
-3 [label="NTRK, AFF4"];
-4 [label="CHRM5"];
-5 [label="ECM1"];
-6 [label="CBX4"];
-7 [label="TNC"];
-8 [label="PPP2R1A, SYNE2"];
-9 [label="AURKA"];
-10 [label="TGFB2"];
+1 [label="P, T, S, J, C, A"];
+2 [label="E, N2, AR, MA"];
+3 [label="NT, AF"];
+4 [label="CH"];
+5 [label="E1, N3"];
+6 [label="CX"];
+7 [label="TN"];
+8 [label="PP, SY"];
+9 [label="AU"];
+10 [label="TG"];
 1 -> 2;
 2 -> 3;
-3 -> 4;
+2 -> 4;
 3 -> 5;
 5 -> 8;
 5 -> 7;
 5 -> 6;
-8 -> 9;
+7 -> 9;
 4 -> 10;}</textarea>
                     <div class="dropdown"> 
-                        <h4>Tree 2</h4>
+                        <h4>Input Tree 2</h4>
                         <label class="indent" for="input2"></label>
                         <select name="input2" id="input-type-tree2"> 
                             <option value="" selected disabled hidden>Select Input Format</option>
@@ -88,26 +86,25 @@
                     <input class="custom-file-input" type="file" id="file2" name="file2">
                     <p>Input Tree Manually</p>
                     <textarea class="text-box" id="tree2-text" name="" cols="30" rows="10">digraph Tree {
-    1 [label="PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9"];
-    2 [label="ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7"];
-    3 [label="NTRK, AFF4"];
-    4 [label="CHRM5"];
-    5 [label="ECM1"];
-    6 [label="CBX4"];
-    7 [label="TNC"];
-    8 [label="PPP2R1A, SYNE2"];
-    9 [label="AURKA"];
-    10 [label="TGFB2"];
-    1 -> 2;
-    2 -> 3;
-    3 -> 4;
-    3 -> 5;
-    5 -> 8;
-    5 -> 7;
-    5 -> 6;
-    8 -> 9;
-    4 -> 10;
-}</textarea>
+1 [label="P, T, J, C, A"];
+2 [label="E, N2, AR, N3"];
+3 [label="NT, AF, MA"];
+4 [label="CH, S"];
+5 [label="E1"];
+6 [label="CX"];
+7 [label="TN"];
+8 [label="PP, SY"];
+9 [label="AU"];
+10 [label="TG"];
+1 -> 2;
+2 -> 3;
+3 -> 4;
+3 -> 5;
+5 -> 8;
+3 -> 7;
+5 -> 6;
+8 -> 9;
+4 -> 10;}</textarea>
                 </div>
                 <input id="submit-trees-btn" type="submit">
             </div>
