@@ -3,6 +3,7 @@ import sys
 import networkx as nx
 from networkx.readwrite import json_graph
 import json
+import distance_measures.utils as utils
 
 def ancestor_descendant(g_1, g_2):
     return len(ancestor_descendant_symmetric_difference(g_1, g_2))
@@ -77,7 +78,7 @@ def get_anc_desc_pairs(g):
     # key = mutation 
     # value = ancestor set of mutation
     node_anc_dict = {}
-    root = get_root(g)
+    root = utils.get_root(g)
     node_anc_dict[root] = {root}
     # adds key-value pairs to dictionary
     mutation_anc_dict = fill_mutation_dict(g,root,node_anc_dict)
@@ -90,25 +91,6 @@ def get_anc_desc_pairs(g):
     # print("mut anc dict: " + str(mutation_anc_dict))
     return anc_desc_pairs
 
-def get_root(g):
-    ''' Returns node with in-degree 0. Exits and
-        prints error if multiple such nodes exist '''
-    root_candidates = set(g.nodes)
-    all_nodes = g.nodes
-    for a in all_nodes:
-        for b in g.successors(a):
-            if b in root_candidates:
-                root_candidates.remove(b)
-    if len(root_candidates) == 0:
-        print('Error: input graph has a cycle')
-        exit()
-    elif len(root_candidates) >1:
-        print('Error: input graph has multiple roots')
-        exit()
-    else:
-        (root,) = root_candidates
-        return root
-    
 def fill_node_dict(g, node, node_anc_dict):
     ''' Recursively creates dictionary matching each node
         in g to its ancestor set '''
@@ -124,36 +106,25 @@ def fill_mutation_dict(g, node, dict):
     mutation_dict = {}
     for desc in node_dict:
         anc_set = node_dict[desc]
-        desc_mutations = get_mutations_from_node(g,desc)
+        desc_mutations = utils.get_mutations_from_node(g,desc)
         for desc_mutation in desc_mutations:
             desc_mutation_ancestors = []
             for anc in anc_set:
                 # print('anc type: ')
                 # print(type(anc))
-                anc_mutations = get_mutations_from_node(g,anc)
+                anc_mutations = utils.get_mutations_from_node(g,anc)
                 desc_mutation_ancestors = desc_mutation_ancestors + anc_mutations
             mutation_dict[desc_mutation] = desc_mutation_ancestors
     
     # print("mutation dict: " + str(mutation_dict))
     return mutation_dict
 
-def get_mutations_from_node(g, node):
-    ''' Returns list of strings representing mutations at node'''
-    label =  g.nodes[node]['label']
-    label_list = label.split(",")
-    #print("label list: " + str(label_list))
-    label_list[0] = label_list[0][1:]
-    #print("label list now: " + str(label_list))
-    label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
-    #print("and now: " + str(label_list))
-    return label_list
-
 # note to self; go back and make this function more efficient by
 # storing mutation-node relationship when getting mutations from 
 # node
 def get_node_from_mutation(g, mutation):
     for node in g.nodes:
-        if mutation in get_mutations_from_node(g, node):
+        if mutation in utils.get_mutations_from_node(g, node):
             return node
 
 def ad_main(filename_1, filename_2):
@@ -162,8 +133,8 @@ def ad_main(filename_1, filename_2):
     dict_1, dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
+    data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
+    data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
     return (data_1, data_2)
 
 if __name__=="__main__":

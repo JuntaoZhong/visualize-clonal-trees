@@ -81,6 +81,13 @@ def fill_node_anc_dict(g, node, node_anc_dict):
         node_anc_dict.update(fill_node_anc_dict(g, child, node_anc_dict))
     return node_anc_dict
 
+# note to self; go back and make this function more efficient by
+# storing mutation-node relationship when getting mutations from 
+# node
+def get_node_from_mutation(g, mutation):
+    for node in g.nodes:
+        if mutation in get_mutations_from_node(g, node):
+            return node
 
 # def jaccard(a, b):
 #     """

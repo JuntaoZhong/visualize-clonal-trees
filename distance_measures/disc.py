@@ -24,13 +24,13 @@ def get_contributions(g_1, g_2):
         dict_2[node] = {}
         dict_2[node]["contribution"] = 0
     mutation_anc_dict_1 = {}
-    root_1 = get_root(g_1)
+    root_1 = utils.get_root(g_1)
     mutation_anc_dict_1[root_1] = {root_1}
-    mutation_anc_dict_1 = fill_mutation_anc_dict(g_1, get_root(g_1), mutation_anc_dict_1)
+    mutation_anc_dict_1 = fill_mutation_anc_dict(g_1, utils.get_root(g_1), mutation_anc_dict_1)
     mutation_anc_dict_2 = {}
-    root_2 = get_root(g_2)
+    root_2 = utils.get_root(g_2)
     mutation_anc_dict_2[root_2] = {root_2}
-    mutation_anc_dict_2 = fill_mutation_anc_dict(g_2, get_root(g_2), mutation_anc_dict_2)
+    mutation_anc_dict_2 = fill_mutation_anc_dict(g_2, utils.get_root(g_2), mutation_anc_dict_2)
     mutation_set_1 = get_all_mutations(g_1)
     mutation_set_2 = get_all_mutations(g_2)
     full_mutation_set = mutation_set_1.union(mutation_set_2)
@@ -53,10 +53,10 @@ def get_contributions(g_1, g_2):
                     disc_set_minus_2 = disc_2.difference(disc_1)
                     caset_distance += jacc_dist
                     for set_minus_1_mut in disc_set_minus_1:
-                        dict_1[get_node_from_mutation(g_1, set_minus_1_mut)]["contribution"] += jacc_dist / len(disc_set_minus_1)
+                        dict_1[utils.get_node_from_mutation(g_1, set_minus_1_mut)]["contribution"] += jacc_dist / len(disc_set_minus_1)
                         # caset_distance += jacc_dist / len(caset_set_minus_1) / 2 
                     for set_minus_2_mut in disc_set_minus_2:                
-                        dict_2[get_node_from_mutation(g_2, set_minus_2_mut)]["contribution"] += jacc_dist / len(disc_set_minus_2)
+                        dict_2[utils.get_node_from_mutation(g_2, set_minus_2_mut)]["contribution"] += jacc_dist / len(disc_set_minus_2)
                         # caset_distance +=  jacc_dist / len(caset_set_minus_2) / 2
     m = len(full_mutation_set)
     dist = (1/(m*((m-1))) * caset_distance) # m choose 2
@@ -97,26 +97,6 @@ def fill_mutation_anc_dict(g, node, dict):
             mutation_dict[desc_mutation] = desc_mutation_ancestors
     return mutation_dict
 
-def get_root(g):
-    ''' Returns node with in-degree 0. Exits and
-        prints error if multiple such nodes exist '''
-    root_candidates = set(g.nodes)
-    root_candidates = set([x for x in root_candidates if "\\" not in x])
-    all_nodes = g.nodes
-    for a in all_nodes:
-        for b in g.successors(a):
-            if b in root_candidates:
-                root_candidates.remove(b)
-    if len(root_candidates) == 0:
-        print('Error: input graph has a cycle')
-        exit()
-    elif len(root_candidates) >1:
-        print('Error: input graph has multiple roots')
-        exit()
-    else:
-        (root,) = root_candidates
-        return root
-
 def get_mutations_from_node(g, node):
     ''' Returns list of strings representing mutations at node'''
     label =  g.nodes[node]['label']
@@ -127,11 +107,6 @@ def get_mutations_from_node(g, node):
     label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
     #print("and now: " + str(label_list))
     return label_list
-
-def get_node_from_mutation(g, mutation):
-    for node in g.nodes:
-        if mutation in get_mutations_from_node(g, node):
-            return node
 
 def get_all_mutations(g):
     mutation_set = set()
@@ -145,8 +120,8 @@ def disc_main(filename_1, filename_2):
     dict_1, dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
+    data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
+    data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
     return (data_1, data_2)
 
 if __name__=="__main__":
@@ -157,8 +132,8 @@ if __name__=="__main__":
     dict_1, dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=get_root(g_2))
+    data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
+    data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
     s_1 = json.dumps(data_1)
     s_2 = json.dumps(data_2)
     print(s_1)
