@@ -119,6 +119,41 @@
                                 <g class="nodes"></g>
                             </g>
                             </svg>
+  <div id="legend-container">
+    <div id="legend"></div>
+    <div id="legend-labels-container">
+      <div class="label">1</div>
+      <div class="label">2</div>
+      <div class="label">3</div>
+      <div class="label">4</div>
+    </div>
+  </div>
+  <style>
+    #legend {
+      position: absolute;
+      bottom: 30px;
+      left: 50px;
+      height: 30px;
+      width: 300px;
+      border: 1px solid black;
+      background-image: linear-gradient(to right, #ffffcc, #a1dab4, #41b6c4, #225ea8);
+    }
+    #legend-labels-container {
+      position: absolute;
+      bottom: 10px;
+      left: 50px;
+      width: 300px;
+      height: 20px;
+      border: 1px solid black;
+      display: flex;
+      justify-content: space-between;
+    }
+    .label {
+      width: 10px;
+      height: 20px;
+      font-size: 10px;
+    }
+  </style>
                     </div>
                     <div id="tree2_visualization">
                         <svg id="svg2" width="600" height="600"> 

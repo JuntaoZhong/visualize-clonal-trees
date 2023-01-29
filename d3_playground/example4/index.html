@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title></title>
+</head>
+<body>
+  <div id="legend-container">
+    <div id="legend"></div>
+    <div id="legend-labels-container">
+      <div class="label">1</div>
+      <div class="label">2</div>
+      <div class="label">3</div>
+      <div class="label">4</div>
+    </div>
+  </div>
+  <style>
+    #legend {
+      height: 20px;
+      width: 100px;
+      border: 1px solid black;
+      background-image: linear-gradient(to right, #ffffcc, #a1dab4, #41b6c4, #225ea8);
+    }
+    #legend-labels-container {
+      width: 100px;
+      height: 10px;
+      border: 1px solid black;
+      display: flex;
+      justify-content: space-between;
+    }
+    .label {
+      width: 10px;
+      height: 10px;
+      font-size: 10px;
+    }
+  </style>
+</body>
+</html>

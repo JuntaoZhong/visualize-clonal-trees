@@ -1,0 +1,33 @@
+digraph Tree {
+  1 [label="CDH6"];
+  2 [label="TBX3"];
+  3 [label="MAP3K4"];
+  4 [label="JAK1"];
+  5 [label="AKAP9"];
+  6 [label="SETBP1"];
+  7 [label="PTEN"];
+  8 [label="ARAF"];
+  9 [label="NOTCH2"];
+  10 [label="ECM2"];
+  11 [label="MAP2K7"];
+  12 [label="NOTCH3"];
+  13 [label="NTRK1"];
+  14 [label="AFF4"];
+  15 [label="ATRNL1"];
+  16 [label="CHRM5"];
+  17 [label="TGFB2"];
+  18 [label="PP2R1A"];
+  19 [label="TNC"];
+  20 [label="CBX4"];
+  21 [label="SYNE2"];
+  22 [label="AURKA"];
+  1 -> 2 -> 3 -> 4 -> 5 -> 6 -> 7 -> 8 -> 9 -> 10 -> 11 -> 12 -> 13 -> 14;
+  14 -> 15;
+  14 -> 16;
+  16 -> 17;
+  15 -> 18;
+  15 -> 19;
+  15 -> 20;
+  18 -> 21;
+  21 -> 22;
+}

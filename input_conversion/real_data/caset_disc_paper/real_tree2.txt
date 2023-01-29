@@ -1,0 +1,15 @@
+digraph Tree {
+  1 [label="PTEN, TBX3, SETBP1, JAK1, CDH6, AKAP9"];
+  2 [label="ECM2, NOTCH3, ARAF, NOTCH2, MAP2K7, NTRK1, AFF4"];
+  3 [label="MAP3K4"];
+  4 [label="ECM1"];
+  5 [label="PPP2R1A, SYNE2, AURKA"];
+  6 [label="CHRM5"];
+  7 [label="TGFB2"];
+  1 -> 2;
+  2 -> 3;
+  2 -> 4;
+  3 -> 5;
+  3 -> 6;
+  6 -> 7;
+}

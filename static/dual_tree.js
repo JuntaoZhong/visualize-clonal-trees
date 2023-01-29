@@ -57,7 +57,7 @@ function visualize_trees(jsonData, distance_measure) {
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     var root = d3.hierarchy(data[i]);
-    var tree = d3.tree().size([500, 400]);
+    var tree = d3.tree().size([500, 380]);
     tree(root);
 
     var d3_nodes = d3.select('#' + svg_names[i] +  ' g.nodes')
