@@ -54,6 +54,18 @@ function visualize_trees(jsonData, distance_measure) {
 
   var t_max = Math.max(t_max1,t_max2);
 
+  var label1 = document.getElementById("colorLabel1");
+  var label2 = document.getElementById("colorLabel2");
+  var label3 = document.getElementById("colorLabel3");
+  var label4 = document.getElementById("colorLabel4");
+
+  label1.innerHTML = 0
+  label2.innerHTML = Math.round((t_max / 3) * 100) / 100 
+  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100 
+  label4.innerHTML = Math.round(t_max * 100) / 100 
+  
+  console.log("Labels:",label1, label2, label3, label4);
+
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     var root = d3.hierarchy(data[i]);
