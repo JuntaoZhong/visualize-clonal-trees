@@ -79,7 +79,6 @@ button:active {
 }
 #visualizations-container {
     display: flex;
-    position: sticky;
     top: 0;
 }
    
@@ -191,3 +190,41 @@ p{
     margin-left: 30px;
     font-size: 10pt;
 }
+
+.hover-label {
+  position: absolute;
+  width: 50px;
+  height: 10px;
+}
+
+.hover-label:hover {
+  cursor: pointer;
+}
+
+    #legend-container {
+      display: block;
+      margin: auto;
+      margin-top: 20px;
+    }
+    #legend {
+      height: 30px;
+      width: 400px;
+      border: 1px solid black;
+      background-image: linear-gradient(to right, #ffffcc, #a1dab4, #41b6c4, #225ea8);
+      margin: auto;
+    }
+
+    #legend-labels-container {
+      width: 400px;
+      height: 20px;
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      margin: auto;
+    }
+
+    .label {
+      width: 10px;
+      height: 20px;
+      font-size: 15px;
+    }

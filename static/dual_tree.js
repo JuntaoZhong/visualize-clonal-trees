@@ -86,6 +86,7 @@ function visualize_trees(jsonData, distance_measure) {
       .attr('x2', d => { return d.target.x;})
       .attr('y2', d => { return d.target.y;});
 
+    var div  = d3.select("body").append("div").classed("hover-label", true);
     // Set shared attributes for the nodes 
     d3_nodes.selectAll("circle.node")
       .data(root.descendants())
@@ -94,6 +95,15 @@ function visualize_trees(jsonData, distance_measure) {
       .style("transform", "translate(5, 20), scale(0.5)")
       .style("stroke", "black")
       .style("stroke-width", "3px")
+      .on("mouseover", (d, i) => {
+        div.style("opacity", 1); 
+        div.html(i.data.contribution);
+        div.style("left", (event.pageX + 10 ) + "px")
+           .style("top", (event.pageY + 10) + "px");
+      }) // Here is the hover thing
+      .on("mouseout", (d, i) => {
+        div.style("opacity", 0); 
+      })
       .attr('cx', function(d) {return d.x;})
       .attr('cy', function(d) {return d.y;})
       .attr('r', function(d) {
