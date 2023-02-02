@@ -202,6 +202,7 @@ p{
     display: block;
     margin: auto;
     margin-top: 20px;
+    background-color: orange;
 }
 #legend {
     height: 30px;
@@ -218,6 +219,14 @@ p{
     justify-content: space-between;
     margin-top: 5px;
     margin: auto;
+}
+
+#distance-measure-label {
+  display: block;
+  margin: auto;
+  height: 20px;
+  width: 400px;
+  padding: 20px;
 }
 
 .label {
