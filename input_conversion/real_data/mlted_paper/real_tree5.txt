@@ -1,0 +1,4 @@
+digraph Tree {
+  1 [label="RIMS2"];
+  2 [label="SIGLEC10"];
+}

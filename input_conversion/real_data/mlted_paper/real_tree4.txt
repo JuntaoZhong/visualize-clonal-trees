@@ -1,0 +1,22 @@
+digraph Tree {
+  1 [label="RIMS2, SIGLEC10"];
+  2 [label="PLEC"];
+  3 [label="XPO7"];
+  4 [label="LINC00052"];
+  5 [label="FGD4, RRP8, FAM105A"];
+  6 [label="BDNF-AS"];
+  7 [label="PCDH7"];
+  8 [label="INHA, CMTM8"];
+  9 [label="TRRAP"];
+  10 [label="ATRNL1"];
+  11 [label="ZC3H3"];
+  12 [label="BRD7P3"];
+  1 -> 2;
+  2 -> 3;
+  2 -> 4;
+  2 -> 5;
+  5 -> 6 -> 7 -> 8; 
+  7 -> 9;
+  9 -> 10;
+  3 -> 11 -> 12;
+}
