@@ -53,8 +53,8 @@ def run_parent_child_distance():
   temp_t2.write(tree2_dot)
   temp_t1.close()
   temp_t2.close()
-  data_1, data_2 = pc_dot.pc_main("t1.txt", "t2.txt")
-  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2}
+  data_1, data_2, distance = pc_dot.pc_main("t1.txt", "t2.txt")
+  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2, "distance": distance}
   print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))
   
@@ -68,8 +68,8 @@ def run_ancestor_descendant_distance():
   temp_t2.write(tree2_dot)
   temp_t1.close()
   temp_t2.close()
-  data_1, data_2 = ad_dot.ad_main("t1.txt", "t2.txt")
-  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2}
+  data_1, data_2, distance = ad_dot.ad_main("t1.txt", "t2.txt")
+  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2, "distance": distance}
   print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))
 

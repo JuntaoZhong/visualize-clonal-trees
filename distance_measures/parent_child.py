@@ -26,10 +26,11 @@ def get_contributions(g_1,g_2):
     are contributions according to get_pair_differences'''
     dif_set_1 = get_pair_differences(g_1,g_2)[0]
     dif_set_2 = get_pair_differences(g_1,g_2)[1]
+    dist = len(dif_set_2) + len(dif_set_2)
 
     dict_1 = {}
     dict_2 = {}
-
+    
     for node in g_1.nodes:
         dict_1[node] = {}
         dict_1[node]["contribution"] = 0
@@ -56,7 +57,7 @@ def get_contributions(g_1,g_2):
             teeny_dict = {}
             teeny_dict["contribution"] = 1
             dict_2[desc] = teeny_dict
-    return dict_1, dict_2
+    return dict_1, dict_2, dist
 
 def get_parent_child_pairs(g):
     ''' Returns list of 2-tuples of nodes in g whose
@@ -79,12 +80,12 @@ def get_parent_child_pairs(g):
 def pc_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2 = get_contributions(g_1,g_2)
+    dict_1, dict_2, distance = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
     data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
-    return (data_1, data_2)
+    return (data_1, data_2, distance)
 
 if __name__=="__main__":
     filename_1 = sys.argv[1]
