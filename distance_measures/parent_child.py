@@ -26,7 +26,7 @@ def get_contributions(g_1,g_2):
     are contributions according to get_pair_differences'''
     dif_set_1 = get_pair_differences(g_1,g_2)[0]
     dif_set_2 = get_pair_differences(g_1,g_2)[1]
-    dist = len(dif_set_2) + len(dif_set_2)
+    dist = len(dif_set_1) + len(dif_set_2)
 
     dict_1 = {}
     dict_2 = {}

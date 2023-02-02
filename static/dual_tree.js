@@ -59,6 +59,7 @@ function remove_quotation(str) {
 }
 
 function visualize_trees(jsonData, distance_measure) {
+  console.log(jsonData);
   var tree1_data = jsonData.tree1_edges;
   var tree2_data = jsonData.tree2_edges;
   var data = [tree1_data, tree2_data]
