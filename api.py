@@ -83,8 +83,8 @@ def run_caset_distance():
   temp_t2.write(tree2_dot)
   temp_t1.close()
   temp_t2.close()
-  data_1, data_2 = cs_dot.cs_main("t1.txt", "t2.txt")
-  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2}
+  data_1, data_2, distance = cs_dot.cs_main("t1.txt", "t2.txt")
+  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2, "distance": distance}
   print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))
 
@@ -98,7 +98,7 @@ def run_disc_distance():
   temp_t2.write(tree2_dot)
   temp_t1.close()
   temp_t2.close()
-  data_1, data_2 = disc_dot.disc_main("t1.txt", "t2.txt")
-  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2}
+  data_1, data_2, distance = disc_dot.disc_main("t1.txt", "t2.txt")
+  jsonObject = {"tree1_edges": data_1, "tree2_edges": data_2, "distance": distance}
   print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))

@@ -61,7 +61,7 @@ def get_contributions(g_1, g_2):
                         # caset_distance +=  jacc_dist / len(caset_set_minus_2) / 2
     dist = (1/(m*((m-1))) * caset_distance) # m choose 2
     print("meeeep", dist, "\n")
-    return dict_1, dict_2
+    return dict_1, dict_2, dist
 
 # def jacc(mutation_1, mutation_2, mutation_anc_dict_1, mutation_anc_dict_2):  
 
@@ -117,19 +117,19 @@ def get_all_mutations(g):
 def disc_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2 = get_contributions(g_1,g_2)
+    dict_1, dict_2, distance = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
     data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
-    return (data_1, data_2)
+    return (data_1, data_2, distance)
 
 if __name__=="__main__":
     filename_1 = sys.argv[1]
     filename_2 = sys.argv[2]
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2 = get_contributions(g_1,g_2)
+    dict_1, dict_2, distance = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
