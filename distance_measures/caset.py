@@ -43,7 +43,7 @@ def get_contributions(g_1, g_2):
     full_mutation_set = set(mutations_node_dict_1.keys()).union(set(mutations_node_dict_2.keys()))
     
     caset_distance = 0
-
+    m = len(full_mutation_set)
     for mut_1 in full_mutation_set:
         for mut_2 in full_mutation_set:
             if (not mut_1 == mut_2):
@@ -59,10 +59,10 @@ def get_contributions(g_1, g_2):
                     caset_set_minus_2 = caset_2.difference(caset_1)
                     caset_distance += jacc_dist / 2
                     for mut in caset_set_minus_1:
-                        node_contribution_dict_1[mutations_node_dict_1[mut]]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2
+                        node_contribution_dict_1[mutations_node_dict_1[mut]]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
                     for mut in caset_set_minus_2:                
-                        node_contribution_dict_2[mutations_node_dict_2[mut]]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2
-    m = len(full_mutation_set)
+                        node_contribution_dict_2[mutations_node_dict_2[mut]]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
+    
     dist = caset_distance/(m*((m-1)/2)) # caset_distance/(m choose 2)
     return node_contribution_dict_1, node_contribution_dict_2
 
