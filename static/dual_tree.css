@@ -1,13 +1,27 @@
+* {
+    box-sizing:border-box
+  }
 .navbar{
+    display: flex;
     background-color: #2C7A7A;
-    /* border: 2px solid rgb(16, 16, 16); */
-    padding:6px;
+    padding:1px;
+    width: 100%;
+    padding-left: 0%;
+    padding-right: 0%;
 }
-/* .navbar h1{
-    margin: 60px;
-} */
+
+.navbar h1 {
+    margin: 15px;
+    position: center;
+    width: auto;
+    margin-right: 0;
+    font-size: 50px;
+    justify-content: center;
+    font-family: 'Poppins';
+    /* border: 2px solid rgb(16, 16, 16); */
+}
+
 .navbar button {
-    float: left;
     padding-bottom: 2px;
     width: 90px;
     height: 90px;
@@ -16,17 +30,23 @@
     appearance: none;
     margin: 10px;
     margin-bottom: 5px;
+    margin-right: 25%;
+    
 }
 #cell{
     width: 70px;
     height: 70px;
     padding: 5px;
     border: 2px solid #F5F5F5;
+    margin: 0;
 }
 
 #sidebar{
     background-color: #D9DEDE;
     vertical-align: top;
+    width: 25%;
+    height:100%;
+    
 }
 #topbox{
     background-color: #D9DEDE;
@@ -34,31 +54,27 @@
 #bottombox{
     background-color: #D9DEDE;
 }
-.navbar h1 {
-    margin: 15px;
-    position: center;
-    font-size: 50px;
-    justify-content: center;
-    font-family: 'Poppins';
-}
-#sidebar{
-    width:30%;
-    height:100%;
-}
-#main{
-    height:600px;
-    position: relative;
-    padding: 20px;
-    background-color: #F5F5F5;
-}
+
 .container{
     display:table;
     width: 100%;
+    overflow: hidden;
+    
 }
 .child{
     display: table-cell;
     /* border: 2px solid black; */
 }
+
+#main{
+    /* height:600px; */
+    /* position: relative; */
+    /* width: 75%; */
+    padding: 20px;
+    background-color: #F5F5F5;
+}
+
+
 .box{
     float:left;
     padding: 30px;
@@ -71,26 +87,34 @@
     font-family: 'Poppins', sans-serif;
     font-size: 15px;
     border-radius: 8px;
-    border: 0%;
+
     margin-right: 20px;
 }
 #visualizations-container {
     display: flex;
-    top: 0;
+    justify-content: center;
 }
-   
 #visualizations-container > div {
-    width: 500px;
+    flex: 1;
+    width: 520px;
     height: 500px;
     background-color: white;  
     border: 1px solid black;
-    margin: 5px;
-    margin-left: 40px;
+}
+#tree1_visualization {
+    margin-right: 20px
 }
 
+html{
+    min-width: 100%;
+   background-size: contain;
+}
 body{
+    width: 100%;
+    height: 100%;
     font-family: 'Poppins', sans-serif;
     background-color: #2C7A7A;
+    margin: 0;
 }
 
 select, input{
@@ -101,10 +125,6 @@ select, input{
     padding: 7px;
 }
 
-#file1, #file2{
-    margin: 25px;
-}
-
 option{
     font-family: 'Poppins', sans-serif;
     background-color:#2C7A7A;
@@ -112,10 +132,24 @@ option{
     
 }
 
+h4{
+    margin: 15px;
+    font-size: large;
+}
+
+h2{
+    margin: 5px;
+}
+
+#file1, #file2{
+    margin: 25px;
+}
+
 #submit-trees-btn{
     margin-left: 30px;
     margin-bottom: 10px;
 }
+
 #submit-trees-btn:active{
     background-color: #D9DEDE;
     margin-top: 3px;
@@ -130,17 +164,12 @@ option{
 #metric_drp{
     margin: 10px;
 }
+
 #distance_metric{
     padding: 7px;
 }
 
-h4{
-    margin: 15px;
-    font-size: large;
-}
-h2{
-    margin: 5px;
-}
+
 
 .text-box{
     margin: 25px;
@@ -201,7 +230,7 @@ p{
 #legend-container {
     display: block;
     margin: auto;
-    margin-top: 20px;
+    margin-top: 10px;
 }
 #legend {
     height: 30px;
@@ -223,6 +252,7 @@ p{
 #distance-measure-label {
   display: block;
   margin: auto;
+  margin-bottom: 20px;
   height: 20px;
   width: 400px;
   padding: 20px;
