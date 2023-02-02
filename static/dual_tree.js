@@ -7,6 +7,9 @@ inputTypeTree2 = document.getElementById("input-type-tree2");
 submitTreesBtn = document.getElementById("submit-trees-btn");
 distanceMetric = document.getElementById("distance_metric");
 demoTreesBtn = document.getElementById("demo-trees-btn");
+// show = document.getElementById('show');
+// hide1 = document.getElementById('hide1');
+// form1 = document.getElementById('form1');
 
 window.onload = () => {
   submit_tree();
@@ -30,6 +33,21 @@ tree2file.addEventListener("change", function () {
     tree2TextArea.value = fr.result
   };  
 });
+
+// show.addEventListener('click', function(){
+//   form1.style = ('display: flex');
+//   tree1TextArea.style = ('animation: riseHeight 1s .1s normal forwards');
+//   hide.style = ('display: inline-block');
+//   show.disabled = true;
+// })
+
+
+// hide.addEventListener('click', function() {
+//   form1.style = ('display: none');
+//   hide.style = ('display: none');
+//   show.disabled = false;
+// })
+
 
 function remove_quotation(str) {
   let new_str = str

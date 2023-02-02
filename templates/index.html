@@ -51,7 +51,20 @@
                     </div>
                     <label for="file1"></label>
                     <input class="custom-file-input" type="file" id="file1" name="file1">
-                    <p>Input Tree Manually</p>
+                    <div class="toggle_button">
+                        <button onclick="myFunction1()" id="toggle1">Modify Tree Manually</button>
+                    </div>
+                    <script>
+                        function myFunction1() {
+                          var x = document.getElementById("text_box1");
+                          if (x.style.display === "none") {
+                            x.style.display = "inline-block";
+                          } else {
+                            x.style.display = "none";
+                          }
+                        }
+                    </script>
+                    <div id="text_box1">
                     <textarea class="text-box" id="tree1-text" name="" cols="30" rows="10">digraph Tree {
     1 [label="P, T, S, J, C, A"];
     2 [label="E, N2, AR, MA"];
@@ -72,7 +85,7 @@
     5 -> 6;
     7 -> 9;
     4 -> 10;
-}</textarea>
+}</textarea></div>
                     <div class="dropdown"> 
                         <h4>Input Tree 2</h4>
                         <label class="indent" for="input2"></label>
@@ -86,7 +99,20 @@
                     </div>    
                     <label for="file2"></label>
                     <input class="custom-file-input" type="file" id="file2" name="file2">
-                    <p>Input Tree Manually</p>
+                    <div class="toggle_button">
+                        <button onclick="myFunction2()" id="toggle2">Modify Tree Manually</button>
+                    </div>
+                    <script>
+                        function myFunction2() {
+                          var x = document.getElementById("text_box2");
+                          if (x.style.display === "none") {
+                            x.style.display = "inline-block";
+                          } else {
+                            x.style.display = "none";
+                          }
+                        }
+                    </script>
+                    <div id="text_box2">
                     <textarea class="text-box" id="tree2-text" name="" cols="30" rows="10">digraph Tree {
     1 [label="P, T, J, C, A"];
     2 [label="E, N2, AR, N3"];
@@ -107,7 +133,7 @@
     5 -> 6;
     8 -> 9;
     4 -> 10;
-}</textarea>
+}</textarea>    </div>
                 </div>
                 <input id="submit-trees-btn" type="submit">
             </div>

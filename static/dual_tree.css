@@ -23,10 +23,7 @@
     padding: 5px;
     border: 2px solid #F5F5F5;
 }
-button:active {
-    box-shadow: none;
-    opacity:initial;
-}
+
 #sidebar{
     background-color: #D9DEDE;
     vertical-align: top;
@@ -116,7 +113,7 @@ option{
 }
 
 #submit-trees-btn{
-    margin-left: 25px;
+    margin-left: 30px;
     margin-bottom: 10px;
 }
 #submit-trees-btn:active{
@@ -201,30 +198,53 @@ p{
   cursor: pointer;
 }
 
-    #legend-container {
-      display: block;
-      margin: auto;
-      margin-top: 20px;
-    }
-    #legend {
-      height: 30px;
-      width: 400px;
-      border: 1px solid black;
-      background-image: linear-gradient(to right, #ffffcc, #a1dab4, #41b6c4, #225ea8);
-      margin: auto;
-    }
+#legend-container {
+    display: block;
+    margin: auto;
+    margin-top: 20px;
+}
+#legend {
+    height: 30px;
+    width: 400px;
+    border: 1px solid black;
+    background-image: linear-gradient(to right, #ffffcc, #a1dab4, #41b6c4, #225ea8);
+    margin: auto;
+}
 
-    #legend-labels-container {
-      width: 400px;
-      height: 20px;
-      display: flex;
-      justify-content: space-between;
-      margin-top: 5px;
-      margin: auto;
-    }
+#legend-labels-container {
+    width: 400px;
+    height: 20px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 5px;
+    margin: auto;
+}
 
-    .label {
-      width: 10px;
-      height: 20px;
-      font-size: 15px;
-    }
+.label {
+    width: 10px;
+    height: 20px;
+    font-size: 15px;
+}
+
+#text_box1, #text_box2 {
+    display: none;
+}
+
+.toggle_button button{
+    font-family: 'Poppins', sans-serif;
+    background-color:#2C7A7A;
+    color: #F5F5F5;
+    border-radius: 8px;
+    padding: 7px;
+    margin-left: 30px;
+}
+
+.toggle_button button:active{
+    background-color: #D9DEDE;
+    margin-top: 3px;
+    color: black;
+}
+
+#toggle2 {
+    margin-bottom: 10px;
+}
