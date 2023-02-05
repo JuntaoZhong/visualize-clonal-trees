@@ -58,11 +58,57 @@ function remove_quotation(str) {
   return new_str
 }
 
+function set_visualization_event_listeners(distance_measure) {
+  d3.selectAll(".hover-label").remove();
+  var div  = d3.select("body").append("div").classed("hover-label", true);
+  switch (distance_measure) {
+    case "caset_distance": 
+    case "disc_distance": 
+    case "ancestor_descendant_distance":
+      console.log("in here.");
+      d3.selectAll("circle.node")
+        .on("mouseover", (d, i) => {
+          div.html(i.data.contribution);
+          div.style("opacity", 1); 
+          div.style("left", (event.pageX + 10 ) + "px")
+             .style("top", (event.pageY + 10) + "px");
+        }) // Here is the hover thing
+        .on("mouseout", () => {
+          div.style("opacity", 0); 
+        });
+      d3.selectAll("line.link")
+        .on("mouseover", null)
+        .on("mouseout", null);
+      break;
+    case "parent_child_distance": 
+      console.log("here");
+      d3.selectAll("line.link")
+        .on("mouseover", (d, i) => {
+          div.html(i.target.data.contribution);
+          div.style("opacity", 1); 
+          div.style("left", (event.pageX + 10 ) + "px")
+             .style("top", (event.pageY + 10) + "px");
+        }) // Here is the hover thing
+        .on("mouseout", (d, i) => {
+          div.style("opacity", 0); 
+        });
+      d3.selectAll("circle.node")
+        .on("mouseover", null)
+        .on("mouseout", null);
+      break;
+    default:
+      console.log("Error. Invalid distance measure.");
+      break;
+  }
+}
+
 function visualize_trees(jsonData, distance_measure) {
-  console.log(jsonData);
+
+  set_visualization_event_listeners(distance_measure);
   var tree1_data = jsonData.tree1_edges;
   var tree2_data = jsonData.tree2_edges;
   var data = [tree1_data, tree2_data]
+  var distance = jsonData.distance;
 
   var nodes1 = d3.hierarchy(tree1_data).descendants();
   var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
@@ -84,12 +130,10 @@ function visualize_trees(jsonData, distance_measure) {
   label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100 
   label4.innerHTML = Math.round(t_max * 100) / 100 
   
-  console.log("Labels:",label1, label2, label3, label4);
-
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     var root = d3.hierarchy(data[i]);
-    var tree = d3.tree().size([500, 380]);
+    var tree = d3.tree().size([600, 400]);
     tree(root);
 
     var d3_nodes = d3.select('#' + svg_names[i] +  ' g.nodes')
@@ -106,29 +150,7 @@ function visualize_trees(jsonData, distance_measure) {
       .attr('x2', d => { return d.target.x;})
       .attr('y2', d => { return d.target.y;});
 
-    var div  = d3.select("body").append("div").classed("hover-label", true);
     // Set shared attributes for the nodes 
-    console.log(distance_measure);
-    if (distance_measure != "parent_child_distance") {
-      d3_nodes.selectAll("circle.node")
-        .on("mouseover", (d, i) => {
-          div.style("opacity", 1); 
-          div.style("background-color", "white");
-          div.style("width", "20px");
-          div.style("height", "23px");
-          div.style("border", "1px solid black");
-          div.style("text-align", "center");
-          div.html(i.data.contribution);
-          div.style("left", (event.pageX + 10 ) + "px")
-             .style("top", (event.pageY + 10) + "px");
-        }) // Here is the hover thing
-        .on("mouseout", (d, i) => {
-          div.style("opacity", 0); 
-        });
-      d3_nodes.selectAll("line.link")
-        .on("mouseover", null); 
-    }
-
     d3_nodes.selectAll("circle.node")
       .data(root.descendants())
       .join('circle')
@@ -144,10 +166,10 @@ function visualize_trees(jsonData, distance_measure) {
       })
 
     // Displaying the labels for the nodes
-    d3_nodes.selectAll("text.label")
+    d3_nodes.selectAll("text.mutation-label")
       .data(root.descendants())
       .join("text")
-      .classed("label", true)
+      .classed("mutation-label", true)
       .attr("x", d => { 
         labels_array = d.data.label.split(',');
         return d.x + Math.sqrt(labels_array.length) * 15; 
@@ -159,25 +181,40 @@ function visualize_trees(jsonData, distance_measure) {
       .text(d => {
         var str = d.data.label;
         str = remove_quotation(str);
+        genes = str.split(", ");
+        if (genes.length > 2) {
+          return `${genes[0]}, ${genes[1]}...`
+        }
         return str;
+      })
+      .on("click", (d, i) => { 
+        var str = i.data.label;
+        str = remove_quotation(str);
+        var lst = str.split(", ");
+        var gene_url;
+        console.log(lst);
+        lst.forEach(gene => {
+          gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + gene;
+          window.open(gene_url, "_blank"); 
+        });
       });
 
     // Set the coloring scheme based off of the distance measure
     switch (distanceMetric.value) {
       case "ancestor_descendant_distance":
-        distanceMeasureLabel.innerHTML = "Ancestor Descendant Distance: " + jsonData.distance;
+        distanceMeasureLabel.innerHTML = "Ancestor Descendant Distance: " + distance;
         pc_ad_d3_trees(root, d3_nodes, d3_links, "ad", t_max);
         break;
       case "caset_distance": 
-        distanceMeasureLabel.innerHTML = "CASet Distance: " + jsonData.distance;
+        distanceMeasureLabel.innerHTML = "CASet Distance: " + distance;
         dist_caset_d3_trees(root, d3_nodes, d3_links, t_max);
         break;
       case "disc_distance": 
-        distanceMeasureLabel.innerHTML = "DISC Distance: " + jsonData.distance;
+        distanceMeasureLabel.innerHTML = "DISC Distance: " + distance;
         dist_caset_d3_trees(root, d3_nodes, d3_links, t_max);
         break;
       case "parent_child_distance": 
-        distanceMeasureLabel.innerHTML = "Parent-child Distance: " + jsonData.distance;
+        distanceMeasureLabel.innerHTML = "Parent-child Distance: " + distance;
         pc_ad_d3_trees(root, d3_nodes, d3_links, "pc", t_max);
         break;
       default:
@@ -186,7 +223,6 @@ function visualize_trees(jsonData, distance_measure) {
     }
   }
 }
-
 
 function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
 
@@ -244,27 +280,10 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
       .style("fill", function(d) { return node_color_function(d); })
       .style("stroke-width", "3px")
 
-  var div  = d3.select("body").append("div").classed("hover-label", true);
   d3_links.selectAll('line.link')
       .style("stroke", function(d) { return edge_color_function(d); })
       .style("transform", "translate(5, 20), scale(0.5)")
       .style("stroke-width", "5px") 
-      .on("mouseover", (d, i) => {
-        div.style("opacity", 1); 
-        div.style("background-color", "white");
-        div.style("width", "20px");
-        div.style("height", "23px");
-        div.style("border", "1px solid black");
-        div.style("text-align", "center");
-        div.html(i.target.data.contribution);
-        div.style("left", (event.pageX + 10 ) + "px")
-           .style("top", (event.pageY + 10) + "px");
-      }) // Here is the hover thing
-      .on("mouseout", (d, i) => {
-        div.style("opacity", 0); 
-      });
-
-  
 }
 
 function submit_tree() {
@@ -283,7 +302,6 @@ function submit_tree() {
   fetch(url)
   .then(response => response.json())
   .then(jsonData => {
-     console.log(jsonData);
      visualize_trees(jsonData, distanceMetric.value);
   });
 }
