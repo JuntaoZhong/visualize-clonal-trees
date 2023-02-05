@@ -1,1 +1,21 @@
-digraph Tree {    1 [label="P, T, S, J, C, A"];    2 [label="E, N2, AR, MA"];    3 [label="NT, AF"];    4 [label="CH"];    5 [label="E1, N3"];    6 [label="CX"];    7 [label="TN"];    8 [label="PP, SY"];    9 [label="AU"];    10 [label="TG"];    1 -> 2;    2 -> 3;    2 -> 4;    3 -> 5;    5 -> 8;    5 -> 7;    5 -> 6;    7 -> 9;    4 -> 10;}
+digraph Tree {
+	G [label="G"];
+	D [label="D"];
+	A [label="A"];
+	I [label="I"];
+	B [label="B"];
+	C [label="C"];
+	F [label="F"];
+	J [label="J"];
+	E [label="E"];
+	H [label="H"];
+	G -> D;
+	D -> A;
+	A -> I;
+	A -> B;
+	D -> C;
+	C -> F;
+	C -> J;
+	J -> E;
+	J -> H;
+}
