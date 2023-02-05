@@ -274,10 +274,12 @@ function submit_tree() {
   */
   var tree1Input = tree1TextArea.value;
   var tree2Input = tree2TextArea.value;
+  var tree1Type = inputTypeTree1.value;
+  var tree2Type = inputTypeTree2.value;
 
   var baseURL = "http://localhost:5000/api/";
   var url = baseURL + distanceMetric.value + "?";
-  var url_components = [url, "tree1=", tree1Input, "&tree2=", tree2Input]
+  var url_components = [url, "tree1=", tree1Input, "&tree2=", tree2Input, "&treeType1=", tree1Type, "&treeType2=", tree2Type]
   url = url_components.join("");
 
   fetch(url)
