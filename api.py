@@ -14,6 +14,7 @@ import distance_measures.parent_child as pc_dot
 import distance_measures.ancestor_descendant as ad_dot
 import distance_measures.caset as cs_dot
 import distance_measures.disc as disc_dot
+import input_conversion.Newick_2_dot as Newick_2_dot
 
 api = flask.Blueprint('api', __name__)
 
@@ -59,13 +60,11 @@ def run_parent_child_distance():
   dot_tree1_file, dot_tree2_file = "t1.txt", "t2.txt" # dot formatted trees.
 
   if tree1_type == "Newick":
-    tree1_data = convert_newick_2_dot(tree1_dot)
+    tree1_data = Newick_2_dot.convert_newick_2_dot(tree1_data)
   # elif tree1_type == "DOT": // don't do anything to tree1_data
 
-  if tree1_type == "Newick":
-    convert_newick_2_dot(tree1_dot) # this will write a file in ./input_conversion/
-    convert_newick_2_dot(tree2_dot)
-  elif tree1_type == "DOT":
+  if tree2_type == "Newick":
+    tree2_data = Newick_2_dot.convert_newick_2_dot(tree1_data)
   
   write_dot_tree_2_file(tree1_data, dot_tree1_file)
   write_dot_tree_2_file(tree2_data, dot_tree2_file)
