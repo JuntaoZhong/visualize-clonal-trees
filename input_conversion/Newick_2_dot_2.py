@@ -149,7 +149,7 @@ def convert_newick_2_dot(newick_string):
     output.truncate(0)
     output.seek(0)
 
-    final_string = ""
+    final_string = "digraph Tree {"
     
     output.write(output_lines[0])
     for i in name_lines:
@@ -158,5 +158,7 @@ def convert_newick_2_dot(newick_string):
     for j in pc_lines:
         print(j)
         final_string = final_string + j
+
+    final_string = final_string + "}"
 
     return final_string
