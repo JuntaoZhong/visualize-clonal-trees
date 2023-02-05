@@ -1,5 +1,3 @@
-import sys
-
 '''
 Takes in a Newick string, the current node that is being parsed, and the output file and chooses whether to call the base case, find the next substrings (children) of the current node, or find the next node
 '''
@@ -123,26 +121,24 @@ def write_first_line(output):
 Writes the last line
 '''
 def write_last_line(output):
-    output.write("}")    
+    output.write("}")
 
-if __name__ == "__main__":
-    
-    #Pre-processing
-    newick_file = open(sys.argv[1], "r")
-    output = open(sys.argv[2], "w")
+def convert_newick_2_dot(newick_string):
+    newick_string = newick_string.replace(" ", "")
+    newick_string = newick_string.replace(";", "")
+    dot_string = ""
+    dot_string = dot_string + "{"
+
+    output = open("newick_2_dot_tree.txt", "w")
+
     write_first_line(output)
-    newick_input = newick_file.read()
-    newick_input = newick_input.replace(" ", "")
-    
-    #Parse and write to file
-    newick_input = newick_input[0:-1]
-    parse_next(newick_input, None, output)
+    parse_next(newick_string, None, output)
     write_last_line(output)
-    output.close()
     
     #Write in correct order
-    output = open(sys.argv[2], "r+")
+    output = open("newick_2_dot_tree.txt", "r+")
     output_lines = output.readlines()
+
     name_lines = []
     pc_lines = []
     for i in output_lines[1:-1]:
@@ -152,10 +148,15 @@ if __name__ == "__main__":
             pc_lines.append(i)
     output.truncate(0)
     output.seek(0)
+
+    final_string = ""
+    
     output.write(output_lines[0])
     for i in name_lines:
-        output.write(i)
+        print(i)
+        final_string = final_string + i
     for j in pc_lines:
-        output.write(j)
-    output.write(output_lines[-1])
-    output.close()  
+        print(j)
+        final_string = final_string + j
+
+    return final_string
