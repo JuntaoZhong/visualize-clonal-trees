@@ -24,17 +24,34 @@ def get_contributions(g_1, g_2):
     mutations_node_dict_1 = {}
     mutations_node_dict_2 = {}
 
+    
+    mutation_dict_1 = {}
+    mutation_dict_2 = {}
+
+    node_to_mutation_dict_1 = {}
+    node_to_mutation_dict_2 = {}
+
     # filling dictionaries
     for node in g_1.nodes:
         node_contribution_dict_1[node] = {}
         node_contribution_dict_1[node]["contribution"] = 0
-        for mutation in utils.get_mutations_from_node(g_1, node):
+        mutation_list = utils.get_mutations_from_node(g_1,node)
+        for mutation in mutation_list:
             mutations_node_dict_1[mutation] = node
+            mutation_dict_1[mutation] = {}
+            mutation_dict_1[mutation]["contribution"] = 0
+        node_to_mutation_dict_1[node] = mutation_list
+           
     for node in g_2.nodes:
         node_contribution_dict_2[node] = {}
         node_contribution_dict_2[node]["contribution"] = 0
-        for mutation in utils.get_mutations_from_node(g_2, node):
+        mutation_list = utils.get_mutations_from_node(g_2,node)
+        for mutation in mutation_list:
             mutations_node_dict_2[mutation] = node
+            mutation_dict_2[mutation] = {}
+            mutation_dict_2[mutation]["contribution"] = 0
+        node_to_mutation_dict_2[node] = mutation_list
+            
     
     # maps mutation to set of ancestor mutations
     mutation_anc_dict_1 = utils.make_mutation_anc_dict(g_1) 
@@ -60,11 +77,13 @@ def get_contributions(g_1, g_2):
                     caset_distance += jacc_dist / 2
                     for mut in caset_set_minus_1:
                         node_contribution_dict_1[mutations_node_dict_1[mut]]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
+                        mutation_dict_1[mut]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
                     for mut in caset_set_minus_2:                
                         node_contribution_dict_2[mutations_node_dict_2[mut]]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
+                        mutation_dict_2[mut]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
     
     dist = caset_distance/(m*((m-1)/2)) # caset_distance/(m choose 2)
-    return node_contribution_dict_1, node_contribution_dict_2, dist
+    return node_contribution_dict_1, node_contribution_dict_2, dist,mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2
 
 def get_common_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
     if(mutation_1 in mutation_anc_dict and mutation_2 in mutation_anc_dict):
@@ -75,19 +94,19 @@ def get_common_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
 def cs_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2, distance = get_contributions(g_1,g_2)
+    dict_1, dict_2, distance,mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
     data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
-    return (data_1, data_2, distance)
+    return (data_1, data_2, distance,mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2)
 
 if __name__=="__main__":
     filename_1 = sys.argv[1]
     filename_2 = sys.argv[2]
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2, distance = get_contributions(g_1,g_2)
+    dict_1, dict_2, distance,mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
