@@ -25,7 +25,60 @@
             <div class="child" id="sidebar">
                 <div id="topbox">
                     <h2>Distance Metric<h2>
-                    <div class="dropdown"> 
+                    <div class="top-buttons">
+                        <div class="toggle_button view">
+                            <button onclick="view1()" id="single">Single View</button>
+                        </div>
+                        <script>
+                            function view1() {
+                                var x = document.getElementById("distance-dropdown");
+                                var x2 = document.getElementById("distance-buttons");
+                                var y = document.getElementById("single");
+                                var y2 = document.getElementById("multiple");
+                                if (x.style.display === "inline-block") {
+                                    x.style.display = "none";
+                                    y.style.background = "#2C7A7A";
+                                } 
+                                else if (x2.style.display === "inline-block"){
+                                    x2.style.display = "none";
+                                    x.style.display = "inline-block";
+                                    y.style.background = "#2C7A7A50";
+                                    y2.style.background = "#2C7A7A";
+                                }
+                                else {
+                                    x.style.display = "inline-block";
+                                    y.style.background = "#2C7A7A50";
+                                }
+                            }
+                        </script>
+                        <div class="toggle_button view">
+                            <button onclick="view2()" id="multiple">Multi View</button>
+                        </div>
+                        <script>
+                            function view2() {
+                                var x = document.getElementById("distance-buttons");
+                                var x2 = document.getElementById("distance-dropdown")
+                                var y = document.getElementById("multiple");
+                                var y2 = document.getElementById("single");
+                                if (x.style.display === "inline-block") {
+                                    x.style.display = "none";
+                                    y.style.background = "#2C7A7A";
+                                } 
+                                else if (x2.style.display === "inline-block"){
+                                    x2.style.display = "none";
+                                    x.style.display = "inline-block";
+                                    y.style.background = "#2C7A7A50";
+                                    y2.style.background = "#2C7A7A";
+                                }
+                                else {
+                                    x.style.display = "inline-block";
+                                    y.style.background = "#2C7A7A50";
+                                }
+                            }
+                        </script>
+                    </div>
+                    <div class="dropdown distance-measure" id="distance-dropdown"> 
+                        <p> </p>
                         <label id="metric_drp" for="distance_metric"></label>
                         <select name="distance_metric" id="distance_metric"> 
                             <!--option value="" selected disabled hidden>Select Metric</option-->
@@ -35,8 +88,77 @@
                             <option value="disc_distance">DISC</option>
                         </select>
                     </div>
+                    <div id="distance-buttons">
+                        <p> </p>
+                        <div id="top-measures">
+                            <div class="toggle_button dview">
+                                <button onclick="vizbox1()" id="pc-view">Parent-Child</button>
+                            </div>
+                            <div class="toggle_button dview">
+                                <button onclick="vizbox2()" id="ad-view">Ancestor-Descendant</button>
+                            </div>
+                        </div>
+                        <div id="bottom-measures">
+                            <div class="toggle_button dview">
+                                <button onclick="vizbox3()" id="caset-view">CASet</button>
+                            </div>
+                            <div class="toggle_button dview">
+                                <button onclick="vizbox4()" id="disc-view">DISC</button>
+                            </div>
+                        </div>
+                            <script>
+                                function vizbox1() {
+                                    var x = document.getElementById("viz1");
+                                    var y = document.getElementById("pc-view");
+                                    if (x.style.display === "flex") {
+                                        x.style.display = "none";
+                                        y.style.background = "#2C7A7A";
+                                    } 
+                                    else {
+                                        x.style.display = "flex";
+                                        y.style.background = "#2C7A7A50";
+                                    }
+                                }
+                                function vizbox2() {
+                                    var x = document.getElementById("viz2");
+                                    var y = document.getElementById("ad-view");
+                                    if (x.style.display === "flex") {
+                                        x.style.display = "none";
+                                        y.style.background = "#2C7A7A";
+                                    } 
+                                    else {
+                                        x.style.display = "flex";
+                                        y.style.background = "#2C7A7A50";
+                                    }
+                                }
+                                function vizbox3() {
+                                    var x = document.getElementById("viz3");
+                                    var y = document.getElementById("caset-view");
+                                    if (x.style.display === "flex") {
+                                        x.style.display = "none";
+                                        y.style.background = "#2C7A7A";
+                                    } 
+                                    else {
+                                        x.style.display = "flex";
+                                        y.style.background = "#2C7A7A50";
+                                    }
+                                }
+                                function vizbox4() {
+                                    var x = document.getElementById("viz4");
+                                    var y = document.getElementById("disc-view");
+                                    if (x.style.display === "flex") {
+                                        x.style.display = "none";
+                                        y.style.background = "#2C7A7A";
+                                    } 
+                                    else {
+                                        x.style.display = "flex";
+                                        y.style.background = "#2C7A7A50";
+                                    }
+                                }
+                            </script>
+                    </div>
                 </div>
-                <hr size="2" noshade="", width="350px">
+                <hr size="2" noshade="", width="auto">
                 <div id="bottombox">
                     <div class="dropdown"> 
                         <h4>Input Tree 1</h4>
@@ -57,11 +179,7 @@
                     <script>
                         function myFunction1() {
                           var x = document.getElementById("text_box1");
-                          if (x.style.display === "none") {
-                            x.style.display = "inline-block";
-                          } else {
-                            x.style.display = "none";
-                          }
+                          x.style.display = x.style.display == 'inline-block' ? 'none' : 'inline-block';
                         }
                     </script>
                     <div id="text_box1">
@@ -105,11 +223,7 @@
                     <script>
                         function myFunction2() {
                           var x = document.getElementById("text_box2");
-                          if (x.style.display === "none") {
-                            x.style.display = "inline-block";
-                          } else {
-                            x.style.display = "none";
-                          }
+                          x.style.display = x.style.display == 'inline-block' ? 'none' : 'inline-block';
                         }
                     </script>
                     <div id="text_box2">
@@ -138,9 +252,9 @@
                 <input id="submit-trees-btn" type="submit">
             </div>
             <div class="child" id="main">
-                <div id="visualizations-container">
+                <div class="visualizations-container" id="viz1">
                     <div id="tree1_visualization">
-                            <svg id="svg1" width="600" height="600"> 
+                            <svg id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -148,7 +262,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg id="svg2" width="600" height="600"> 
+                        <svg id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
@@ -156,16 +270,100 @@
                         </svg>
                     </div>
                 </div>
-  <div id="legend-container">
-    <div id="distance-measure-label"></div>
-    <div id="legend"></div>
-    <div id="legend-labels-container">
-      <div class="label" id="colorLabel1">1</div>
-      <div class="label", id="colorLabel2">2</div>
-      <div class="label", Id="colorLabel3">3</div>
-      <div class="label", id="colorLabel4">4</div>
-    </div>
-  </div>
+                <div class="legend-container" id="scale1">
+                    <div id="distance-measure-label"></div>
+                    <div id="legend"></div>
+                    <div id="legend-labels-container">
+                    <div class="label" id="colorLabel1">1</div>
+                    <div class="label", id="colorLabel2">2</div>
+                    <div class="label", Id="colorLabel3">3</div>
+                    <div class="label", id="colorLabel4">4</div>
+                    </div>
+                </div>
+                <div class="visualizations-container" id="viz2">
+                    <div id="tree1_visualization">
+                            <svg id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <g transform="translate(-30,50)">
+                                <g class="links"></g>
+                                <g class="nodes"></g>
+                            </g>
+                            </svg>
+                    </div>
+                    <div id="tree2_visualization">
+                        <svg id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <g transform="translate(-30,50)">
+                            <g class="links"></g>
+                            <g class="nodes"></g>
+                        </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="legend-container" id="scale2">
+                    <div id="distance-measure-label"></div>
+                    <div id="legend"></div>
+                    <div id="legend-labels-container">
+                    <div class="label" id="colorLabel1">1</div>
+                    <div class="label", id="colorLabel2">2</div>
+                    <div class="label", Id="colorLabel3">3</div>
+                    <div class="label", id="colorLabel4">4</div>
+                    </div>
+                </div>
+                <div class="visualizations-container" id="viz3">
+                    <div id="tree1_visualization">
+                            <svg id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <g transform="translate(-30,50)">
+                                <g class="links"></g>
+                                <g class="nodes"></g>
+                            </g>
+                            </svg>
+                    </div>
+                    <div id="tree2_visualization">
+                        <svg id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <g transform="translate(-30,50)">
+                            <g class="links"></g>
+                            <g class="nodes"></g>
+                        </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="legend-container" id="scale3">
+                    <div id="distance-measure-label"></div>
+                    <div id="legend"></div>
+                    <div id="legend-labels-container">
+                    <div class="label" id="colorLabel1">1</div>
+                    <div class="label", id="colorLabel2">2</div>
+                    <div class="label", Id="colorLabel3">3</div>
+                    <div class="label", id="colorLabel4">4</div>
+                    </div>
+                </div>
+                <div class="visualizations-container" id="viz4">
+                    <div id="tree1_visualization">
+                            <svg id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <g transform="translate(-30,50)">
+                                <g class="links"></g>
+                                <g class="nodes"></g>
+                            </g>
+                            </svg>
+                    </div>
+                    <div id="tree2_visualization">
+                        <svg id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <g transform="translate(-30,50)">
+                            <g class="links"></g>
+                            <g class="nodes"></g>
+                        </g>
+                        </svg>
+                    </div>
+                </div>
+                <div class="legend-container4" id="scale4">
+                    <div id="distance-measure-label"></div>
+                    <div id="legend"></div>
+                    <div id="legend-labels-container">
+                    <div class="label" id="colorLabel1">1</div>
+                    <div class="label", id="colorLabel2">2</div>
+                    <div class="label", Id="colorLabel3">3</div>
+                    <div class="label", id="colorLabel4">4</div>
+                    </div>
+                </div>
             </div>
         </div>
     </body>

@@ -44,7 +44,7 @@
 #sidebar{
     background-color: #D9DEDE;
     vertical-align: top;
-    width: 25%;
+    width: 50%;
     height:100%;
     
 }
@@ -58,7 +58,6 @@
 .container{
     display:table;
     width: 100%;
-    overflow: hidden;
     
 }
 .child{
@@ -90,19 +89,59 @@
 
     margin-right: 20px;
 }
-#visualizations-container {
+.top-buttons {
+    display: flex;
+}
+#distance-buttons {
+    display: none;
+}
+
+.distance-measure{
+    display: none;
+}
+
+#viz2, #viz3, #viz4 {
+    display: none;
+}
+
+#distance-buttons{
+    display: none;
+}
+.view {
+    flex: 1;
+}
+#top-measures {
+    display: table;
+}
+#bottom-measures {
+    display: table;
+}
+.dview {
+    display: table-cell;
+    /* border:2px solid black; */
+}
+
+.visualizations-container {
     display: flex;
     justify-content: center;
 }
-#visualizations-container > div {
+.visualizations-container > div {
     flex: 1;
-    width: 520px;
+    width: 500px;
     height: 500px;
-    background-color: white;  
+    /* background-color: white;   */
     border: 1px solid black;
 }
 #tree1_visualization {
     margin-right: 20px
+}
+
+
+
+svg {
+    border: 1px solid black;
+    overflow-y: scroll;
+    
 }
 
 html{
@@ -162,7 +201,8 @@ h2{
 }
 
 #metric_drp{
-    margin: 10px;
+    margin: 15px;
+    margin-top: 30px;
 }
 
 #distance_metric{
@@ -227,10 +267,13 @@ p{
   cursor: pointer;
 }
 
-#legend-container {
+.legend-container {
     display: block;
     margin: auto;
     margin-top: 10px;
+}
+#scale2, #scale3, #scale4{
+    display: none;
 }
 #legend {
     height: 30px;
