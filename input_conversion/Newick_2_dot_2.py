@@ -153,12 +153,19 @@ def convert_newick_2_dot(newick_string):
     
     output.write(output_lines[0])
     for i in name_lines:
-        print(i)
+        #print(i)
         final_string = final_string + i
     for j in pc_lines:
-        print(j)
+        #print(j)
         final_string = final_string + j
 
     final_string = final_string + "}"
 
-    return final_string
+    removed_newlines = ""
+    for i in final_string:
+      if i != "\n":
+        removed_newlines+=i
+    print(f"This is the final string {final_string}\n")
+    print(f"This is the final string with newlines removed {removed_newlines}\n")
+    #return final_string
+    return removed_newlines 
