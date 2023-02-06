@@ -30,48 +30,61 @@ def get_contributions(g_1,g_2):
     dict_1 = {}
     dict_2 = {}
 
+    mutation_dict_1 = {}
+    mutation_dict_2 = {}
+
+    node_to_mutation_dict_1 = {}
+    node_to_mutation_dict_2 = {}
+    
+    
     for node in g_1.nodes:
         dict_1[node] = {}
         dict_1[node]["contribution"] = 0
+        mutation_list = utils.get_mutations_from_node(g_1,node)
+        node_to_mutation_dict_1[node] = mutation_list
+        for mutation in mutation_list:
+            mutation_dict_1[mutation] = {}
+            mutation_dict_1[mutation]["contribution"] = 0
     for node in g_2.nodes:
         dict_2[node] = {}
         dict_2[node]["contribution"] = 0
+        mutation_list = utils.get_mutations_from_node(g_2,node)
+        node_to_mutation_dict_2[node] = mutation_list
+        for mutation in mutation_list:
+            mutation_dict_2[mutation] = {}
+            mutation_dict_2[mutation]["contribution"] = 0
+
 
     for pair in dif_set_1:
         anc_mut = pair[0]
         desc_mut = pair[1]
         anc = get_node_from_mutation(g_1,anc_mut)
         desc = get_node_from_mutation(g_1,desc_mut)
-        if anc in dict_1:
-            dict_1[anc]["contribution"] = dict_1[anc]["contribution"] +1
-        else:
-            teeny_dict = {}
-            teeny_dict["contribution"] = 1
-            dict_1[anc] = teeny_dict
-        if desc in dict_1:
-            dict_1[desc]["contribution"] = dict_1[desc]["contribution"] +1
-        else:
-            teeny_dict = {}
-            teeny_dict["contribution"] = 1
-            dict_1[desc] = teeny_dict
+
+        #ANCS---------------------------------------------------------
+        dict_1[anc]["contribution"] = dict_1[anc]["contribution"] +1
+        #MUT ANC----------------------------
+        mutation_dict_1[anc_mut]["contribution"] = mutation_dict_1[anc_mut]["contribution"] +1  
+        #DESC-----------------------------------------------------------------
+        dict_1[desc]["contribution"] = dict_1[desc]["contribution"] +1
+         #MUT DESC----------------------------
+        mutation_dict_1[anc_mut]["contribution"] = mutation_dict_1[anc_mut]["contribution"] +1 
+
     for pair in dif_set_2:
         anc_mut = pair[0]
         desc_mut = pair[1]
         anc = get_node_from_mutation(g_2,anc_mut)
         desc = get_node_from_mutation(g_2,desc_mut)
-        if anc in dict_2:
-            dict_2[anc]["contribution"] = dict_2[anc]["contribution"] +1
-        else:
-            teeny_dict = {}
-            teeny_dict["contribution"] = 1
-            dict_2[anc] = teeny_dict
-        if desc in dict_2:
-            dict_2[desc]["contribution"] = dict_2[desc]["contribution"] +1
-        else:
-            teeny_dict = {}
-            teeny_dict["contribution"] = 1
-            dict_2[desc] = teeny_dict
-    return dict_1, dict_2, dist
+        #ANCS---------------------------------------------------------
+        dict_2[anc]["contribution"] = dict_2[anc]["contribution"] +1
+        #MUT ANC----------------------------
+        mutation_dict_2[anc_mut]["contribution"] = mutation_dict_2[anc_mut]["contribution"] +1  
+        #DESC-----------------------------------------------------------------
+        dict_2[desc]["contribution"] = dict_2[desc]["contribution"] +1
+         #MUT DESC---------------------------
+        mutation_dict_2[anc_mut]["contribution"] = mutation_dict_2[anc_mut]["contribution"] +1 
+
+    return dict_1, dict_2, dist, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2
 
 def get_anc_desc_pairs(g):
     ''' Returns list of 2-tuples of nodes in g whose
@@ -131,7 +144,7 @@ def get_node_from_mutation(g, mutation):
 def ad_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2, distance = get_contributions(g_1,g_2)
+    dict_1, dict_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
     print("This is the contents of t1.txt")
@@ -143,7 +156,7 @@ def ad_main(filename_1, filename_2):
     print(g_1)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
     data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
-    return (data_1, data_2, distance)
+    return (data_1, data_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2)
 
 if __name__=="__main__":
     # filename_1 = sys.argv[1]
