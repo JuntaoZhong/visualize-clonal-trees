@@ -313,4 +313,30 @@ submitTreesBtn.onclick = () => {
   submit_tree();
 }
 
+function downloadSVGAsText() {
+  var svg = document.querySelector('#svg1');
+  var base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
+  var a = document.createElement('a');
+  var e = new MouseEvent('click');
+  a.download = 'tree1_download.svg';
+  a.href = 'data:image/svg+xml;base64,' + base64doc;
+  a.dispatchEvent(e);
+}
+
+function downloadSVG2AsText() {
+  var svg = document.querySelector('#svg2');
+  var base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
+  var a = document.createElement('a');
+  var e = new MouseEvent('click');
+  a.download = 'tree2_download.svg';
+  a.href = 'data:image/svg+xml;base64,' + base64doc;
+  a.dispatchEvent(e);
+}
+
+var downloadSVG1 = document.querySelector('#downloadSVG1');
+downloadSVG1.addEventListener('click', downloadSVGAsText);
+var downloadSVG2 = document.querySelector('#downloadSVG2');
+downloadSVG2.addEventListener('click', downloadSVG2AsText);
+
+
 
