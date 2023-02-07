@@ -182,11 +182,12 @@ function visualize_trees(jsonData, distance_measure) {
         var str = d.data.label;
         str = remove_quotation(str);
         genes = str.split(", ");
-        if (genes.length > 2) {
-          return `${genes[0]}, ${genes[1]}...`
+        if (genes.length > 1) {
+          return `${genes[0]}...`
         }
         return str;
       })
+      .style("font-size", "13px")
       .on("click", (d, i) => { 
         var str = i.data.label;
         str = remove_quotation(str);
