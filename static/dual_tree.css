@@ -44,7 +44,7 @@
 #sidebar{
     background-color: #D9DEDE;
     vertical-align: top;
-    width: 50%;
+    width: 25%;
     height:100%;
     
 }
@@ -100,7 +100,7 @@
     display: none;
 }
 
-#viz2, #viz3, #viz4 {
+#viz1, #viz2, #viz3, #viz4 {
     display: none;
 }
 
@@ -136,12 +136,37 @@
     margin-right: 20px
 }
 
+button{
+    font-family: 'Poppins', sans-serif;
+    background-color:#2C7A7A;
+    color: #F5F5F5;
+    border-radius: 8px;
+    padding: 7px;
+}
 
+#tree-label-info-container {
+    border: 1px solid black;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+    display: flex;
+}
+.tree-label-info {
+    flex: 1;
+    width: calc(100%/3);
+    height: 200px;
+    border: 1px solid black;
+}
+
+.download:active{
+    background-color: #D9DEDE;
+    margin-top: 3px;
+    color: black;
+}
 
 svg {
     border: 1px solid black;
-    overflow-y: scroll;
-    
+    /* overflow-y: scroll; */
 }
 
 html{
@@ -272,7 +297,7 @@ p{
     margin: auto;
     margin-top: 10px;
 }
-#scale2, #scale3, #scale4{
+#scale1, #scale2, #scale3, #scale4{
     display: none;
 }
 #legend {
@@ -297,6 +322,7 @@ p{
   margin: auto;
   margin-bottom: 20px;
   height: 20px;
+  margin-top: 30px;
   width: 400px;
   padding: 20px;
 }

@@ -118,6 +118,13 @@ def ad_main(filename_1, filename_2):
     dict_1, dict_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
+    print("This is the contents of t1.txt")
+    print(open(filename_1, "r").read())
+    print()
+    print("This is the contents of t2.txt")
+    print(open(filename_2, "r").read())
+    print()
+    print(g_1)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
     data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
     return (data_1, data_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2)
@@ -130,3 +137,4 @@ if __name__=="__main__":
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
     print(get_contributions(g_1,g_2))
+   

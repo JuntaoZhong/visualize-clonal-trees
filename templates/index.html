@@ -33,21 +33,29 @@
                             function view1() {
                                 var x = document.getElementById("distance-dropdown");
                                 var x2 = document.getElementById("distance-buttons");
+                                var div = document.getElementById("anyviz");
+                                var legend = document.getElementById("anyscale");
                                 var y = document.getElementById("single");
                                 var y2 = document.getElementById("multiple");
+                                div.style.display = "flex";
+                                legend.style.display = "block"
                                 if (x.style.display === "inline-block") {
                                     x.style.display = "none";
                                     y.style.background = "#2C7A7A";
+                                    y.style.color = "#F5F5F5";
                                 } 
                                 else if (x2.style.display === "inline-block"){
                                     x2.style.display = "none";
                                     x.style.display = "inline-block";
                                     y.style.background = "#2C7A7A50";
+                                    y.style.color = "black";
                                     y2.style.background = "#2C7A7A";
+                                    y2.style.color = "#F5F5F5";
                                 }
                                 else {
                                     x.style.display = "inline-block";
                                     y.style.background = "#2C7A7A50";
+                                    y.style.color = "black";
                                 }
                             }
                         </script>
@@ -58,21 +66,29 @@
                             function view2() {
                                 var x = document.getElementById("distance-buttons");
                                 var x2 = document.getElementById("distance-dropdown")
+                                var div = document.getElementById("anyviz");
+                                var legend = document.getElementById("anyscale");
                                 var y = document.getElementById("multiple");
                                 var y2 = document.getElementById("single");
+                                div.style.display = "none";
+                                legend.style.display = "none"
                                 if (x.style.display === "inline-block") {
                                     x.style.display = "none";
                                     y.style.background = "#2C7A7A";
+                                    y.style.color = "#F5F5F5";
                                 } 
                                 else if (x2.style.display === "inline-block"){
                                     x2.style.display = "none";
                                     x.style.display = "inline-block";
                                     y.style.background = "#2C7A7A50";
+                                    y.style.color = "black";
                                     y2.style.background = "#2C7A7A";
+                                    y2.style.color = "#F5F5F5";
                                 }
                                 else {
                                     x.style.display = "inline-block";
                                     y.style.background = "#2C7A7A50";
+                                    y.style.color = "black";
                                 }
                             }
                         </script>
@@ -109,49 +125,61 @@
                             <script>
                                 function vizbox1() {
                                     var x = document.getElementById("viz1");
+                                    var x2 = document.getElementById("scale1");
                                     var y = document.getElementById("pc-view");
                                     if (x.style.display === "flex") {
                                         x.style.display = "none";
+                                        x2.style.display = "none";
                                         y.style.background = "#2C7A7A";
                                     } 
                                     else {
                                         x.style.display = "flex";
+                                        x2.style.display = "block";
                                         y.style.background = "#2C7A7A50";
                                     }
                                 }
                                 function vizbox2() {
                                     var x = document.getElementById("viz2");
+                                    var x2 = document.getElementById("scale2");
                                     var y = document.getElementById("ad-view");
                                     if (x.style.display === "flex") {
                                         x.style.display = "none";
+                                        x2.style.display = "none";
                                         y.style.background = "#2C7A7A";
                                     } 
                                     else {
                                         x.style.display = "flex";
+                                        x2.style.display = "block";
                                         y.style.background = "#2C7A7A50";
                                     }
                                 }
                                 function vizbox3() {
                                     var x = document.getElementById("viz3");
+                                    var x2 = document.getElementById("scale3");
                                     var y = document.getElementById("caset-view");
                                     if (x.style.display === "flex") {
                                         x.style.display = "none";
+                                        x2.style.display = "none";
                                         y.style.background = "#2C7A7A";
                                     } 
                                     else {
                                         x.style.display = "flex";
+                                        x2.style.display = "block";
                                         y.style.background = "#2C7A7A50";
                                     }
                                 }
                                 function vizbox4() {
                                     var x = document.getElementById("viz4");
+                                    var x2 = document.getElementById("scale4");
                                     var y = document.getElementById("disc-view");
                                     if (x.style.display === "flex") {
                                         x.style.display = "none";
+                                        x2.style.display = "none";
                                         y.style.background = "#2C7A7A";
                                     } 
                                     else {
                                         x.style.display = "flex";
+                                        x2.style.display = "block";
                                         y.style.background = "#2C7A7A50";
                                     }
                                 }
@@ -252,9 +280,45 @@
                 <input id="submit-trees-btn" type="submit">
             </div>
             <div class="child" id="main">
+                <div id="tree-label-info-container">
+                    <div class="tree-label-info"><h3>Tree 1 Mutations<h3></div>
+                    <div class="tree-label-info"><h3>Shared Mutations</h3></div>
+                    <div class="tree-label-info"><h3>Tree 2 Mutations</h3></div>
+
+                </div>
+                <div class="visualizations-container" id="anyviz">
+                    <div id="tree1_visualization">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <g transform="translate(-30,50)">
+                                <g class="links"></g>
+                                <g class="nodes"></g>
+                            </g>
+                            </svg>
+                            <button class="download" id="downloadSVG1">Download Tree 1</button>
+                    </div>
+                    <div id="tree2_visualization">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <g transform="translate(-30,50)">
+                            <g class="links"></g>
+                            <g class="nodes"></g>
+                        </g>
+                        </svg>
+                        <button class="download" id="downloadSVG2">Download Tree 2</button>
+                    </div>
+                </div>
+                <div class="legend-container" id="anyscale">
+                    <div id="distance-measure-label"></div>
+                    <div id="legend"></div>
+                    <div id="legend-labels-container">
+                    <div class="label" id="colorLabel1">1</div>
+                    <div class="label", id="colorLabel2">2</div>
+                    <div class="label", Id="colorLabel3">3</div>
+                    <div class="label", id="colorLabel4">4</div>
+                    </div>
+                </div>
                 <div class="visualizations-container" id="viz1">
                     <div id="tree1_visualization">
-                            <svg id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <svg  viewBox="0 0 550 550" width="100%" height="auto"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -262,7 +326,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <svg  viewBox="0 0 550 550" width="100%" height="auto"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
@@ -282,7 +346,7 @@
                 </div>
                 <div class="visualizations-container" id="viz2">
                     <div id="tree1_visualization">
-                            <svg id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <svg  viewBox="0 0 550 550" width="100%" height="auto"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -290,7 +354,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <svg viewBox="0 0 550 550" width="100%" height="auto"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
@@ -310,7 +374,7 @@
                 </div>
                 <div class="visualizations-container" id="viz3">
                     <div id="tree1_visualization">
-                            <svg id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <svg viewBox="0 0 550 550" width="100%" height="auto"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -318,7 +382,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <svg viewBox="0 0 550 550" width="100%" height="auto"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
@@ -338,7 +402,7 @@
                 </div>
                 <div class="visualizations-container" id="viz4">
                     <div id="tree1_visualization">
-                            <svg id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <svg viewBox="0 0 550 550" width="100%" height="auto"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -346,7 +410,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <svg viewBox="0 0 550 550" width="100%" height="auto"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
