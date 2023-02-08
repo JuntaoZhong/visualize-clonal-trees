@@ -190,10 +190,10 @@
                 <div id="bottombox">
                     <div class="dropdown"> 
                         <h4>Input Tree 1</h4>
-                        <label class="indent" for="input1"></label>
+                        <label class="indent" for="input1">Select file format</label>
                         <select name="input1" id="input-type-tree1"> 
-                            <option value="" selected disabled hidden>Select Input Format</option>
-                            <option value="dot">DOT</option>
+                            <!-- <option value="" selected disabled hidden>Select Input Format</option> -->
+                            <option value="dot" selected>DOT</option>
                             <option value="newick">Newick</option>
                             <option value="bourque">Bourque</option>
                             <option value="mlted">MLTED</option>
@@ -234,10 +234,10 @@
 }</textarea></div>
                     <div class="dropdown"> 
                         <h4>Input Tree 2</h4>
-                        <label class="indent" for="input2"></label>
+                        <label class="indent" for="input2">Select file format</label>
                         <select name="input2" id="input-type-tree2"> 
-                            <option value="" selected disabled hidden>Select Input Format</option>
-                            <option value="dot">DOT</option>
+                            <!-- <option value="" selected disabled hidden>Select Input Format</option> -->
+                            <option value="dot" selected>DOT</option>
                             <option value="newick">Newick</option>
                             <option value="bourque">Bourque</option>
                             <option value="mlted">MLTED</option>
@@ -281,9 +281,9 @@
             </div>
             <div class="child" id="main">
                 <div id="tree-label-info-container">
-                    <div class="tree-label-info"><h3>Tree 1 Mutations<h3></div>
-                    <div class="tree-label-info"><h3>Shared Mutations</h3></div>
-                    <div class="tree-label-info"><h3>Tree 2 Mutations</h3></div>
+                    <div class="tree-label-info"><h3>Tree 1 Mutations</h3><p id="tree1-mutations"></p></div>
+                    <div class="tree-label-info"><h3>Shared Mutations</h3><p id="shared-mutations"></p></div>
+                    <div class="tree-label-info"><h3>Tree 2 Mutations</h3><p id="tree2-mutations"></p></div>
 
                 </div>
                 <div class="visualizations-container" id="anyviz">

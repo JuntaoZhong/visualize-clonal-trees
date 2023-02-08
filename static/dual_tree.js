@@ -113,12 +113,20 @@ function visualize_trees(jsonData, distance_measure) {
   var nodes1 = d3.hierarchy(tree1_data).descendants();
   var mutations_tree1 = getAllMutations(nodes1);
   console.log(mutations_tree1);
+  var tree1_label = document.getElementById("tree1-mutations");
+  tree1_label.innerHTML = mutations_tree1;
   console.log(nodes1);
   var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
   //console.log(t_max1);
 
   var nodes2 = d3.hierarchy(tree2_data).descendants();
   var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
+  var mutations_tree2 = getAllMutations(nodes2);
+  var tree2_label = document.getElementById("tree2-mutations");
+  tree2_label.innerHTML = mutations_tree2;
+
+  var shared_label =  document.getElementById("shared-mutations");
+  shared_label.innerHTML = intersect(mutations_tree1, mutations_tree2);
   //console.log(t_max2);
 
   var t_max = Math.max(t_max1,t_max2);
@@ -327,6 +335,22 @@ function getAllMutations(nodes) {
   });  
   console.log(all_mutations);
   return all_mutations;
+}
+
+function intersect(a, b) {
+  var ai=0, bi=0;
+  var result = [];
+  while( ai < a.length && bi < b.length )
+  {
+     if (a[ai] < b[bi] ){ ai++; }
+     else if (a[ai] > b[bi] ){ bi++; }
+     else{
+       result.push(a[ai]);
+       ai++;
+       bi++;
+     }
+  }
+  return result;
 }
 
 function downloadSVGAsText() {

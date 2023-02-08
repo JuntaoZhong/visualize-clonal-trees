@@ -143,19 +143,33 @@ button{
     border-radius: 8px;
     padding: 7px;
 }
-
+#tree1-mutations, #tree2-mutations, #shared-mutations {
+    /* border: 1px solid black; */
+    word-wrap: break-word;
+    margin: 0;
+}
 #tree-label-info-container {
     border: 1px solid black;
     width: 100%;
-    height: 200px;
+    height: 150px;
     margin-bottom: 20px;
     display: flex;
 }
 .tree-label-info {
     flex: 1;
-    width: calc(100%/3);
-    height: 200px;
+    width: 200px;
+    height: 150px;
+    padding: 10px;
     border: 1px solid black;
+}
+
+.tree-label-info > h3{
+    background-color: #2C7A7A;
+    color: #D9DEDE;
+    border: 3px solid black;
+    text-align: center;
+    padding: 10px;
+    margin-top: 0;
 }
 
 .download:active{
