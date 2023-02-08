@@ -111,6 +111,9 @@ function visualize_trees(jsonData, distance_measure) {
   var distance = jsonData.distance;
 
   var nodes1 = d3.hierarchy(tree1_data).descendants();
+  var mutations_tree1 = getAllMutations(nodes1);
+  console.log(mutations_tree1);
+  console.log(nodes1);
   var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
   //console.log(t_max1);
 
@@ -314,7 +317,16 @@ submitTreesBtn.onclick = () => {
 }
 
 function getAllMutations(nodes) {
-  
+  var all_mutations = [];
+  nodes.forEach(node => {
+    var label = node.data.label;
+    var mutations = label.split(", ");
+    mutations.forEach(mutation => {
+      all_mutations.push(remove_quotation(mutation));
+    });
+  });  
+  console.log(all_mutations);
+  return all_mutations;
 }
 
 function downloadSVGAsText() {
