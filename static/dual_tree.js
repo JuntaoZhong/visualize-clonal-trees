@@ -313,6 +313,10 @@ submitTreesBtn.onclick = () => {
   submit_tree();
 }
 
+function getAllMutations(nodes) {
+  
+}
+
 function downloadSVGAsText() {
   var svg = document.querySelector('#svg1');
   var base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));

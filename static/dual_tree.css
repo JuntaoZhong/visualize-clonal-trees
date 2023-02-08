@@ -144,6 +144,20 @@ button{
     padding: 7px;
 }
 
+#tree-label-info-container {
+    border: 1px solid black;
+    width: 100%;
+    height: 200px;
+    margin-bottom: 20px;
+    display: flex;
+}
+.tree-label-info {
+    flex: 1;
+    width: calc(100%/3);
+    height: 200px;
+    border: 1px solid black;
+}
+
 .download:active{
     background-color: #D9DEDE;
     margin-top: 3px;
