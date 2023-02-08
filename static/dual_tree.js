@@ -124,7 +124,7 @@ function visualize_trees(jsonData, distance_measure) {
   var mutations_tree2 = getAllMutations(nodes2);
   var tree2_label = document.getElementById("tree2-mutations");
   tree2_label.innerHTML = mutations_tree2;
-
+  
   var shared_label =  document.getElementById("shared-mutations");
   shared_label.innerHTML = intersect(mutations_tree1, mutations_tree2);
   //console.log(t_max2);
@@ -338,19 +338,9 @@ function getAllMutations(nodes) {
 }
 
 function intersect(a, b) {
-  var ai=0, bi=0;
-  var result = [];
-  while( ai < a.length && bi < b.length )
-  {
-     if (a[ai] < b[bi] ){ ai++; }
-     else if (a[ai] > b[bi] ){ bi++; }
-     else{
-       result.push(a[ai]);
-       ai++;
-       bi++;
-     }
-  }
-  return result;
+  var aa = {};
+  a.forEach(function(v) { aa[v]=1; });
+  return b.filter(function(v) { return v in aa; });
 }
 
 function downloadSVGAsText() {
