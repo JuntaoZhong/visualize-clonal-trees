@@ -5,86 +5,57 @@ from networkx.readwrite import json_graph
 import json
 import distance_measures.utils as utils
 
-def ancestor_descendant(g_1, g_2):
-    return len(ancestor_descendant_symmetric_difference(g_1, g_2))
-
-def ancestor_descendant_symmetric_difference(g_1,g_2):
-    set_1 = get_anc_desc_pairs(g_1)
-    set_2 = get_anc_desc_pairs(g_2)
-    return set_1.symmetric_difference(set_2)
-
 def get_pair_differences(g_1,g_2):
-    set_1 = get_anc_desc_pairs(g_1)
-    set_2 = get_anc_desc_pairs(g_2)
-    dif_set_1 = set_1 - set_2
-    dif_set_2 = set_2 - set_1
-    return dif_set_1, dif_set_2
+    '''returns the lists of ancestor descendant pairs that
+    are only in g_1 and only in g_2 respectively'''
+    ad_pair_set_1 = get_anc_desc_pairs(g_1)
+    ad_pair_set_2 = get_anc_desc_pairs(g_2)
+    ad_distinct_set_1 = ad_pair_set_1 - ad_pair_set_2
+    ad_distinct_set_2 = ad_pair_set_2 - ad_pair_set_1
+    return ad_distinct_set_1, ad_distinct_set_2 
 
 def get_contributions(g_1,g_2):
     '''returns two dictionaries where keys are nodes and values 
     are contributions according to get_pair_differences'''
-    dif_set_1 = get_pair_differences(g_1,g_2)[0]
-    dif_set_2 = get_pair_differences(g_1,g_2)[1]
-    dist = len(dif_set_1) + len(dif_set_2)
+    ad_distinct_set_1 = get_pair_differences(g_1,g_2)[0]
+    ad_distinct_set_2 = get_pair_differences(g_1,g_2)[1]
 
-    dict_1 = {}
-    dict_2 = {}
+    ad_distance = len(ad_distinct_set_1) + len(ad_distinct_set_2)
 
-    mutation_dict_1 = {}
-    mutation_dict_2 = {}
-
-    node_to_mutation_dict_1 = {}
-    node_to_mutation_dict_2 = {}
-    
-    
-    for node in g_1.nodes:
-        dict_1[node] = {}
-        dict_1[node]["contribution"] = 0
-        mutation_list = utils.get_mutations_from_node(g_1,node)
-        node_to_mutation_dict_1[node] = mutation_list
-        for mutation in mutation_list:
-            mutation_dict_1[mutation] = {}
-            mutation_dict_1[mutation]["contribution"] = 0
-    for node in g_2.nodes:
-        dict_2[node] = {}
-        dict_2[node]["contribution"] = 0
-        mutation_list = utils.get_mutations_from_node(g_2,node)
-        node_to_mutation_dict_2[node] = mutation_list
-        for mutation in mutation_list:
-            mutation_dict_2[mutation] = {}
-            mutation_dict_2[mutation]["contribution"] = 0
+    node_contribution_dict_1, mutation_contribution_dict_1, node_to_mutation_dict_1 = utils.initialize_core_dictionaries(g_1)
+    node_contribution_dict_2, mutation_contribution_dict_2, node_to_mutation_dict_2 = utils.initialize_core_dictionaries(g_2)
 
 
-    for pair in dif_set_1:
+    for pair in ad_distinct_set_1:
         anc_mut = pair[0]
         desc_mut = pair[1]
-        anc = get_node_from_mutation(g_1,anc_mut)
-        desc = get_node_from_mutation(g_1,desc_mut)
+        anc_node = get_node_from_mutation(g_1,anc_mut)
+        desc_node = get_node_from_mutation(g_1,desc_mut)
 
         #ANCS---------------------------------------------------------
-        dict_1[anc]["contribution"] = dict_1[anc]["contribution"] +1
+        node_contribution_dict_1[anc_node]["contribution"] = node_contribution_dict_1[anc_node]["contribution"] +1
         #MUT ANC----------------------------
-        mutation_dict_1[anc_mut]["contribution"] = mutation_dict_1[anc_mut]["contribution"] +1  
+        mutation_contribution_dict_1[anc_mut]["contribution"] = mutation_contribution_dict_1[anc_mut]["contribution"] +1  
         #DESC-----------------------------------------------------------------
-        dict_1[desc]["contribution"] = dict_1[desc]["contribution"] +1
+        node_contribution_dict_1[desc_node]["contribution"] = node_contribution_dict_1[desc_node]["contribution"] +1
          #MUT DESC----------------------------
-        mutation_dict_1[anc_mut]["contribution"] = mutation_dict_1[anc_mut]["contribution"] +1 
+        mutation_contribution_dict_1[anc_mut]["contribution"] = mutation_contribution_dict_1[anc_mut]["contribution"] +1 
 
-    for pair in dif_set_2:
+    for pair in ad_distinct_set_2:
         anc_mut = pair[0]
         desc_mut = pair[1]
-        anc = get_node_from_mutation(g_2,anc_mut)
-        desc = get_node_from_mutation(g_2,desc_mut)
+        anc_node = get_node_from_mutation(g_2,anc_mut)
+        desc_node = get_node_from_mutation(g_2,desc_mut)
         #ANCS---------------------------------------------------------
-        dict_2[anc]["contribution"] = dict_2[anc]["contribution"] +1
+        node_contribution_dict_2[anc_node]["contribution"] = node_contribution_dict_2[anc_node]["contribution"] +1
         #MUT ANC----------------------------
-        mutation_dict_2[anc_mut]["contribution"] = mutation_dict_2[anc_mut]["contribution"] +1  
+        mutation_contribution_dict_2[anc_mut]["contribution"] = mutation_contribution_dict_2[anc_mut]["contribution"] +1  
         #DESC-----------------------------------------------------------------
-        dict_2[desc]["contribution"] = dict_2[desc]["contribution"] +1
+        node_contribution_dict_2[desc_node]["contribution"] = node_contribution_dict_2[desc_node]["contribution"] +1
          #MUT DESC---------------------------
-        mutation_dict_2[anc_mut]["contribution"] = mutation_dict_2[anc_mut]["contribution"] +1 
+        mutation_contribution_dict_2[anc_mut]["contribution"] = mutation_contribution_dict_2[anc_mut]["contribution"] +1 
 
-    return dict_1, dict_2, dist, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2
+    return node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, ad_distance
 
 def get_anc_desc_pairs(g):
     ''' Returns list of 2-tuples of nodes in g whose
@@ -166,4 +137,4 @@ if __name__=="__main__":
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
     print(get_contributions(g_1,g_2))
-    print('distance: ' + str(ancestor_descendant(g_1, g_2)))
+   
