@@ -16,49 +16,24 @@ Command line arguments:
 """
 
 def get_contributions(g_1, g_2):
-    # maps node to contribution
-    node_contribution_dict_1 = {}
-    node_contribution_dict_2 = {}
-
+    '''returns two dictionaries where keys are nodes and values 
+    are contributions according to get_pair_differences'''
     # maps mutation to node
     mutations_node_dict_1 = {}
     mutations_node_dict_2 = {}
 
-    
-    mutation_dict_1 = {}
-    mutation_dict_2 = {}
-
-    node_to_mutation_dict_1 = {}
-    node_to_mutation_dict_2 = {}
-
-    # filling dictionaries
-    for node in g_1.nodes:
-        node_contribution_dict_1[node] = {}
-        node_contribution_dict_1[node]["contribution"] = 0
-        mutation_list = utils.get_mutations_from_node(g_1,node)
-        for mutation in mutation_list:
-            mutations_node_dict_1[mutation] = node
-            mutation_dict_1[mutation] = {}
-            mutation_dict_1[mutation]["contribution"] = 0
-        node_to_mutation_dict_1[node] = mutation_list
-           
-    for node in g_2.nodes:
-        node_contribution_dict_2[node] = {}
-        node_contribution_dict_2[node]["contribution"] = 0
-        mutation_list = utils.get_mutations_from_node(g_2,node)
-        for mutation in mutation_list:
-            mutations_node_dict_2[mutation] = node
-            mutation_dict_2[mutation] = {}
-            mutation_dict_2[mutation]["contribution"] = 0
-        node_to_mutation_dict_2[node] = mutation_list
-            
+    node_contribution_dict_1, mutation_contribution_dict_1, node_to_mutation_dict_1 = utils.initialize_core_dictionaries(g_1)
+    node_contribution_dict_2, mutation_contribution_dict_2, node_to_mutation_dict_2 = utils.initialize_core_dictionaries(g_2)         
     
     # maps mutation to set of ancestor mutations
     mutation_anc_dict_1 = utils.make_mutation_anc_dict(g_1) 
     mutation_anc_dict_2 = utils.make_mutation_anc_dict(g_2)
     print(mutation_anc_dict_1, "mutation anc dict")
-    full_mutation_set = set(mutations_node_dict_1.keys()).union(set(mutations_node_dict_2.keys()))
-    
+
+    mutation_set_1 = utils.get_all_mutations(g_1)
+    mutation_set_2 = utils.get_all_mutations(g_2)
+    full_mutation_set = mutation_set_1.union(mutation_set_2)
+
     caset_distance = 0
     m = len(full_mutation_set)
     for mut_1 in full_mutation_set:
@@ -76,14 +51,14 @@ def get_contributions(g_1, g_2):
                     caset_set_minus_2 = caset_2.difference(caset_1)
                     caset_distance += jacc_dist / 2
                     for mut in caset_set_minus_1:
-                        node_contribution_dict_1[mutations_node_dict_1[mut]]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
-                        mutation_dict_1[mut]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
+                        node_contribution_dict_1[utils.get_node_from_mutation(g_1, mut)]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
+                        mutation_contribution_dict_1[mut]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
                     for mut in caset_set_minus_2:                
-                        node_contribution_dict_2[mutations_node_dict_2[mut]]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
-                        mutation_dict_2[mut]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
+                        node_contribution_dict_2[utils.get_node_from_mutation(g_2, mut)]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
+                        mutation_contribution_dict_2[mut]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
     
-    dist = caset_distance/(m*((m-1)/2)) # caset_distance/(m choose 2)
-    return node_contribution_dict_1, node_contribution_dict_2, dist,mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2
+    cs_distance = caset_distance/(m*((m-1)/2)) # caset_distance/(m choose 2)
+    return node_contribution_dict_1, node_contribution_dict_2,mutation_contribution_dict_1, mutation_contribution_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, cs_distance
 
 def get_common_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
     if(mutation_1 in mutation_anc_dict and mutation_2 in mutation_anc_dict):

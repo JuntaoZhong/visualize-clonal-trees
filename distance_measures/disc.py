@@ -15,34 +15,12 @@ Command line arguments:
 """
 
 def get_contributions(g_1, g_2):
-    node_contribution_dict_1 = {}
-    node_contribution_dict_2 = {}
-
-    mutation_dict_1 = {}
-    mutation_dict_2 = {}
-
-    node_to_mutation_dict_1 = {}
-    node_to_mutation_dict_2 = {}
-
-    
-    for node in g_1.nodes:
-        node_contribution_dict_1[node] = {}
-        node_contribution_dict_1[node]["contribution"] = 0
-        mutation_list = utils.get_mutations_from_node(g_1,node)
-        for mutation in mutation_list:
-            mutation_dict_1[mutation] = {}
-            mutation_dict_1[mutation]["contribution"] = 0
-        node_to_mutation_dict_1[node] = mutation_list
-           
-    for node in g_2.nodes:
-        node_contribution_dict_2[node] = {}
-        node_contribution_dict_2[node]["contribution"] = 0
-        mutation_list = utils.get_mutations_from_node(g_2,node)
-        for mutation in mutation_list:
-            mutation_dict_2[mutation] = {}
-            mutation_dict_2[mutation]["contribution"] = 0
-        node_to_mutation_dict_2[node] = mutation_list
-
+    '''returns three dictionaries for each tree: 
+    node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
+    and DISC distance between the trees
+    '''
+    node_contribution_dict_1, mutation_contribution_dict_1, node_to_mutation_dict_1 = utils.initialize_core_dictionaries(g_1)
+    node_contribution_dict_2, mutation_contribution_dict_2, node_to_mutation_dict_2 = utils.initialize_core_dictionaries(g_2)
 
     mutation_anc_dict_1 = {}
     root_1 = utils.get_root(g_1)
@@ -76,15 +54,15 @@ def get_contributions(g_1, g_2):
                     caset_distance += jacc_dist
                     for set_minus_1_mut in disc_set_minus_1:
                         node_contribution_dict_1[utils.get_node_from_mutation(g_1, set_minus_1_mut)]["contribution"] += jacc_dist / len(disc_set_minus_1) /(m*((m-1)))
-                        mutation_dict_1[set_minus_1_mut]["contribution"] += jacc_dist / len(disc_set_minus_1) /(m*((m-1)))
+                        mutation_contribution_dict_1[set_minus_1_mut]["contribution"] += jacc_dist / len(disc_set_minus_1) /(m*((m-1)))
                         # caset_distance += jacc_dist / len(caset_set_minus_1) / 2 
                     for set_minus_2_mut in disc_set_minus_2:                
                         node_contribution_dict_2[utils.get_node_from_mutation(g_2, set_minus_2_mut)]["contribution"] += jacc_dist / len(disc_set_minus_2) /(m*((m-1)))
-                        mutation_dict_2[set_minus_2_mut]["contribution"] += jacc_dist / len(disc_set_minus_2) /(m*((m-1)))
+                        mutation_contribution_dict_2[set_minus_2_mut]["contribution"] += jacc_dist / len(disc_set_minus_2) /(m*((m-1)))
                         # caset_distance +=  jacc_dist / len(caset_set_minus_2) / 2
-    dist = (1/(m*((m-1))) * caset_distance) # m choose 2
-    print("meeeep", dist, "\n")
-    return node_contribution_dict_1, node_contribution_dict_2, dist, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2
+    dc_distance = (1/(m*((m-1))) * caset_distance) # m choose 2
+    print("meeeep", dc_distance, "\n")
+    return node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, dc_distance
 
 # def jacc(mutation_1, mutation_2, mutation_anc_dict_1, mutation_anc_dict_2):  
 
@@ -134,7 +112,7 @@ def get_mutations_from_node(g, node):
 def get_all_mutations(g):
     mutation_set = set()
     for node in g.nodes:
-        mutation_set = mutation_set.union(set(get_mutations_from_node(g, node)))
+        mutation_set = mutation_set.union(set(utils.get_mutations_from_node(g, node)))
     return mutation_set
 
 def disc_main(filename_1, filename_2):
