@@ -130,7 +130,7 @@
     width: 500px;
     height: 500px;
     /* background-color: white;   */
-    border: 1px solid black;
+    border: 2px solid black;
 }
 #tree1_visualization {
     margin-right: 20px
@@ -176,11 +176,6 @@ button{
     background-color: #D9DEDE;
     margin-top: 3px;
     color: black;
-}
-
-svg {
-    border: 1px solid black;
-    /* overflow-y: scroll; */
 }
 
 html{
