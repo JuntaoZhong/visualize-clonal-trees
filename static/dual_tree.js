@@ -102,18 +102,6 @@ function set_visualization_event_listeners(distance_measure) {
   }
 }
 
-function get_highlight_nodes_from_mutations(node_to_mutation_dict, mutation_list) {
-  highlight_nodes = []
-  for (let node in node_to_mutation_dict) {
-    res = intersect(node_to_mutation_dict[node], mutation_list);
-    if (res.length >= 1) {
-      highlight_nodes.push(node);
-    }
-  }
-  return highlight_nodes
-}
-
-
 function visualize_trees(jsonData, distance_measure) {
 
   set_visualization_event_listeners(distance_measure);
@@ -142,15 +130,7 @@ function visualize_trees(jsonData, distance_measure) {
   shared_label.innerHTML = shared_mutations;
   tree1_label.innerHTML = tree1_only_mutations;
   tree2_label.innerHTML = tree2_only_mutations;
-
-  tree1_highlight_nodes = get_highlight_nodes_from_mutations(jsonData.node_to_mutation1, tree1_only_mutations);
-  tree2_highlight_nodes = get_highlight_nodes_from_mutations(jsonData.node_to_mutation2, tree2_only_mutations);
-
-  //now we know what node to highlight on tree1 and tree2.
-  // but Jimmy is not sure how can he do it in D3.
-  console.log("peep");
-  console.log(tree1_highlight_nodes);
-  console.log(tree2_highlight_nodes);
+  var tree_unique_mutations = [tree1_only_mutations, tree2_only_mutations];
 
   var t_max = Math.max(t_max1,t_max2);
 
@@ -190,7 +170,6 @@ function visualize_trees(jsonData, distance_measure) {
       .join('circle')
       .classed('node', true)
       .style("transform", "translate(5, 20), scale(0.5)")
-      .style("stroke", "black")
       .style("stroke-width", "3px")
       .attr('cx', function(d) {return d.x;})
       .attr('cy', function(d) {return d.y;})
@@ -220,6 +199,16 @@ function visualize_trees(jsonData, distance_measure) {
           return `${genes[0]}...`
         }
         return str;
+      })
+      .style("stroke", d => {
+        var str = remove_quotation(d.data.label);
+        node_mutations = str.split(", ");
+        res = intersect(node_mutations, tree_unique_mutations[i]);
+        if (res.length >= 1) {
+          return "red";
+        } else {
+          return "black";
+        }
       })
       .style("font-size", "13px")
       .on("click", (d, i) => { 
