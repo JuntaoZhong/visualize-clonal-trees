@@ -170,12 +170,12 @@ button{
     border: 3px solid black;
     text-align: center;
     padding: 10px;
-    margin-top: 0;
+    margin-top: 5px;
 }
 
 .download:active{
     background-color: #D9DEDE;
-    margin-top: 3px;
+    /* margin-top: 3px; */
     color: black;
 }
 
