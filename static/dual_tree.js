@@ -102,6 +102,18 @@ function set_visualization_event_listeners(distance_measure) {
   }
 }
 
+function get_highlight_nodes_from_mutations(node_to_mutation_dict, mutation_list) {
+  highlight_nodes = []
+  for (let node in node_to_mutation_dict) {
+    res = intersect(node_to_mutation_dict[node], mutation_list);
+    if (res.length >= 1) {
+      highlight_nodes.push(node);
+    }
+  }
+  return highlight_nodes
+}
+
+
 function visualize_trees(jsonData, distance_measure) {
 
   set_visualization_event_listeners(distance_measure);
@@ -114,7 +126,6 @@ function visualize_trees(jsonData, distance_measure) {
   var mutations_tree1 = getAllMutations(nodes1);
   console.log(mutations_tree1);
   var tree1_label = document.getElementById("tree1-mutations");
-  tree1_label.innerHTML = mutations_tree1;
   console.log(nodes1);
   var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
   //console.log(t_max1);
@@ -123,11 +134,23 @@ function visualize_trees(jsonData, distance_measure) {
   var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
   var mutations_tree2 = getAllMutations(nodes2);
   var tree2_label = document.getElementById("tree2-mutations");
-  tree2_label.innerHTML = mutations_tree2;
   
-  var shared_label =  document.getElementById("shared-mutations");
-  shared_label.innerHTML = intersect(mutations_tree1, mutations_tree2);
-  //console.log(t_max2);
+  var shared_label = document.getElementById("shared-mutations");
+  shared_mutations = intersect(mutations_tree1, mutations_tree2);
+  tree1_only_mutations = difference(mutations_tree1, shared_mutations);
+  tree2_only_mutations = difference(mutations_tree2, shared_mutations);
+  shared_label.innerHTML = shared_mutations;
+  tree1_label.innerHTML = tree1_only_mutations;
+  tree2_label.innerHTML = tree2_only_mutations;
+
+  tree1_highlight_nodes = get_highlight_nodes_from_mutations(jsonData.node_to_mutation1, tree1_only_mutations);
+  tree2_highlight_nodes = get_highlight_nodes_from_mutations(jsonData.node_to_mutation2, tree2_only_mutations);
+
+  //now we know what node to highlight on tree1 and tree2.
+  // but Jimmy is not sure how can he do it in D3.
+  console.log("peep");
+  console.log(tree1_highlight_nodes);
+  console.log(tree2_highlight_nodes);
 
   var t_max = Math.max(t_max1,t_max2);
 
@@ -341,6 +364,10 @@ function intersect(a, b) {
   var aa = {};
   a.forEach(function(v) { aa[v]=1; });
   return b.filter(function(v) { return v in aa; });
+}
+
+function difference(arr1, arr2){
+  return arr1.filter(x => !arr2.includes(x));
 }
 
 function downloadSVGAsText() {
