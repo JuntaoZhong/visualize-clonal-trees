@@ -5,18 +5,11 @@ from networkx.readwrite import json_graph
 import json
 import distance_measures.utils as utils
 
-def get_pair_differences(g_1,g_2):
-    '''returns the lists of ancestor descendant pairs that
-    are only in g_1 and only in g_2 respectively'''
-    ad_pair_set_1 = get_anc_desc_pairs(g_1)
-    ad_pair_set_2 = get_anc_desc_pairs(g_2)
-    ad_distinct_set_1 = ad_pair_set_1 - ad_pair_set_2
-    ad_distinct_set_2 = ad_pair_set_2 - ad_pair_set_1
-    return ad_distinct_set_1, ad_distinct_set_2 
-
 def get_contributions(g_1,g_2):
-    '''returns two dictionaries where keys are nodes and values 
-    are contributions according to get_pair_differences'''
+    '''returns three dictionaries for each tree: 
+    node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
+    and AD distance between the trees
+    '''
     ad_distinct_set_1 = get_pair_differences(g_1,g_2)[0]
     ad_distinct_set_2 = get_pair_differences(g_1,g_2)[1]
 
@@ -54,8 +47,18 @@ def get_contributions(g_1,g_2):
         node_contribution_dict_2[desc_node]["contribution"] = node_contribution_dict_2[desc_node]["contribution"] +1
          #MUT DESC---------------------------
         mutation_contribution_dict_2[anc_mut]["contribution"] = mutation_contribution_dict_2[anc_mut]["contribution"] +1 
-
+    print("ad_distance", ad_distance, "\n")
     return node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, ad_distance
+
+
+def get_pair_differences(g_1,g_2):
+    '''returns the lists of ancestor descendant pairs that
+    are only in g_1 and only in g_2 respectively'''
+    ad_pair_set_1 = get_anc_desc_pairs(g_1)
+    ad_pair_set_2 = get_anc_desc_pairs(g_2)
+    ad_distinct_set_1 = ad_pair_set_1 - ad_pair_set_2
+    ad_distinct_set_2 = ad_pair_set_2 - ad_pair_set_1
+    return ad_distinct_set_1, ad_distinct_set_2
 
 def get_anc_desc_pairs(g):
     ''' Returns list of 2-tuples of nodes in g whose
@@ -118,13 +121,6 @@ def ad_main(filename_1, filename_2):
     dict_1, dict_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
-    print("This is the contents of t1.txt")
-    print(open(filename_1, "r").read())
-    print()
-    print("This is the contents of t2.txt")
-    print(open(filename_2, "r").read())
-    print()
-    print(g_1)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
     data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
     return (data_1, data_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2)
