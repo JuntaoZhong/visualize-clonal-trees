@@ -174,8 +174,9 @@ function visualize_trees(jsonData, distance_measure) {
       .attr('cx', function(d) {return d.x;})
       .attr('cy', function(d) {return d.y;})
       .attr('r', function(d) {
-        labels_array = d.data.label.split(',');
-        return Math.sqrt(labels_array.length) * 10;
+        //labels_array = d.data.label.split(',');
+        //return Math.sqrt(labels_array.length) * 10;
+        return 10;
       })
 
     // Displaying the labels for the nodes
