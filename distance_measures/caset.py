@@ -7,57 +7,51 @@ import networkx as nx
 import json
 import distance_measures.utils as utils
 
-"""
-CASet.py calculates pairwise CASet distances between all trees in an input file with 
-one Newick string on each line.
-Defaults to intersection distance.
-Command line arguments:
-[-o --outputFile file] [-u --union] [-p --pickle file] [-t --treePrint] [-m --minmax]
-"""
-
 def get_contributions(g_1, g_2):
-    '''returns two dictionaries where keys are nodes and values 
-    are contributions according to get_pair_differences'''
-    # maps mutation to node
-    mutations_node_dict_1 = {}
-    mutations_node_dict_2 = {}
+    '''returns three dictionaries for each tree: 
+    node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
+    and CAset distance between the trees
+    '''
 
     node_contribution_dict_1, mutation_contribution_dict_1, node_to_mutation_dict_1 = utils.initialize_core_dictionaries(g_1)
     node_contribution_dict_2, mutation_contribution_dict_2, node_to_mutation_dict_2 = utils.initialize_core_dictionaries(g_2)         
     
-    # maps mutation to set of ancestor mutations
+    #maps mutation to set of ancestor mutations within each tree
     mutation_anc_dict_1 = utils.make_mutation_anc_dict(g_1) 
     mutation_anc_dict_2 = utils.make_mutation_anc_dict(g_2)
-    print(mutation_anc_dict_1, "mutation anc dict")
 
+    #calculate number_mutations for spreading out contribution
     mutation_set_1 = utils.get_all_mutations(g_1)
     mutation_set_2 = utils.get_all_mutations(g_2)
     full_mutation_set = mutation_set_1.union(mutation_set_2)
+    number_mutations = len(full_mutation_set)
 
+    #actual machinery for disc algorithm
     caset_distance = 0
-    m = len(full_mutation_set)
     for mut_1 in full_mutation_set:
         for mut_2 in full_mutation_set:
             if (not mut_1 == mut_2):
                 caset_1 = get_common_ancestor_set(mut_1, mut_2, mutation_anc_dict_1)
                 caset_2 = get_common_ancestor_set(mut_1, mut_2, mutation_anc_dict_2)
                 caset_union = caset_1.union(caset_2)
-                x = len(caset_union)
-                if not x==0:
+                if not len(caset_union)==0:
                     caset_intersection = caset_1.intersection(caset_2)
-                    y = len(caset_intersection)
-                    jacc_dist = (x - y) / x
+                    jacc_dist = (len(caset_union) - len(caset_intersection)) / len(caset_union)
                     caset_set_minus_1 = caset_1.difference(caset_2)
                     caset_set_minus_2 = caset_2.difference(caset_1)
+                    #order not important for mutations, so divide by 2 to avoid overcounting
                     caset_distance += jacc_dist / 2
-                    for mut in caset_set_minus_1:
-                        node_contribution_dict_1[utils.get_node_from_mutation(g_1, mut)]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
-                        mutation_contribution_dict_1[mut]["contribution"] += jacc_dist / len(caset_set_minus_1) / 2 /(m*((m-1)/2))
-                    for mut in caset_set_minus_2:                
-                        node_contribution_dict_2[utils.get_node_from_mutation(g_2, mut)]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
-                        mutation_contribution_dict_2[mut]["contribution"] += jacc_dist / len(caset_set_minus_2) / 2 /(m*((m-1)/2))
+                    for mutation in caset_set_minus_1:
+                        mutation_contribution = jacc_dist / len(caset_set_minus_1) / 2 /(number_mutations*((number_mutations-1)/2))
+                        node_contribution_dict_1[utils.get_node_from_mutation(g_1, mutation)]["contribution"] += mutation_contribution
+                        mutation_contribution_dict_1[mutation]["contribution"] += mutation_contribution
+                    for mutuation in caset_set_minus_2: 
+                        mutation_contribution = jacc_dist / len(caset_set_minus_2) / 2 /(number_mutations*((number_mutations-1)/2))              
+                        node_contribution_dict_2[utils.get_node_from_mutation(g_2, mutation)]["contribution"] += mutation_contribution
+                        mutation_contribution_dict_2[mutation]["contribution"] += mutation_contribution
     
-    cs_distance = caset_distance/(m*((m-1)/2)) # caset_distance/(m choose 2)
+    cs_distance = caset_distance/(number_mutations*((number_mutations-1)/2)) # caset_distance/(m choose 2)
+    print("cs_distance", cs_distance, "\n")
     return node_contribution_dict_1, node_contribution_dict_2,mutation_contribution_dict_1, mutation_contribution_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, cs_distance
 
 def get_common_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):

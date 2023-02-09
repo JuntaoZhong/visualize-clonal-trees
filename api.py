@@ -66,7 +66,7 @@ def run_parent_child_distance():
 
   node_contribution_dict_1, node_contribution_dict_2, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, distance= pc_dot.pc_main("t1.txt", "t2.txt")
   jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
-  print(json.dumps(jsonObject))
+  #print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))
   
 @api.route('/ancestor_descendant_distance')
@@ -85,7 +85,7 @@ def run_ancestor_descendant_distance():
   write_dot_tree_2_file(tree2_data, "t2.txt")
   node_contribution_dict_1, node_contribution_dict_2,mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, distance = ad_dot.ad_main("t1.txt", "t2.txt")
   jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
-  print(json.dumps(jsonObject))
+  #print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))
 
 @api.route('/caset_distance')
@@ -104,7 +104,7 @@ def run_caset_distance():
   write_dot_tree_2_file(tree2_data, "t2.txt")
   node_contribution_dict_1, node_contribution_dict_2,  mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2,distance = cs_dot.cs_main("t1.txt", "t2.txt")
   jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
-  print(json.dumps(jsonObject))
+  #print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))
 
 @api.route('/disc_distance')
@@ -123,5 +123,5 @@ def run_disc_distance():
   write_dot_tree_2_file(tree2_data, "t2.txt")
   node_contribution_dict_1, node_contribution_dict_2,  mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, distance = disc_dot.disc_main("t1.txt", "t2.txt")
   jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
-  print(json.dumps(jsonObject))
+  #print(json.dumps(jsonObject))
   return(json.dumps(jsonObject))

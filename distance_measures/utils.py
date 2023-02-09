@@ -46,16 +46,12 @@ def get_root(g):
 def get_mutations_from_label(label):
     ''' Returns list of mutations in a label '''
     label_list = label.split(",")
-    #print("label list: " + str(label_list))
     label_list[0] = label_list[0][1:]
-    #print("label list now: " + str(label_list))
     label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
-    #print("and now: " + str(label_list))
     return label_list
 
 def get_mutations_from_node(g, node):
     ''' Returns list of strings representing mutations at node'''
-    #print(g.nodes[node])
     label =  g.nodes[node]['label']
     label_list = label.split(",")
     label_list[0] = label_list[0][1:]
@@ -66,9 +62,7 @@ def make_mutation_anc_dict(g):
     mutation_anc_dict = {}
     root = get_root(g)
     mutation_anc_dict[root] = {root}
-    #print("start one", mutation_anc_dict, "first one")
     mutation_anc_dict = fill_mutation_anc_dict(g, root, mutation_anc_dict)
-    #print("start two", mutation_anc_dict, "second one")
     return mutation_anc_dict
 
 def fill_mutation_anc_dict(g, node, dict):
