@@ -380,6 +380,22 @@ function downloadSVG2AsText() {
   a.dispatchEvent(e);
 }
 
+$('.collapse').on('click', function(e) {
+  $(this).toggleClass('expanded');
+  $(this).next().toggleClass('bottombox');
+  const isExpanded = $(this).hasClass('expanded');
+  $(this).text(isExpanded ? '▶' : '▼');
+  });
+
+function toggle(id) {
+    var x = document.getElementById(id);
+    x.style.display = x.style.display == 'inline-block' ? 'none' : 'inline-block';
+}
+function toggleVisible(id) {
+  var x = document.getElementById(id);
+  x.style.display = x.style.display == 'none' ? 'inline-block' : 'none';
+}
+
 var downloadSVG1 = document.querySelector('#downloadSVG1');
 downloadSVG1.addEventListener('click', downloadSVGAsText);
 var downloadSVG2 = document.querySelector('#downloadSVG2');

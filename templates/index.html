@@ -14,6 +14,7 @@
         <script src="https://cdn.jsdelivr.net/npm/d3-dispatch@3"></script>
         <script src="https://cdn.jsdelivr.net/npm/d3-selection@3"></script>
         <script src="https://cdn.jsdelivr.net/npm/d3-drag@3"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         <title>TreeVizTitle</title>
     </head>
     <body>
@@ -23,8 +24,8 @@
         </div>
         <div class="container">
             <div class="child" id="sidebar">
+                <h2>Distance Metric</h2>
                 <div id="topbox">
-                    <h2>Distance Metric<h2>
                     <div class="top-buttons">
                         <div class="toggle_button view">
                             <button onclick="view1()" id="single">Single View</button>
@@ -187,7 +188,13 @@
                     </div>
                 </div>
                 <hr size="2" noshade="", width="auto">
-                <div id="bottombox">
+                
+                <div class="input-collapse">
+                        <h2>Input</h2>
+                        <h4 class="collapse" id="input-box-toggle" onclick="toggleVisible('bottombox')">▶</h4>
+                </div>
+                <div class="bottombox" id="bottombox">
+                    
                     <div class="dropdown"> 
                         <h4>Input Tree 1</h4>
                         <label class="indent" for="input1">Select file format</label>
@@ -202,14 +209,8 @@
                     <label for="file1"></label>
                     <input class="custom-file-input" type="file" id="file1" name="file1">
                     <div class="toggle_button">
-                        <button onclick="myFunction1()" id="toggle1">Modify Tree Manually</button>
+                        <button onclick="toggle('text_box1')" id="toggle1">Modify Tree Manually</button>
                     </div>
-                    <script>
-                        function myFunction1() {
-                          var x = document.getElementById("text_box1");
-                          x.style.display = x.style.display == 'inline-block' ? 'none' : 'inline-block';
-                        }
-                    </script>
                     <div id="text_box1">
                     <textarea class="text-box" id="tree1-text" name="" cols="30" rows="10">digraph Tree {
     1 [label="P, T, S, J, C, A"];
@@ -246,14 +247,8 @@
                     <label for="file2"></label>
                     <input class="custom-file-input" type="file" id="file2" name="file2">
                     <div class="toggle_button">
-                        <button onclick="myFunction2()" id="toggle2">Modify Tree Manually</button>
+                        <button onclick="toggle('text_box2')" id="toggle2">Modify Tree Manually</button>
                     </div>
-                    <script>
-                        function myFunction2() {
-                          var x = document.getElementById("text_box2");
-                          x.style.display = x.style.display == 'inline-block' ? 'none' : 'inline-block';
-                        }
-                    </script>
                     <div id="text_box2">
                     <textarea class="text-box" id="tree2-text" name="" cols="30" rows="10">digraph Tree {
     1 [label="P, T, J, C, A"];
@@ -275,9 +270,10 @@
     5 -> 6;
     8 -> 9;
     4 -> 10;
-}</textarea>    </div>
+}</textarea>    </div> 
+                <input id="submit-trees-btn" type="submit" value="Save">
                 </div>
-                <input id="submit-trees-btn" type="submit">
+                <hr size="2" noshade="", width="auto">
             </div>
             <div class="child" id="main">
                 <div id="tree-label-info-container">

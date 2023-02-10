@@ -45,7 +45,7 @@
 #sidebar{
     background-color: #D9DEDE;
     vertical-align: top;
-    width: 25%;
+    width: 23%;
     height:100%;
     
 }
@@ -72,8 +72,27 @@
     /* width: 75%; */
     padding: 20px;
     background-color: #F5F5F5;
+    overflow-y: scroll;
 }
 
+.input-collapse {
+    display: table;
+    width: 50%;
+    /* margin-left: 1px; */
+}
+
+#input-sub {
+    margin-left: 30px;
+}
+.collapse {
+    display: table-cell;
+    margin-left: 35px;
+}
+#input-box-toggle {
+    padding-left: 100%;
+    cursor: pointer;
+    /* visibility: hidden; */
+}
 
 .box{
     float:left;
@@ -143,6 +162,7 @@ button{
     color: #F5F5F5;
     border-radius: 8px;
     padding: 7px;
+    cursor: pointer;
 }
 #tree1-mutations, #tree2-mutations, #shared-mutations {
     /* border: 1px solid black; */
@@ -197,6 +217,7 @@ select, input{
     color: #F5F5F5;
     border-radius: 8px;
     padding: 7px;
+    cursor: pointer;
 }
 
 option{
@@ -222,6 +243,7 @@ h2{
 #submit-trees-btn{
     margin-left: 30px;
     margin-bottom: 10px;
+    background-color:#2C7A7A;
 }
 
 #submit-trees-btn:active{
