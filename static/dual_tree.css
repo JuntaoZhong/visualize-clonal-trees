@@ -131,7 +131,7 @@
     width: 500px;
     height: 500px;
     /* background-color: white;   */
-    border: 1px solid black;
+    border: 2px solid black;
 }
 #tree1_visualization {
     margin-right: 20px
@@ -170,18 +170,13 @@ button{
     border: 3px solid black;
     text-align: center;
     padding: 10px;
-    margin-top: 0;
+    margin-top: 5px;
 }
 
 .download:active{
     background-color: #D9DEDE;
-    margin-top: 3px;
+    /* margin-top: 3px; */
     color: black;
-}
-
-svg {
-    border: 1px solid black;
-    /* overflow-y: scroll; */
 }
 
 html{
