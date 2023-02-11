@@ -65,7 +65,6 @@ function set_visualization_event_listeners(distance_measure) {
     case "caset_distance": 
     case "disc_distance": 
     case "ancestor_descendant_distance":
-      console.log("in here.");
       d3.selectAll("circle.node")
         .on("mouseover", (d, i) => {
           div.html(i.data.contribution);
@@ -81,7 +80,6 @@ function set_visualization_event_listeners(distance_measure) {
         .on("mouseout", null);
       break;
     case "parent_child_distance": 
-      console.log("here");
       d3.selectAll("line.link")
         .on("mouseover", (d, i) => {
           div.html(i.target.data.contribution);
@@ -102,6 +100,7 @@ function set_visualization_event_listeners(distance_measure) {
   }
 }
 
+
 function visualize_trees(jsonData, distance_measure) {
 
   set_visualization_event_listeners(distance_measure);
@@ -112,9 +111,7 @@ function visualize_trees(jsonData, distance_measure) {
 
   var nodes1 = d3.hierarchy(tree1_data).descendants();
   var mutations_tree1 = getAllMutations(nodes1);
-  console.log(mutations_tree1);
   var tree1_label = document.getElementById("tree1-mutations");
-  console.log(nodes1);
   var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
   //console.log(t_max1);
 
@@ -139,19 +136,30 @@ function visualize_trees(jsonData, distance_measure) {
   var label3 = document.getElementById("colorLabel3");
   var label4 = document.getElementById("colorLabel4");
 
-  label1.innerHTML = 0
-  label2.innerHTML = Math.round((t_max / 3) * 100) / 100 
-  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100 
-  label4.innerHTML = Math.round(t_max * 100) / 100 
+  var visualization_container = document.querySelector(".visualizations-container > div");
+
+  label1.innerHTML = 0;
+  label2.innerHTML = Math.round((t_max / 3) * 100) / 100; 
+  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100; 
+  label4.innerHTML = Math.round(t_max * 100) / 100; 
   
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
     var root = d3.hierarchy(data[i]);
-    var tree = d3.tree().size([600, 400]);
+    //var tree = d3.tree().size([600, 400]);
+    var tree = d3.tree()
+    if (root.height > 10) {
+      tree.nodeSize([60, 25]);
+    }
+    else {
+      tree.nodeSize([70, 60]);
+    }
+    tree.separation((a, b) => 1.5);
     tree(root);
-
     var d3_nodes = d3.select('#' + svg_names[i] +  ' g.nodes')
     var d3_links = d3.select('#' + svg_names[i] +  ' g.links')
+    var d3_text = d3_nodes.selectAll("text.mutation-label")
+ 
 
     // Setting shared attributes for the links 
     d3_links.selectAll('line.link')
@@ -159,6 +167,14 @@ function visualize_trees(jsonData, distance_measure) {
       .join('line')
       .classed('link', true)
       .style("transform", "translate(5, 20), scale(0.5)")
+      .style("stroke-width", () => {
+        if (distance_measure != "parent_child_distance") {
+          return "2px";
+        }
+        else {
+          return "5px";
+        }
+      })
       .attr('x1', d =>  { return d.source.x;})
       .attr('y1', d => { return d.source.y;})
       .attr('x2', d => { return d.target.x;})
@@ -171,65 +187,35 @@ function visualize_trees(jsonData, distance_measure) {
       .classed('node', true)
       .style("transform", "translate(5, 20), scale(0.5)")
       .style("stroke-width", "3px")
-      .attr('cx', function(d) {return d.x;})
+      .attr('cx', (d) => {return d.x;})
       .attr('cy', function(d) {return d.y;})
       .attr('r', function(d) {
-        //labels_array = d.data.label.split(',');
-        //return Math.sqrt(labels_array.length) * 10;
+        if (distance_measure == "parent_child_distance") {
+          return 6;
+        }
         return 10;
       })
 
     // Displaying the labels for the nodes
-    var labels = d3_nodes.selectAll("text.mutation-label")
-      .data(root.descendants())
-      .join("text")
-      .classed("mutation-label", true)
-      .attr("x", d => { 
-        labels_array = d.data.label.split(',');
-        return d.x + Math.sqrt(labels_array.length) * 15; 
-      })
-      .attr("y", d => { 
-        labels_array = d.data.label.split(',');
-        return d.y + Math.sqrt(labels_array.length) * 5; 
-      });
-      /*
-      .text(d => {
-        var str = d.data.label;
-        str = remove_quotation(str);
-        genes = str.split(", ");
-        if (genes.length > 1) {
-          return `${genes[0]}...`
-        }
-        return str;
-      })
-      .style("stroke", d => {
-        var str = remove_quotation(d.data.label);
-        node_mutations = str.split(", ");
-        res = intersect(node_mutations, tree_unique_mutations[i]);
-        if (res.length >= 1) {
-          return "red";
-        } else {
-          return "black";
-        }
-      })
-      */
-      //.style("font-size", "13px")
-      /*
-      .on("click", (d, i) => { 
-        var str = i.data.label;
-        str = remove_quotation(str);
-        var lst = str.split(", ");
-        var gene_url;
-        console.log(lst);
-        lst.forEach(gene => {
-          gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + gene;
-          window.open(gene_url, "_blank"); 
-        });
-      });*/
+    var labels = d3_text.data(root.descendants())
+    .join("text")
+    .classed("mutation-label", true)
+    .attr("x", d => { 
+      if (d.data.children == null) {
+        return d.x - 5; 
+      }
+      return d.x + 15; 
+    })
+    .attr("y", d => { 
+      if (d.data.children == null) {
+        return d.y + 35; 
+      }
+      return d.y - 15; 
+    })
 
-    labels.selectAll("tspan") 
+    // Making each mutation a tspan
+    var tspans = labels.selectAll("tspan") 
     .data(d => {
-      console.log(`This is the data ${d.data.label.split(",")}`);
       var str = d.data.label;
       str = remove_quotation(str);
       var lst = str.split(", ");
@@ -240,16 +226,19 @@ function visualize_trees(jsonData, distance_measure) {
       return lst;
     })
     .join('tspan')
-    .text(d => {
-      console.log(d);
-      return d + ", ";
+    .text((d, i, j) => {
+      if (i == j.length - 1) {
+        return d;
+      }
+      return d + ",";
     })
-      .on("click", (d, i) => { 
-           
-          var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i;
-          console.log(gene_url);
-          window.open(gene_url, "_blank"); 
+    .style("font-size", "0.8em")
+    .style("font-family", "Monospace")
+    .on("click", (d, i) => { 
+        var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i;
+        window.open(gene_url, "_blank"); 
     });
+
 
     // Set the coloring scheme based off of the distance measure
     switch (distanceMetric.value) {
@@ -273,6 +262,7 @@ function visualize_trees(jsonData, distance_measure) {
         console.log("Please select a valid distance measure. If you have question email ealexander@carleton.edu");
         break;
     }
+
   }
 }
 
@@ -297,7 +287,6 @@ function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
         .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
         return "black" //scale(d.target.data.contribution);
       }) 
-      .style("stroke-width", "5px") 
 }
 
 function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
@@ -335,7 +324,6 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
   d3_links.selectAll('line.link')
       .style("stroke", function(d) { return edge_color_function(d); })
       .style("transform", "translate(5, 20), scale(0.5)")
-      .style("stroke-width", "5px") 
 }
 
 function submit_tree() {
@@ -373,7 +361,6 @@ function getAllMutations(nodes) {
       all_mutations.push(remove_quotation(mutation));
     });
   });  
-  console.log(all_mutations);
   return all_mutations;
 }
 
