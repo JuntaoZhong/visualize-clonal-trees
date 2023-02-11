@@ -45,7 +45,7 @@ def get_contributions(g_1, g_2):
                         mutation_contribution = jacc_dist / len(caset_set_minus_1) / 2 /(number_mutations*((number_mutations-1)/2))
                         node_contribution_dict_1[utils.get_node_from_mutation(g_1, mutation)]["contribution"] += mutation_contribution
                         mutation_contribution_dict_1[mutation]["contribution"] += mutation_contribution
-                    for mutuation in caset_set_minus_2: 
+                    for mutation in caset_set_minus_2: 
                         mutation_contribution = jacc_dist / len(caset_set_minus_2) / 2 /(number_mutations*((number_mutations-1)/2))              
                         node_contribution_dict_2[utils.get_node_from_mutation(g_2, mutation)]["contribution"] += mutation_contribution
                         mutation_contribution_dict_2[mutation]["contribution"] += mutation_contribution
