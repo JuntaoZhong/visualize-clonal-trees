@@ -180,7 +180,7 @@ function visualize_trees(jsonData, distance_measure) {
       })
 
     // Displaying the labels for the nodes
-    d3_nodes.selectAll("text.mutation-label")
+    var labels = d3_nodes.selectAll("text.mutation-label")
       .data(root.descendants())
       .join("text")
       .classed("mutation-label", true)
@@ -191,7 +191,8 @@ function visualize_trees(jsonData, distance_measure) {
       .attr("y", d => { 
         labels_array = d.data.label.split(',');
         return d.y + Math.sqrt(labels_array.length) * 5; 
-      })
+      });
+      /*
       .text(d => {
         var str = d.data.label;
         str = remove_quotation(str);
@@ -211,7 +212,9 @@ function visualize_trees(jsonData, distance_measure) {
           return "black";
         }
       })
-      .style("font-size", "13px")
+      */
+      //.style("font-size", "13px")
+      /*
       .on("click", (d, i) => { 
         var str = i.data.label;
         str = remove_quotation(str);
@@ -222,7 +225,31 @@ function visualize_trees(jsonData, distance_measure) {
           gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + gene;
           window.open(gene_url, "_blank"); 
         });
+      });*/
+
+    labels.selectAll("tspan") 
+    .data(d => {
+      console.log(`This is the data ${d.data.label.split(",")}`);
+      var str = d.data.label;
+      str = remove_quotation(str);
+      var lst = str.split(", ");
+      var newLst = [];
+      lst.forEach(mutation => {
+        newLst.push(mutation.trim());
       });
+      return lst;
+    })
+    .join('tspan')
+    .text(d => {
+      console.log(d);
+      return d + ", ";
+    })
+      .on("click", (d, i) => { 
+           
+          var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i;
+          console.log(gene_url);
+          window.open(gene_url, "_blank"); 
+    });
 
     // Set the coloring scheme based off of the distance measure
     switch (distanceMetric.value) {
