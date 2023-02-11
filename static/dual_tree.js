@@ -218,12 +218,12 @@ function visualize_trees(jsonData, distance_measure) {
     .data(d => {
       var str = d.data.label;
       str = remove_quotation(str);
-      var lst = str.split(", ");
+      var lst = str.split(",");
       var newLst = [];
       lst.forEach(mutation => {
         newLst.push(mutation.trim());
       });
-      return lst;
+      return newLst;
     })
     .join('tspan')
     .text((d, i, j) => {
@@ -234,10 +234,48 @@ function visualize_trees(jsonData, distance_measure) {
     })
     .style("font-size", "0.8em")
     .style("font-family", "Monospace")
+    .style("fill", (d) => {
+      //jsonData.
+      //the current mutation 
+      if (svg_names[i] == "svg1") {
+        var tree1_mutations = jsonData.tree1_mutations; 
+        if (tree1_mutations[d]["contribution"] > 0) {
+          return "red";
+        } 
+        return "black";
+      }
+      else {
+        var tree2_mutations = jsonData.tree2_mutations; 
+        console.log("T2 mutations", tree2_mutations);
+        console.log("Current mutation", tree2_mutations[d]);
+        console.log("D", d);
+        console.log(jsonData);
+        if (tree2_mutations[d]["contribution"] > 0) {
+          return "red";
+        } 
+        return "black";
+      }
+    })
     .on("click", (d, i) => { 
         var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i;
         window.open(gene_url, "_blank"); 
     });
+
+    var t2_max_branching_factor = d3.max(nodes2, function(d) { 
+      if (d.children) {
+        return d.children.length;
+      }
+      return 0;
+    });
+    console.log("T2 max branching factor", t2_max_branching_factor);
+
+    var t1_max_branching_factor = d3.max(nodes1, function(d) { 
+      if (d.children) {
+        return d.children.length;
+      }
+      return 0;
+    });
+    console.log("T1 max branching factor", t1_max_branching_factor);
 
 
     // Set the coloring scheme based off of the distance measure
@@ -301,7 +339,8 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
     return scale(d.data.contribution);
 
   }
-  var edge_color_function = d => { return "black";}
+
+   
 
   // Coloring scheme for parent-child
   if (treetype == "pc") {
