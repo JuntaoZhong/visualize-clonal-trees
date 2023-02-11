@@ -186,7 +186,7 @@ function visualize_trees(jsonData, distance_measure) {
       .join('circle')
       .classed('node', true)
       .style("transform", "translate(5, 20), scale(0.5)")
-      .style("stroke-width", "3px")
+      .style("stroke-width", "1px")
       .attr('cx', (d) => {return d.x;})
       .attr('cy', function(d) {return d.y;})
       .attr('r', function(d) {
@@ -208,7 +208,7 @@ function visualize_trees(jsonData, distance_measure) {
     })
     .attr("y", d => { 
       if (d.data.children == null) {
-        return d.y + 35; 
+        return d.y + 20; 
       }
       return d.y - 15; 
     })
@@ -319,7 +319,6 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
   d3_nodes.selectAll('circle.node')
       .style("stroke", "black")
       .style("fill", function(d) { return node_color_function(d); })
-      .style("stroke-width", "3px")
 
   d3_links.selectAll('line.link')
       .style("stroke", function(d) { return edge_color_function(d); })
