@@ -42,13 +42,6 @@ def get_root(g):
         (root,) = root_candidates
         return root
 
-# potentially get rid of this function
-def get_mutations_from_label(label):
-    ''' Returns list of mutations in a label '''
-    label_list = label.split(",")
-    label_list[0] = label_list[0][1:]
-    label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
-    return label_list
 
 def get_mutations_from_node(g, node):
     ''' Returns list of strings representing mutations at node'''
@@ -56,7 +49,7 @@ def get_mutations_from_node(g, node):
     label_list = label.split(",")
     label_list[0] = label_list[0][1:]
     label_list[len(label_list)-1] = label_list[len(label_list)-1][:len(label_list[len(label_list)-1])-1]
-    return label_list
+    return [label.translate({ord(i):None for i in ' \"'}) for label in label_list]
 
 def make_mutation_anc_dict(g):
     mutation_anc_dict = {}
