@@ -201,10 +201,40 @@ function visualize_trees(jsonData, distance_measure) {
     .join("text")
     .classed("mutation-label", true)
     .attr("x", d => { 
-      if (d.data.children == null) {
-        return d.x - 5; 
+      console.log(d.data.label);
+      var currentNode = d;
+      var parentNode = d.parent;
+      if (parentNode) {
+        var currentNodeX = d.x;
+        var parentNodeX = parentNode.x;
+        if (d.data.children == null) {
+          if (currentNodeX < parentNodeX) {
+            //return d.x - 50;
+            return d.x - (d.data.label.length) * 4;
+          }
+          else if (currentNodeX > parentNodeX) {
+            return d.x - 50;
+          }
+          else {
+            return d.x - 5;
+          }
+        }
+        else {
+          if (currentNodeX < parentNodeX) {
+            return d.x - Math.min(200, (d.data.label.length) * 5);
+            //return d.x - 50;
+          }
+          else if (currentNodeX > parentNodeX) {
+            return d.x - Math.min(50, d.data.label.length * 2);
+          }
+          else {
+            return d.x + 15;
+          }
+        }
       }
-      return d.x + 15; 
+      else {
+        return d.x + 15;
+      }
     })
     .attr("y", d => { 
       if (d.data.children == null) {
@@ -232,24 +262,18 @@ function visualize_trees(jsonData, distance_measure) {
       }
       return d + ",";
     })
-    .style("font-size", "0.8em")
+    .style("font-size", "0.60em")
     .style("font-family", "Monospace")
     .style("fill", (d) => {
-      //jsonData.
-      //the current mutation 
-      if (svg_names[i] == "svg1") {
-        var tree1_mutations = jsonData.tree1_mutations; 
+      var tree1_mutations = jsonData.tree1_mutations; 
+      var tree2_mutations = jsonData.tree2_mutations; 
+      if (svg_names[i] == 'svg1') {
         if (tree1_mutations[d]["contribution"] > 0) {
           return "red";
         } 
         return "black";
       }
-      else {
-        var tree2_mutations = jsonData.tree2_mutations; 
-        console.log("T2 mutations", tree2_mutations);
-        console.log("Current mutation", tree2_mutations[d]);
-        console.log("D", d);
-        console.log(jsonData);
+      else if (svg_names[i] == "svg2") {
         if (tree2_mutations[d]["contribution"] > 0) {
           return "red";
         } 
@@ -261,13 +285,13 @@ function visualize_trees(jsonData, distance_measure) {
         window.open(gene_url, "_blank"); 
     });
 
+    // Get the summary statistics for both trees.
     var t2_max_branching_factor = d3.max(nodes2, function(d) { 
       if (d.children) {
         return d.children.length;
       }
       return 0;
     });
-    console.log("T2 max branching factor", t2_max_branching_factor);
 
     var t1_max_branching_factor = d3.max(nodes1, function(d) { 
       if (d.children) {
@@ -275,8 +299,6 @@ function visualize_trees(jsonData, distance_measure) {
       }
       return 0;
     });
-    console.log("T1 max branching factor", t1_max_branching_factor);
-
 
     // Set the coloring scheme based off of the distance measure
     switch (distanceMetric.value) {
@@ -300,7 +322,6 @@ function visualize_trees(jsonData, distance_measure) {
         console.log("Please select a valid distance measure. If you have question email ealexander@carleton.edu");
         break;
     }
-
   }
 }
 
