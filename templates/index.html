@@ -40,10 +40,10 @@
                                 var y2 = document.getElementById("multiple");
                                 div.style.display = "flex";
                                 legend.style.display = "block"
-                                if (x.style.display === "inline-block") {
-                                    x.style.display = "none";
-                                    y.style.background = "#2C7A7A";
-                                    y.style.color = "#F5F5F5";
+                                if (x.style.display === "none") {
+                                    x.style.display = "inline-block";
+                                    y.style.background = "#2C7A7A50";
+                                    y.style.color = "black";
                                 } 
                                 else if (x2.style.display === "inline-block"){
                                     x2.style.display = "none";
@@ -54,9 +54,9 @@
                                     y2.style.color = "#F5F5F5";
                                 }
                                 else {
-                                    x.style.display = "inline-block";
-                                    y.style.background = "#2C7A7A50";
-                                    y.style.color = "black";
+                                    x.style.display = "none";
+                                    y.style.background = "#2C7A7A";
+                                    y.style.color = "#F5F5F5";
                                 }
                             }
                         </script>
@@ -97,7 +97,7 @@
                     <div class="dropdown distance-measure" id="distance-dropdown"> 
                         <p> </p>
                         <label id="metric_drp" for="distance_metric"></label>
-                        <select name="distance_metric" id="distance_metric"> 
+                        <select name="distance_metric" id="distance_metric" onclick="submit_tree()"> 
                             <!--option value="" selected disabled hidden>Select Metric</option-->
                             <option value="ancestor_descendant_distance">Ancestor-Descendant</option>
                             <option value="parent_child_distance" selected>Parent-Child</option>
@@ -191,7 +191,7 @@
                 
                 <div class="input-collapse">
                         <h2>Input</h2>
-                        <h4 class="collapse" id="input-box-toggle" onclick="toggleVisible('bottombox')">▶</h4>
+                        <p class="collapse" id="input-box-toggle" onclick="toggleVisible('bottombox')">-</p>
                 </div>
                 <div class="bottombox" id="bottombox">
                     
@@ -294,7 +294,7 @@
                     </div>
                     <div id="tree2_visualization">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
-                        <g transform="translate(270,50)">
+                        <g id="tree1_visualization_group"transform="translate(270,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
                         </g>
