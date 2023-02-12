@@ -393,3 +393,19 @@ p{
     background-color:#2C7A7A50;
     color: black;
 }
+
+#summary-statistics-table {
+  border: 1px solid black;
+  margin: auto;
+}
+
+#summary-statistics-table th{
+  border: 1px solid black;
+  padding: 5px;
+  text-align: left;
+}
+
+#summary-statistics-table td{
+  border: 1px solid black;
+  padding: 5px;
+}
