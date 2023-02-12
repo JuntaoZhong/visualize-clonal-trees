@@ -396,16 +396,23 @@ p{
 
 #summary-statistics-table {
   border: 1px solid black;
+  border-collapse: collapse;
   margin: auto;
 }
 
 #summary-statistics-table th{
   border: 1px solid black;
+  border-collapse: collapse;
   padding: 5px;
   text-align: left;
 }
 
 #summary-statistics-table td{
   border: 1px solid black;
+  border-collapse: collapse;
   padding: 5px;
+}
+
+#table-name > th{
+  text-align: center;
 }

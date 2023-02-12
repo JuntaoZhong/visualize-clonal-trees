@@ -335,6 +335,30 @@ function visualize_trees(jsonData, distance_measure) {
       }
       return 0;
     });
+ 
+    if (svg_names[i] == "svg1") {
+      var t1_height_summary_element = document.getElementById("t1-height")
+      var t1_branching_factor_summary_element = document.getElementById("t1-branching-factor")
+      var t1_num_nodes_summary_element = document.getElementById("t1-number-nodes");
+      var t1_num_mutations_summary_element = document.getElementById("t1-number-mutations");
+      var t1_height = root.height;
+      t1_branching_factor_summary_element.innerHTML = t1_max_branching_factor; 
+      t1_height_summary_element.innerHTML = t1_height;
+      console.log("Edges", jsonData.tree1_edges);
+      t1_num_nodes_summary_element.innerHTML = nodes1.length;
+      t1_num_mutations_summary_element.innerHTML = mutations_tree1.length;
+    }
+    else {
+      var t2_height_summary_element = document.getElementById("t2-height");
+      var t2_branching_factor_summary_element = document.getElementById("t2-branching-factor");
+      var t2_num_nodes_summary_element = document.getElementById("t2-number-nodes");
+      var t2_num_mutations_summary_element = document.getElementById("t2-number-mutations");
+      var t2_height = root.height;
+      t2_branching_factor_summary_element.innerHTML = t2_max_branching_factor; 
+      t2_height_summary_element.innerHTML = t1_height;
+      t2_num_nodes_summary_element.innerHTML = nodes2.length;
+      t2_num_mutations_summary_element.innerHTML = mutations_tree2.length;
+    }
 
     // Set the coloring scheme based off of the distance measure
     switch (distanceMetric.value) {
