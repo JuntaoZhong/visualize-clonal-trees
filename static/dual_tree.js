@@ -554,7 +554,7 @@ $('.collapse').on('click', function(e) {
   $(this).toggleClass('expanded');
   $(this).next().toggleClass('bottombox');
   const isExpanded = $(this).hasClass('expanded');
-  $(this).text(isExpanded ? '▶' : '▼');
+  $(this).text(isExpanded ? '+' : '-');
   });
 
 function toggle(id) {

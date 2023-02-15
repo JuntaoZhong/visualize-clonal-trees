@@ -44,19 +44,17 @@
                                     x.style.display = "inline-block";
                                     y.style.background = "#2C7A7A50";
                                     y.style.color = "black";
-                                } 
-                                else if (x2.style.display === "inline-block"){
-                                    x2.style.display = "none";
-                                    x.style.display = "inline-block";
-                                    y.style.background = "#2C7A7A50";
-                                    y.style.color = "black";
                                     y2.style.background = "#2C7A7A";
                                     y2.style.color = "#F5F5F5";
+                                    x2.style.display = "none";
                                 }
                                 else {
                                     x.style.display = "none";
+                                    x2.style.display = "none";
                                     y.style.background = "#2C7A7A";
                                     y.style.color = "#F5F5F5";
+                                    y2.style.background = "#2C7A7A";
+                                    y2.style.color = "#F5F5F5";
                                 }
                             }
                         </script>
@@ -77,19 +75,17 @@
                                     x.style.display = "none";
                                     y.style.background = "#2C7A7A";
                                     y.style.color = "#F5F5F5";
-                                } 
-                                else if (x2.style.display === "inline-block"){
+                                    y2.style.background = "#2C7A7A";
+                                    y2.style.color = "#F5F5F5";
                                     x2.style.display = "none";
+                                }
+                                else {
                                     x.style.display = "inline-block";
+                                    x2.style.display = "none";
                                     y.style.background = "#2C7A7A50";
                                     y.style.color = "black";
                                     y2.style.background = "#2C7A7A";
                                     y2.style.color = "#F5F5F5";
-                                }
-                                else {
-                                    x.style.display = "inline-block";
-                                    y.style.background = "#2C7A7A50";
-                                    y.style.color = "black";
                                 }
                             }
                         </script>
@@ -344,7 +340,7 @@
                 </div>
                 <div class="visualizations-container" id="viz1">
                     <div id="tree1_visualization">
-                            <svg  viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <svg  viewBox="0 0 550 550" width="100%" height="auto" id="viz1-svg1"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -352,7 +348,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg  viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <svg  viewBox="0 0 550 550" width="100%" height="auto" id="viz1-svg2"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
@@ -372,7 +368,7 @@
                 </div>
                 <div class="visualizations-container" id="viz2">
                     <div id="tree1_visualization">
-                            <svg  viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <svg  viewBox="0 0 550 550" width="100%" height="auto" id="viz2-svg1"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -380,7 +376,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz2-svg2"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
@@ -400,7 +396,7 @@
                 </div>
                 <div class="visualizations-container" id="viz3">
                     <div id="tree1_visualization">
-                            <svg viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz3-svg1"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -408,7 +404,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz3-svg2"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
@@ -428,7 +424,7 @@
                 </div>
                 <div class="visualizations-container" id="viz4">
                     <div id="tree1_visualization">
-                            <svg viewBox="0 0 550 550" width="100%" height="auto"> 
+                            <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz4-svg1"> 
                             <g transform="translate(-30,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
@@ -436,7 +432,7 @@
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg viewBox="0 0 550 550" width="100%" height="auto"> 
+                        <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz4-svg2"> 
                         <g transform="translate(-30,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>

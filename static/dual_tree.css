@@ -117,9 +117,6 @@
     display: none;
 }
 
-/* .distance-measure{
-    display: none;
-} */
 
 #viz1, #viz2, #viz3, #viz4 {
     display: none;
@@ -133,6 +130,7 @@
 }
 #top-measures {
     display: table;
+    margin-bottom: 2%;
 }
 #bottom-measures {
     display: table;
@@ -196,7 +194,6 @@ button{
 
 .download:active{
     background-color: #D9DEDE;
-    /* margin-top: 3px; */
     color: black;
 }
 
@@ -332,6 +329,7 @@ p{
 }
 #scale1, #scale2, #scale3, #scale4{
     display: none;
+    margin-bottom: 20px;
 }
 #legend {
     height: 30px;
@@ -398,6 +396,8 @@ p{
   border: 1px solid black;
   border-collapse: collapse;
   margin: auto;
+  margin-bottom: 5%;
+  background-color: #F5F5F5;
 }
 
 #summary-statistics-table th{
