@@ -331,7 +331,7 @@ p{
     display: none;
     margin-bottom: 20px;
 }
-#legend {
+.legend {
     height: 30px;
     width: 400px;
     border: 1px solid black;
@@ -339,7 +339,7 @@ p{
     margin: auto;
 }
 
-#legend-labels-container {
+.legend-labels-container {
     width: 400px;
     height: 20px;
     display: flex;

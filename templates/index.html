@@ -105,18 +105,18 @@
                         <p> </p>
                         <div id="top-measures">
                             <div class="toggle_button dview">
-                                <button onclick="vizbox1()" id="pc-view">Parent-Child</button>
+                                <button onclick="vizbox1(); submit_mult_tree('parent_child_distance', '#viz1_svg1', '#viz1_svg2', 'scale1');" id="pc-view">Parent-Child</button>
                             </div>
                             <div class="toggle_button dview">
-                                <button onclick="vizbox2()" id="ad-view">Ancestor-Descendant</button>
+                                <button onclick="vizbox2(); submit_mult_tree('ancestor_descendant_distance', '#viz2_svg1', '#viz2_svg2', 'scale2');" id="ad-view">Ancestor-Descendant</button>
                             </div>
                         </div>
                         <div id="bottom-measures">
                             <div class="toggle_button dview">
-                                <button onclick="vizbox3()" id="caset-view">CASet</button>
+                                <button onclick="vizbox3(); submit_mult_tree('caset_distance', '#viz3_svg1', '#viz3_svg2', 'scale3');" id="caset-view">CASet</button>
                             </div>
                             <div class="toggle_button dview">
-                                <button onclick="vizbox4()" id="disc-view">DISC</button>
+                                <button onclick="vizbox4(); submit_mult_tree('disc_distance', '#viz4_svg1', '#viz4_svg2', 'scale4');" id="disc-view">DISC</button>
                             </div>
                         </div>
                             <script>
@@ -320,7 +320,7 @@
                     </div>
                     <div id="tree2_visualization">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
-                        <g id="tree1_visualization_group"transform="translate(270,50)">
+                        <g id="tree1_visualization_group" transform="translate(270,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
                         </g>
@@ -330,9 +330,9 @@
                 </div>
                 <div class="legend-container" id="anyscale">
                     <div id="distance-measure-label"></div>
-                    <div id="legend"></div>
-                    <div id="legend-labels-container">
-                    <div class="label" id="colorLabel1">1</div>
+                    <div class="legend"></div>
+                    <div class="legend-labels-container">
+                    <div class="label", id="colorLabel1">1</div>
                     <div class="label", id="colorLabel2">2</div>
                     <div class="label", Id="colorLabel3">3</div>
                     <div class="label", id="colorLabel4">4</div>
@@ -340,16 +340,16 @@
                 </div>
                 <div class="visualizations-container" id="viz1">
                     <div id="tree1_visualization">
-                            <svg  viewBox="0 0 550 550" width="100%" height="auto" id="viz1-svg1"> 
-                            <g transform="translate(-30,50)">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz1_svg1"> 
+                            <g transform="translate(270,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
                             </g>
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg  viewBox="0 0 550 550" width="100%" height="auto" id="viz1-svg2"> 
-                        <g transform="translate(-30,50)">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz1_svg2"> 
+                        <g transform="translate(270,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
                         </g>
@@ -358,26 +358,26 @@
                 </div>
                 <div class="legend-container" id="scale1">
                     <div id="distance-measure-label"></div>
-                    <div id="legend"></div>
-                    <div id="legend-labels-container">
-                    <div class="label" id="colorLabel1">1</div>
-                    <div class="label", id="colorLabel2">2</div>
-                    <div class="label", Id="colorLabel3">3</div>
-                    <div class="label", id="colorLabel4">4</div>
+                    <div class="legend"></div>
+                    <div class="legend-labels-container">
+                    <div class="label", id="scale1_colorLabel1">1</div>
+                    <div class="label", id="scale1_colorLabel2">2</div>
+                    <div class="label", Id="scale1_colorLabel3">3</div>
+                    <div class="label", id="scale1_colorLabel4">4</div>
                     </div>
                 </div>
                 <div class="visualizations-container" id="viz2">
                     <div id="tree1_visualization">
-                            <svg  viewBox="0 0 550 550" width="100%" height="auto" id="viz2-svg1"> 
-                            <g transform="translate(-30,50)">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz2_svg1"> 
+                            <g transform="translate(270,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
                             </g>
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz2-svg2"> 
-                        <g transform="translate(-30,50)">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz2_svg2"> 
+                        <g transform="translate(270,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
                         </g>
@@ -386,26 +386,26 @@
                 </div>
                 <div class="legend-container" id="scale2">
                     <div id="distance-measure-label"></div>
-                    <div id="legend"></div>
-                    <div id="legend-labels-container">
-                    <div class="label" id="colorLabel1">1</div>
-                    <div class="label", id="colorLabel2">2</div>
-                    <div class="label", Id="colorLabel3">3</div>
-                    <div class="label", id="colorLabel4">4</div>
+                    <div class="legend"></div>
+                    <div class="legend-labels-container">
+                    <div class="label", id="scale2_colorLabel1">1</div>
+                    <div class="label", id="scale2_colorLabel2">2</div>
+                    <div class="label", Id="scale2_colorLabel3">3</div>
+                    <div class="label", id="scale2_colorLabel4">4</div>
                     </div>
                 </div>
                 <div class="visualizations-container" id="viz3">
                     <div id="tree1_visualization">
-                            <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz3-svg1"> 
-                            <g transform="translate(-30,50)">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz3_svg1"> 
+                            <g transform="translate(270,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
                             </g>
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz3-svg2"> 
-                        <g transform="translate(-30,50)">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz3_svg2"> 
+                        <g transform="translate(270,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
                         </g>
@@ -413,27 +413,27 @@
                     </div>
                 </div>
                 <div class="legend-container" id="scale3">
-                    <div id="distance-measure-label"></div>
-                    <div id="legend"></div>
-                    <div id="legend-labels-container">
-                    <div class="label" id="colorLabel1">1</div>
-                    <div class="label", id="colorLabel2">2</div>
-                    <div class="label", Id="colorLabel3">3</div>
-                    <div class="label", id="colorLabel4">4</div>
+                    <div class="distance-measure-label"></div>
+                    <div class="legend"></div>
+                    <div class="legend-labels-container">
+                    <div class="label", id="scale3_colorLabel1">1</div>
+                    <div class="label", id="scale3_colorLabel2">2</div>
+                    <div class="label", Id="scale3_colorLabel3">3</div>
+                    <div class="label", id="scale3_colorLabel4">4</div>
                     </div>
                 </div>
                 <div class="visualizations-container" id="viz4">
                     <div id="tree1_visualization">
-                            <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz4-svg1"> 
-                            <g transform="translate(-30,50)">
+                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz4_svg1"> 
+                            <g transform="translate(270,50)">
                                 <g class="links"></g>
                                 <g class="nodes"></g>
                             </g>
                             </svg>
                     </div>
                     <div id="tree2_visualization">
-                        <svg viewBox="0 0 550 550" width="100%" height="auto" id="viz4-svg2"> 
-                        <g transform="translate(-30,50)">
+                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz4_svg2"> 
+                        <g transform="translate(270,50)">
                             <g class="links"></g>
                             <g class="nodes"></g>
                         </g>
@@ -442,12 +442,12 @@
                 </div>
                 <div class="legend-container4" id="scale4">
                     <div id="distance-measure-label"></div>
-                    <div id="legend"></div>
-                    <div id="legend-labels-container">
-                    <div class="label" id="colorLabel1">1</div>
-                    <div class="label", id="colorLabel2">2</div>
-                    <div class="label", Id="colorLabel3">3</div>
-                    <div class="label", id="colorLabel4">4</div>
+                    <div class="legend"></div>
+                    <div class="legend-labels-container">
+                    <div class="label", id="scale4_colorLabel1">1</div>
+                    <div class="label", id="scale4_colorLabel2">2</div>
+                    <div class="label", Id="scale4_colorLabel3">3</div>
+                    <div class="label", id="scale4_colorLabel4">4</div>
                     </div>
                 </div>
             </div>
