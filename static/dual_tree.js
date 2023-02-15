@@ -231,7 +231,42 @@ function visualize_trees(jsonData, distance_measure) {
         }
         return 10;
       })
+    
+      function wrap(text, width) {
+        text.each(function () {
+            var text = d3.select(this),
+                words = text.text().split(/\s+/).reverse(),
+                word,
+                line = [],
+                lineNumber = 0,
+                lineHeight = 1.1, // ems
+                x = text.attr("x"),
+                y = text.attr("y"),
+                dy = 0, //parseFloat(text.attr("dy")),
+                tspan = text.text(null)
+                            .append("tspan")
+                            .attr("x", x)
+                            .attr("y", y)
+                            .attr("dy", dy + "em");
+            while (word = words.pop()) {
+                line.push(word);
+                tspan.text(line.join(" "));
+                if (tspan.node().getComputedTextLength() > width) {
+                    line.pop();
+                    tspan.text(line.join(" "));
+                    line = [word];
+                    tspan = text.append("tspan")
+                                .attr("x", 15)
+                                .attr("y", y)
+                                .attr("dy", ++lineNumber * lineHeight + dy + "em")
+                                .text(word);
+                }
+            }
+        });
+    }
 
+
+    
     // Displaying the labels for the nodes
     var labels = d3_text.data(root.descendants())
     .join("text")
@@ -280,7 +315,8 @@ function visualize_trees(jsonData, distance_measure) {
     })
 
     // Making each mutation a tspan
-    var tspans = labels.selectAll("tspan") 
+    var tspans = labels
+    .selectAll("tspan")
     .data(d => {
       var str = d.data.label;
       str = remove_quotation(str);
@@ -298,6 +334,7 @@ function visualize_trees(jsonData, distance_measure) {
       }
       return d + ",";
     })
+    .call(wrap, 25)
     .style("font-size", "0.60em")
     .style("font-family", "Monospace")
     .style("fill", (d) => {

@@ -92,16 +92,18 @@ def find_next_node(newick_string, current_node, output):
             if current_node is not None:
                 output.write("\t" + str(current_node) + " -> " + str(node_name) + ";\n")
             output.write("\t" + str(node_name) + " [label=\"" + all_labels + "\"];\n")
-            newick_string = newick_string.replace(next_node, "")
-            parse_next(newick_string, node_name, output)
+            reverse_newick = newick_string[::-1].replace(next_node, "", 1)
+            label_without_root = reverse_newick[::-1]
+            parse_next(label_without_root, node_name, output)
             
         #Parse the root if it is not multi-labelled
         else:
             if current_node is not None:
                 output.write("\t" + str(current_node) + " -> " + str(next_node) + ";\n")
             output.write("\t" + str(next_node) + " [label=\"" + next_node + "\"];\n")
-            newick_string = newick_string.replace(next_node, "")
-            parse_next(newick_string, next_node, output)
+            reverse_newick = newick_string[::-1].replace(next_node, "", 1)
+            label_without_root = reverse_newick[::-1]
+            parse_next(label_without_root, next_node, output)
             
     #If there are no substrings, find the next node and go into the base case
     elif '}' in newick_string:
