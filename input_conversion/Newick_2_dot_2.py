@@ -92,28 +92,18 @@ def find_next_node(newick_string, current_node, output):
             if current_node is not None:
                 output.write("\t" + str(current_node) + " -> " + str(node_name) + ";\n")
             output.write("\t" + str(node_name) + " [label=\"" + all_labels + "\"];\n")
-            print(f"I am remove {next_node}")
-            print(f"Current: {current_node}")
-            print(f"Newick string: {newick_string}")
-            print(f"Newick reverse: {newick_string[::-1]}")
-            print(f"Next node: {next_node}")
-            print(f"Next node reverse: {next_node[::-1]}")
-            print(f'Result: {newick_string[::1].replace(next_node[::-1], "", 1)}')
-            newick_string = newick_string[::-1].replace(next_node[::-1], "", 1)[::-1]
-            print(f"Newic string: {newick_string}")
-            parse_next(newick_string, node_name, output)
+            reverse_newick = newick_string[::-1].replace(next_node, "", 1)
+            label_without_root = reverse_newick[::-1]
+            parse_next(label_without_root, node_name, output)
             
         #Parse the root if it is not multi-labelled
         else:
             if current_node is not None:
                 output.write("\t" + str(current_node) + " -> " + str(next_node) + ";\n")
             output.write("\t" + str(next_node) + " [label=\"" + next_node + "\"];\n")
-            print(f"I am remove {next_node}")
-            print(f"Current: {current_node}")
-            print(f"Newic string: {newick_string}")
-            newick_string = newick_string[::-1].replace(next_node[::-1], "", 1)[::-1]
-            print(f"Newic string: {newick_string}")
-            parse_next(newick_string, next_node, output)
+            reverse_newick = newick_string[::-1].replace(next_node, "", 1)
+            label_without_root = reverse_newick[::-1]
+            parse_next(label_without_root, next_node, output)
             
     #If there are no substrings, find the next node and go into the base case
     elif '}' in newick_string:

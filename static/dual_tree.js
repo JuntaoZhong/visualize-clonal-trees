@@ -8,9 +8,6 @@ submitTreesBtn = document.getElementById("submit-trees-btn");
 distanceMetric = document.getElementById("distance_metric");
 demoTreesBtn = document.getElementById("demo-trees-btn");
 distanceMeasureLabel = document.getElementById("distance-measure-label");
-// show = document.getElementById('show');
-// hide1 = document.getElementById('hide1');
-// form1 = document.getElementById('form1');
 
 window.onload = () => {
   submit_tree();
@@ -20,7 +17,6 @@ tree1file.addEventListener("change", function () {
     var fr = new FileReader();
     fr.readAsText(this.files[0]);
     fr.onload = function () {
-      // console.log(fr.result);
       tree1TextArea.value = fr.result
     };  
   });
@@ -30,24 +26,9 @@ tree2file.addEventListener("change", function () {
   var fr = new FileReader();
   fr.readAsText(this.files[0]);
   fr.onload = function () {
-    // console.log(fr.result);
     tree2TextArea.value = fr.result
   };  
 });
-
-// show.addEventListener('click', function(){
-//   form1.style = ('display: flex');
-//   tree1TextArea.style = ('animation: riseHeight 1s .1s normal forwards');
-//   hide.style = ('display: inline-block');
-//   show.disabled = true;
-// })
-
-
-// hide.addEventListener('click', function() {
-//   form1.style = ('display: none');
-//   hide.style = ('display: none');
-//   show.disabled = false;
-// })
 
 
 function remove_quotation(str) {
@@ -146,7 +127,8 @@ function visualize_trees(jsonData, distance_measure) {
   label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100; 
   label4.innerHTML = Math.round(t_max * 100) / 100; 
   
-  var svg1 = d3.select('#svg1')
+  var svg1 = d3.select('#svg1');
+  console.log('This is svg1', svg1);
   svg1.call(d3.zoom()
     .extent([[0, 0], [700, 700]])
     .scaleExtent([1, 8])
@@ -234,7 +216,42 @@ function visualize_trees(jsonData, distance_measure) {
         }
         return 10;
       })
+    
+    //   function wrap(text, width) {
+    //     text.each(function () {
+    //         var text = d3.select(this),
+    //             words = text.text().split(/\s+/).reverse(),
+    //             word,
+    //             line = [],
+    //             lineNumber = 0,
+    //             lineHeight = 1.1, // ems
+    //             x = text.attr("x"),
+    //             y = text.attr("y"),
+    //             dy = 0, //parseFloat(text.attr("dy")),
+    //             tspan = text.text(null)
+    //                         .append("tspan")
+    //                         .attr("x", x)
+    //                         .attr("y", y)
+    //                         .attr("dy", dy + "em");
+    //         while (word = words.pop()) {
+    //             line.push(word);
+    //             tspan.text(line.join(" "));
+    //             if (tspan.node().getComputedTextLength() > width) {
+    //                 line.pop();
+    //                 tspan.text(line.join(" "));
+    //                 line = [word];
+    //                 tspan = text.append("tspan")
+    //                             .attr("x", 15)
+    //                             .attr("y", y)
+    //                             .attr("dy", ++lineNumber * lineHeight + dy + "em")
+    //                             .text(word);
+    //             }
+    //         }
+    //     });
+    // }
 
+
+    
     // Displaying the labels for the nodes
     var labels = d3_text.data(root.descendants())
     .join("text")
@@ -283,7 +300,8 @@ function visualize_trees(jsonData, distance_measure) {
     })
 
     // Making each mutation a tspan
-    var tspans = labels.selectAll("tspan") 
+    var tspans = labels
+    .selectAll("tspan")
     .data(d => {
       var str = d.data.label;
       str = remove_quotation(str);
@@ -301,6 +319,7 @@ function visualize_trees(jsonData, distance_measure) {
       }
       return d + ",";
     })
+    // .call(wrap, 25)
     .style("font-size", "0.60em")
     .style("font-family", "Monospace")
     .style("fill", (d) => {
@@ -338,6 +357,30 @@ function visualize_trees(jsonData, distance_measure) {
       }
       return 0;
     });
+
+    // tree_dict = jsonData.tree1_mutations
+    function get_top_n_mutations(tree_dict, n) {
+      var mutation_contribution_dict = {};
+      for (const [mutation, value] of Object.entries(tree_dict)) {
+        mutation_contribution_dict[mutation] = value["contribution"];
+      }
+      var items = Object.keys(mutation_contribution_dict).map(
+      (key) => { return [key, mutation_contribution_dict[key]] });
+      items.sort(
+        (first, second) => { return second[1] - first[1] } // from greatest to least
+      );
+      var keys = items.map((e) => { return e[0] });
+      
+      var output_str = ""
+      for (v = 0; v < Math.min(n, keys.length); v++){
+        output_str = output_str.concat(keys[v])
+        if (v < Math.min(n, keys.length) - 1){
+          output_str = output_str.concat(", ")
+        }
+      }
+      console.log(tree_dict)
+      return(output_str)
+    }
  
     if (svg_names[i] == "svg1") {
       var t1_height_summary_element = document.getElementById("t1-height")
@@ -347,9 +390,9 @@ function visualize_trees(jsonData, distance_measure) {
       var t1_height = root.height;
       t1_branching_factor_summary_element.innerHTML = t1_max_branching_factor; 
       t1_height_summary_element.innerHTML = t1_height;
-      console.log("Edges", jsonData.tree1_edges);
       t1_num_nodes_summary_element.innerHTML = nodes1.length;
       t1_num_mutations_summary_element.innerHTML = mutations_tree1.length;
+      t1_top5_summary_element.innerHTML = get_top_n_mutations(jsonData.tree1_mutations, 5);
     }
     else {
       var t2_height_summary_element = document.getElementById("t2-height");
@@ -358,9 +401,10 @@ function visualize_trees(jsonData, distance_measure) {
       var t2_num_mutations_summary_element = document.getElementById("t2-number-mutations");
       var t2_height = root.height;
       t2_branching_factor_summary_element.innerHTML = t2_max_branching_factor; 
-      t2_height_summary_element.innerHTML = t1_height;
+      t2_height_summary_element.innerHTML = t2_height;
       t2_num_nodes_summary_element.innerHTML = nodes2.length;
       t2_num_mutations_summary_element.innerHTML = mutations_tree2.length;
+      t2_top5_summary_element.innerHTML = get_top_n_mutations(jsonData.tree2_mutations, 5);
     }
 
     // Set the coloring scheme based off of the distance measure
@@ -391,24 +435,15 @@ function visualize_trees(jsonData, distance_measure) {
 function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
 
     d3_nodes.selectAll('circle.node')
+      .style("stroke", "black")
       .style("fill", function(d) {
-        //var nodes = root.descendants();
-
         var scale = d3.scaleLinear()
         .domain([0, t_max/3, 2*t_max/3, t_max])
         .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
         return scale(d.data.contribution);
         })
 
-    d3_links.selectAll('line.link')
-      .style("stroke", function(d) { 
-        //var nodes = root.descendants();
-
-        var scale = d3.scaleLinear()
-        .domain([0, t_max/3, 2*t_max/3, t_max])
-        .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
-        return "black" //scale(d.target.data.contribution);
-      }) 
+    d3_links.selectAll('line.link').style("stroke", "black") 
 }
 
 function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
@@ -423,8 +458,6 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
     return scale(d.data.contribution);
 
   }
-
-   
 
   // Coloring scheme for parent-child
   if (treetype == "pc") {
@@ -468,6 +501,350 @@ function submit_tree() {
   .then(jsonData => {
      visualize_trees(jsonData, distanceMetric.value);
   });
+}
+
+function submit_mult_tree(distance_measure, svg1,svg2, scale) {
+  /*
+    Send trees to api in order to get
+    data for input into d3 visualizations
+  */
+  var tree1Input = tree1TextArea.value;
+  var tree2Input = tree2TextArea.value;
+  var tree1Type = inputTypeTree1.value;
+  var tree2Type = inputTypeTree2.value;
+
+  var baseURL = "http://localhost:5000/api/";
+  var url = baseURL + distance_measure + "?";
+  var url_components = [url, "tree1=", tree1Input, "&tree2=", tree2Input, "&treeType1=", tree1Type, "&treeType2=", tree2Type]
+  url = url_components.join("");
+
+  fetch(url)
+  .then(response => response.json())
+  .then(jsonData => {
+     visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale);
+  });
+}
+
+
+function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
+  
+  set_visualization_event_listeners(distance_measure);
+  var tree1_data = jsonData.tree1_edges;
+  var tree2_data = jsonData.tree2_edges;
+  var data = [tree1_data, tree2_data]
+  var distance = jsonData.distance;
+
+  var nodes1 = d3.hierarchy(tree1_data).descendants();
+  var mutations_tree1 = getAllMutations(nodes1);
+  var tree1_label = document.getElementById("tree1-mutations");
+  var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
+  console.log(t_max1);
+
+  var nodes2 = d3.hierarchy(tree2_data).descendants();
+  var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
+  var mutations_tree2 = getAllMutations(nodes2);
+  var tree2_label = document.getElementById("tree2-mutations");
+  
+  var shared_label = document.getElementById("shared-mutations");
+  shared_mutations = intersect(mutations_tree1, mutations_tree2);
+  tree1_only_mutations = difference(mutations_tree1, shared_mutations);
+  tree2_only_mutations = difference(mutations_tree2, shared_mutations);
+  shared_label.innerHTML = shared_mutations;
+  tree1_label.innerHTML = tree1_only_mutations;
+  tree2_label.innerHTML = tree2_only_mutations;
+  var tree_unique_mutations = [tree1_only_mutations, tree2_only_mutations];
+
+  var t_max = Math.max(t_max1,t_max2);
+
+  var label1 = document.getElementById(scale + "_colorLabel1");
+  var label2 = document.getElementById(scale + "_colorLabel2");
+  var label3 = document.getElementById(scale + "_colorLabel3");
+  var label4 = document.getElementById(scale + "_colorLabel4");
+
+  var visualization_container = document.querySelector(".visualizations-container > div");
+
+  label1.innerHTML = 0;
+  label2.innerHTML = Math.round((t_max / 3) * 100) / 100; 
+  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100; 
+  label4.innerHTML = Math.round(t_max * 100) / 100; 
+  
+  var viz_svg1 = d3.select(svg1);
+  viz_svg1.call(d3.zoom()
+    .extent([[0, 0], [700, 700]])
+    .scaleExtent([1, 8])
+    .on("zoom", viz_zoomed)
+  ); 
+  
+  var viz_svg2 = d3.select(svg2);
+  viz_svg2.call(d3.zoom()
+    .extent([[0, 0], [700, 700]])
+    .scaleExtent([1, 8])
+    .on("zoom", viz_zoomed2)
+  ); 
+  
+  function viz_zoomed({transform}) {
+    // var zx = transform.rescaleX(x).interpolate(d3.interpolateRound);
+    // var zy = transform.rescaleY(y).interpolate(d3.interpolateRound);
+    var viz_svg1_nodes =  d3.select(svg1 + ' g.nodes');
+    var viz_svg1_links =  d3.select(svg1 + ' g.links');
+    viz_svg1_nodes
+      .attr("transform", transform);  
+    viz_svg1_links
+      .attr("transform", transform);
+  };
+
+  function viz_zoomed2({transform}) {
+    // var zx = transform.rescaleX(x).interpolate(d3.interpolateRound);
+    // var zy = transform.rescaleY(y).interpolate(d3.interpolateRound);
+    var viz_svg2_nodes =  d3.select(svg2 + ' g.nodes');
+    var viz_svg2_links =  d3.select(svg2 + ' g.links');
+    viz_svg2_nodes
+      .attr("transform", transform);  
+    viz_svg2_links
+      .attr("transform", transform);
+  };
+
+  var svg_names = [svg1, svg2];
+  for (var i = 0; i < 2; i++) {
+    var root = d3.hierarchy(data[i]);
+    //var tree = d3.tree().size([600, 400]);
+    var tree = d3.tree()
+    if (root.height > 10) {
+      tree.nodeSize([70, 25]);
+    }
+    else {
+      tree.nodeSize([90, 80]);
+    }
+    tree.separation((a, b) => 1.5);
+    tree(root);
+    var d3_nodes = d3.select(svg_names[i] +  ' g.nodes')
+    var d3_links = d3.select(svg_names[i] +  ' g.links')
+    var d3_text = d3_nodes.selectAll("text.mutation-label")
+ 
+
+    // Setting shared attributes for the links 
+    d3_links.selectAll('line.link')
+      .data(root.links())
+      .join('line')
+      .classed('link', true)
+      .style("transform", "translate(5, 20), scale(0.5)")
+      .style("stroke-width", () => {
+        if (distance_measure != "parent_child_distance") {
+          return "2px";
+        }
+        else {
+          return "5px";
+        }
+      })
+      .attr('x1', d =>  { return d.source.x;})
+      .attr('y1', d => { return d.source.y;})
+      .attr('x2', d => { return d.target.x;})
+      .attr('y2', d => { return d.target.y;});
+
+    // Set shared attributes for the nodes 
+    d3_nodes.selectAll("circle.node")
+      .data(root.descendants())
+      .join('circle')
+      .classed('node', true)
+      .style("transform", "translate(5, 20), scale(0.5)")
+      .style("stroke-width", "1px")
+      .attr('cx', (d) => {return d.x;})
+      .attr('cy', function(d) {return d.y;})
+      .attr('r', function(d) {
+        if (distance_measure == "parent_child_distance") {
+          return 6;
+        }
+        return 10;
+      })
+    
+    //   function wrap(text, width) {
+    //     text.each(function () {
+    //         var text = d3.select(this),
+    //             words = text.text().split(/\s+/).reverse(),
+    //             word,
+    //             line = [],
+    //             lineNumber = 0,
+    //             lineHeight = 1.1, // ems
+    //             x = text.attr("x"),
+    //             y = text.attr("y"),
+    //             dy = 0, //parseFloat(text.attr("dy")),
+    //             tspan = text.text(null)
+    //                         .append("tspan")
+    //                         .attr("x", x)
+    //                         .attr("y", y)
+    //                         .attr("dy", dy + "em");
+    //         while (word = words.pop()) {
+    //             line.push(word);
+    //             tspan.text(line.join(" "));
+    //             if (tspan.node().getComputedTextLength() > width) {
+    //                 line.pop();
+    //                 tspan.text(line.join(" "));
+    //                 line = [word];
+    //                 tspan = text.append("tspan")
+    //                             .attr("x", 15)
+    //                             .attr("y", y)
+    //                             .attr("dy", ++lineNumber * lineHeight + dy + "em")
+    //                             .text(word);
+    //             }
+    //         }
+    //     });
+    // }
+
+
+    
+    // Displaying the labels for the nodes
+    var labels = d3_text.data(root.descendants())
+    .join("text")
+    .classed("mutation-label", true)
+    .attr("x", d => { 
+      console.log(d.data.label);
+      var currentNode = d;
+      var parentNode = d.parent;
+      if (parentNode) {
+        var currentNodeX = d.x;
+        var parentNodeX = parentNode.x;
+        if (d.data.children == null) {
+          if (currentNodeX < parentNodeX) {
+            //return d.x - 50;
+            return d.x - (d.data.label.length) * 4;
+          }
+          else if (currentNodeX > parentNodeX) {
+            return d.x - 50;
+          }
+          else {
+            return d.x - 5;
+          }
+        }
+        else {
+          if (currentNodeX < parentNodeX) {
+            return d.x - Math.min(200, (d.data.label.length) * 5);
+            //return d.x - 50;
+          }
+          else if (currentNodeX > parentNodeX) {
+            return d.x - Math.min(50, d.data.label.length * 2);
+          }
+          else {
+            return d.x + 15;
+          }
+        }
+      }
+      else {
+        return d.x + 15;
+      }
+    })
+    .attr("y", d => { 
+      if (d.data.children == null) {
+        return d.y + 20; 
+      }
+      return d.y - 15; 
+    })
+
+    // Making each mutation a tspan
+    var tspans = labels
+    .selectAll("tspan")
+    .data(d => {
+      var str = d.data.label;
+      str = remove_quotation(str);
+      var lst = str.split(",");
+      var newLst = [];
+      lst.forEach(mutation => {
+        newLst.push(mutation.trim());
+      });
+      return newLst;
+    })
+    .join('tspan')
+    .text((d, i, j) => {
+      if (i == j.length - 1) {
+        return d;
+      }
+      return d + ",";
+    })
+    // .call(wrap, 25)
+    .style("font-size", "0.60em")
+    .style("font-family", "Monospace")
+    .style("fill", (d) => {
+      var tree1_mutations = jsonData.tree1_mutations; 
+      var tree2_mutations = jsonData.tree2_mutations; 
+      if (svg_names[i] == svg1) {
+        if (tree1_mutations[d]["contribution"] > 0) {
+          return "red";
+        } 
+        return "black";
+      }
+      else if (svg_names[i] == svg2) {
+        if (tree2_mutations[d]["contribution"] > 0) {
+          return "red";
+        } 
+        return "black";
+      }
+    })
+    .on("click", (d, i) => { 
+        var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i;
+        window.open(gene_url, "_blank"); 
+    });
+
+    // Get the summary statistics for both trees.
+    var t2_max_branching_factor = d3.max(nodes2, function(d) { 
+      if (d.children) {
+        return d.children.length;
+      }
+      return 0;
+    });
+
+    var t1_max_branching_factor = d3.max(nodes1, function(d) { 
+      if (d.children) {
+        return d.children.length;
+      }
+      return 0;
+    });
+ 
+    if (svg_names[i] == svg1) {
+      var t1_height_summary_element = document.getElementById("t1-height")
+      var t1_branching_factor_summary_element = document.getElementById("t1-branching-factor")
+      var t1_num_nodes_summary_element = document.getElementById("t1-number-nodes");
+      var t1_num_mutations_summary_element = document.getElementById("t1-number-mutations");
+      var t1_height = root.height;
+      t1_branching_factor_summary_element.innerHTML = t1_max_branching_factor; 
+      t1_height_summary_element.innerHTML = t1_height;
+      console.log("Edges", jsonData.tree1_edges);
+      t1_num_nodes_summary_element.innerHTML = nodes1.length;
+      t1_num_mutations_summary_element.innerHTML = mutations_tree1.length;
+    }
+    else {
+      var t2_height_summary_element = document.getElementById("t2-height");
+      var t2_branching_factor_summary_element = document.getElementById("t2-branching-factor");
+      var t2_num_nodes_summary_element = document.getElementById("t2-number-nodes");
+      var t2_num_mutations_summary_element = document.getElementById("t2-number-mutations");
+      var t2_height = root.height;
+      t2_branching_factor_summary_element.innerHTML = t2_max_branching_factor; 
+      t2_height_summary_element.innerHTML = t1_height;
+      t2_num_nodes_summary_element.innerHTML = nodes2.length;
+      t2_num_mutations_summary_element.innerHTML = mutations_tree2.length;
+    }
+
+    // Set the coloring scheme based off of the distance measure
+    switch (distance_measure) {
+      case "ancestor_descendant_distance":
+        distanceMeasureLabel.innerHTML = "Ancestor Descendant Distance: " + distance;
+        pc_ad_d3_trees(root, d3_nodes, d3_links, "ad", t_max);
+        break;
+      case "caset_distance": 
+        distanceMeasureLabel.innerHTML = "CASet Distance: " + distance;
+        dist_caset_d3_trees(root, d3_nodes, d3_links, t_max);
+        break;
+      case "disc_distance": 
+        distanceMeasureLabel.innerHTML = "DISC Distance: " + distance;
+        dist_caset_d3_trees(root, d3_nodes, d3_links, t_max);
+        break;
+      case "parent_child_distance": 
+        distanceMeasureLabel.innerHTML = "Parent-child Distance: " + distance;
+        pc_ad_d3_trees(root, d3_nodes, d3_links, "pc", t_max);
+        break;
+      default:
+        console.log("Please select a valid distance measure. If you have question email ealexander@carleton.edu");
+        break;
+    }
+  }
 }
 
 submitTreesBtn.onclick = () => {
@@ -520,8 +897,8 @@ $('.collapse').on('click', function(e) {
   $(this).toggleClass('expanded');
   $(this).next().toggleClass('bottombox');
   const isExpanded = $(this).hasClass('expanded');
-  $(this).text(isExpanded ? '▶' : '▼');
-  });
+  $(this).text(isExpanded ? '+' : '-');
+});
 
 function toggle(id) {
     var x = document.getElementById(id);

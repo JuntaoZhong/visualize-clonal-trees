@@ -45,7 +45,7 @@
 #sidebar{
     background-color: #D9DEDE;
     vertical-align: top;
-    width: 23%;
+    width: 25%;
     height:100%;
     
 }
@@ -117,9 +117,6 @@
     display: none;
 }
 
-/* .distance-measure{
-    display: none;
-} */
 
 #viz1, #viz2, #viz3, #viz4 {
     display: none;
@@ -133,6 +130,7 @@
 }
 #top-measures {
     display: table;
+    margin-bottom: 2%;
 }
 #bottom-measures {
     display: table;
@@ -196,7 +194,6 @@ button{
 
 .download:active{
     background-color: #D9DEDE;
-    /* margin-top: 3px; */
     color: black;
 }
 
@@ -332,8 +329,9 @@ p{
 }
 #scale1, #scale2, #scale3, #scale4{
     display: none;
+    margin: 10px;
 }
-#legend {
+.legend {
     height: 30px;
     width: 400px;
     border: 1px solid black;
@@ -341,7 +339,7 @@ p{
     margin: auto;
 }
 
-#legend-labels-container {
+.legend-labels-container {
     width: 400px;
     height: 20px;
     display: flex;
@@ -397,7 +395,8 @@ p{
 #summary-statistics-table {
   border: 1px solid black;
   border-collapse: collapse;
-  margin: auto;
+  margin: 5%;
+  background-color: #F5F5F5;
 }
 
 #summary-statistics-table th{
@@ -415,4 +414,12 @@ p{
 
 #table-name > th{
   text-align: center;
+}
+
+.hidden_label {
+    display: none;
+    width: 40%;
+    border: 2px solid black;
+    text-align: center;
+    background-color: #D9DEDE;
 }
