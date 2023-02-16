@@ -122,6 +122,9 @@ function visualize_trees(jsonData, distance_measure) {
   
   var shared_label = document.getElementById("shared-mutations");
   shared_mutations = intersect(mutations_tree1, mutations_tree2);
+  console.log("Shared mutations", shared_mutations);
+  console.log("Tree1 mutations", mutations_tree1);
+  console.log("Tree2 mutations", mutations_tree2);
   tree1_only_mutations = difference(mutations_tree1, shared_mutations);
   tree2_only_mutations = difference(mutations_tree2, shared_mutations);
   shared_label.innerHTML = shared_mutations;
@@ -475,9 +478,9 @@ function getAllMutations(nodes) {
   var all_mutations = [];
   nodes.forEach(node => {
     var label = node.data.label;
-    var mutations = label.split(", ");
+    var mutations = label.split(",");
     mutations.forEach(mutation => {
-      all_mutations.push(remove_quotation(mutation));
+      all_mutations.push(remove_quotation(mutation.trim()));
     });
   });  
   return all_mutations;
