@@ -354,6 +354,30 @@ function visualize_trees(jsonData, distance_measure) {
       }
       return 0;
     });
+
+    // tree_dict = jsonData.tree1_mutations
+    function get_top_n_mutations(tree_dict, n) {
+      var mutation_contribution_dict = {};
+      for (const [mutation, value] of Object.entries(tree_dict)) {
+        mutation_contribution_dict[mutation] = value["contribution"];
+      }
+      var items = Object.keys(mutation_contribution_dict).map(
+      (key) => { return [key, mutation_contribution_dict[key]] });
+      items.sort(
+        (first, second) => { return second[1] - first[1] } // from greatest to least
+      );
+      var keys = items.map((e) => { return e[0] });
+      
+      var output_str = ""
+      for (v = 0; v < Math.min(n, keys.length); v++){
+        output_str = output_str.concat(keys[v])
+        if (v < Math.min(n, keys.length) - 1){
+          output_str = output_str.concat(", ")
+        }
+      }
+      console.log(tree_dict)
+      return(output_str)
+    }
  
     if (svg_names[i] == "svg1") {
       var t1_height_summary_element = document.getElementById("t1-height")
@@ -363,9 +387,9 @@ function visualize_trees(jsonData, distance_measure) {
       var t1_height = root.height;
       t1_branching_factor_summary_element.innerHTML = t1_max_branching_factor; 
       t1_height_summary_element.innerHTML = t1_height;
-      console.log("Edges", jsonData.tree1_edges);
       t1_num_nodes_summary_element.innerHTML = nodes1.length;
       t1_num_mutations_summary_element.innerHTML = mutations_tree1.length;
+      t1_top5_summary_element.innerHTML = get_top_n_mutations(jsonData.tree1_mutations, 5);
     }
     else {
       var t2_height_summary_element = document.getElementById("t2-height");
@@ -374,9 +398,10 @@ function visualize_trees(jsonData, distance_measure) {
       var t2_num_mutations_summary_element = document.getElementById("t2-number-mutations");
       var t2_height = root.height;
       t2_branching_factor_summary_element.innerHTML = t2_max_branching_factor; 
-      t2_height_summary_element.innerHTML = t1_height;
+      t2_height_summary_element.innerHTML = t2_height;
       t2_num_nodes_summary_element.innerHTML = nodes2.length;
       t2_num_mutations_summary_element.innerHTML = mutations_tree2.length;
+      t2_top5_summary_element.innerHTML = get_top_n_mutations(jsonData.tree2_mutations, 5);
     }
 
     // Set the coloring scheme based off of the distance measure
@@ -407,24 +432,15 @@ function visualize_trees(jsonData, distance_measure) {
 function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
 
     d3_nodes.selectAll('circle.node')
+      .style("stroke", "black")
       .style("fill", function(d) {
-        //var nodes = root.descendants();
-
         var scale = d3.scaleLinear()
         .domain([0, t_max/3, 2*t_max/3, t_max])
         .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
         return scale(d.data.contribution);
         })
 
-    d3_links.selectAll('line.link')
-      .style("stroke", function(d) { 
-        //var nodes = root.descendants();
-
-        var scale = d3.scaleLinear()
-        .domain([0, t_max/3, 2*t_max/3, t_max])
-        .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
-        return "black" //scale(d.target.data.contribution);
-      }) 
+    d3_links.selectAll('line.link').style("stroke", "black") 
 }
 
 function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
@@ -439,8 +455,6 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
     return scale(d.data.contribution);
 
   }
-
-   
 
   // Coloring scheme for parent-child
   if (treetype == "pc") {
