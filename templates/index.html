@@ -38,8 +38,48 @@
                                 var legend = document.getElementById("anyscale");
                                 var y = document.getElementById("single");
                                 var y2 = document.getElementById("multiple");
+                                var hide1 = document.getElementById("viz1")
+                                var hide2 = document.getElementById("viz2")
+                                var hide3 = document.getElementById("viz3")
+                                var hide4 = document.getElementById("viz4")
+                                var scale1 = document.getElementById("scale1")
+                                var scale2 = document.getElementById("scale2")
+                                var scale3 = document.getElementById("scale3")
+                                var scale4 = document.getElementById("scale4")
+                                var label1 = document.getElementById("pc-label")
+                                var label2 = document.getElementById("ad-label")
+                                var label3 = document.getElementById("caset-label")
+                                var label4 = document.getElementById("disc-label")
+                                var button1 = document.getElementById("pc-view")
+                                var button2 = document.getElementById("ad-view")
+                                var button3 = document.getElementById("caset-view")
+                                var button4 = document.getElementById("disc-view")
                                 div.style.display = "flex";
-                                legend.style.display = "block"
+                                legend.style.display = "block";
+                                hide1.style.display = "none";
+                                hide2.style.display = "none";
+                                hide3.style.display = "none";
+                                hide4.style.display = "none";
+                                
+                                scale1.style.display = "none";
+                                scale2.style.display = "none";
+                                scale3.style.display = "none";
+                                scale4.style.display = "none";
+                                
+                                label1.style.display = "none";
+                                label2.style.display = "none";
+                                label3.style.display = "none";
+                                label4.style.display = "none";
+
+                                button1.style.color = "#F5F5F5"
+                                button1.style.background = "#2C7A7A";
+                                button2.style.color = "#F5F5F5"
+                                button2.style.background = "#2C7A7A";
+                                button3.style.color = "#F5F5F5"
+                                button3.style.background = "#2C7A7A";
+                                button4.style.color = "#F5F5F5"
+                                button4.style.background = "#2C7A7A";
+
                                 if (x.style.display === "none") {
                                     x.style.display = "inline-block";
                                     y.style.background = "#2C7A7A50";
@@ -124,14 +164,17 @@
                                     var x = document.getElementById("viz1");
                                     var x2 = document.getElementById("scale1");
                                     var y = document.getElementById("pc-view");
+                                    var label = document.getElementById("pc-label")
                                     if (x.style.display === "flex") {
                                         x.style.display = "none";
                                         x2.style.display = "none";
+                                        label.style.display = "none"
                                         y.style.background = "#2C7A7A";
                                     } 
                                     else {
                                         x.style.display = "flex";
                                         x2.style.display = "block";
+                                        label.style.display = "block"
                                         y.style.background = "#2C7A7A50";
                                     }
                                 }
@@ -139,14 +182,17 @@
                                     var x = document.getElementById("viz2");
                                     var x2 = document.getElementById("scale2");
                                     var y = document.getElementById("ad-view");
+                                    var label = document.getElementById("ad-label")
                                     if (x.style.display === "flex") {
                                         x.style.display = "none";
                                         x2.style.display = "none";
+                                        label.style.display = "none"
                                         y.style.background = "#2C7A7A";
                                     } 
                                     else {
                                         x.style.display = "flex";
                                         x2.style.display = "block";
+                                        label.style.display = "block"
                                         y.style.background = "#2C7A7A50";
                                     }
                                 }
@@ -154,14 +200,17 @@
                                     var x = document.getElementById("viz3");
                                     var x2 = document.getElementById("scale3");
                                     var y = document.getElementById("caset-view");
+                                    var label = document.getElementById("caset-label")
                                     if (x.style.display === "flex") {
                                         x.style.display = "none";
                                         x2.style.display = "none";
+                                        label.style.display = "none"
                                         y.style.background = "#2C7A7A";
                                     } 
                                     else {
                                         x.style.display = "flex";
                                         x2.style.display = "block";
+                                        label.style.display = "block"
                                         y.style.background = "#2C7A7A50";
                                     }
                                 }
@@ -169,14 +218,17 @@
                                     var x = document.getElementById("viz4");
                                     var x2 = document.getElementById("scale4");
                                     var y = document.getElementById("disc-view");
+                                    var label = document.getElementById("disc-label")
                                     if (x.style.display === "flex") {
                                         x.style.display = "none";
                                         x2.style.display = "none";
+                                        label.style.display = "none"
                                         y.style.background = "#2C7A7A";
                                     } 
                                     else {
                                         x.style.display = "flex";
                                         x2.style.display = "block";
+                                        label.style.display = "block"
                                         y.style.background = "#2C7A7A50";
                                     }
                                 }
@@ -343,6 +395,7 @@
                     <div class="label", id="colorLabel4">4</div>
                     </div>
                 </div>
+                <h3 class="hidden_label" id="pc-label">Parent-Child Visualization</h3>
                 <div class="visualizations-container" id="viz1">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz1_svg1"> 
@@ -362,7 +415,6 @@
                     </div>
                 </div>
                 <div class="legend-container" id="scale1">
-                    <div id="distance-measure-label"></div>
                     <div class="legend"></div>
                     <div class="legend-labels-container">
                     <div class="label", id="scale1_colorLabel1">1</div>
@@ -371,6 +423,7 @@
                     <div class="label", id="scale1_colorLabel4">4</div>
                     </div>
                 </div>
+                <h3 class="hidden_label" id="ad-label">Ancestor-Descendant Visualization</h3>
                 <div class="visualizations-container" id="viz2">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz2_svg1"> 
@@ -390,7 +443,6 @@
                     </div>
                 </div>
                 <div class="legend-container" id="scale2">
-                    <div id="distance-measure-label"></div>
                     <div class="legend"></div>
                     <div class="legend-labels-container">
                     <div class="label", id="scale2_colorLabel1">1</div>
@@ -399,6 +451,7 @@
                     <div class="label", id="scale2_colorLabel4">4</div>
                     </div>
                 </div>
+                <h3 class="hidden_label" id="caset-label">CASet Visualization</h3>
                 <div class="visualizations-container" id="viz3">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz3_svg1"> 
@@ -418,7 +471,6 @@
                     </div>
                 </div>
                 <div class="legend-container" id="scale3">
-                    <div class="distance-measure-label"></div>
                     <div class="legend"></div>
                     <div class="legend-labels-container">
                     <div class="label", id="scale3_colorLabel1">1</div>
@@ -427,6 +479,7 @@
                     <div class="label", id="scale3_colorLabel4">4</div>
                     </div>
                 </div>
+                <h3 class="hidden_label" id="disc-label">DISC Visualization</h3>
                 <div class="visualizations-container" id="viz4">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz4_svg1"> 
@@ -446,7 +499,6 @@
                     </div>
                 </div>
                 <div class="legend-container4" id="scale4">
-                    <div id="distance-measure-label"></div>
                     <div class="legend"></div>
                     <div class="legend-labels-container">
                     <div class="label", id="scale4_colorLabel1">1</div>
