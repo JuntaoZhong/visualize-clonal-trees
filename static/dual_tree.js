@@ -308,16 +308,17 @@ function visualize_trees(jsonData, distance_measure) {
       var lst = str.split(",");
       var newLst = [];
       lst.forEach(mutation => {
-        newLst.push(mutation.trim());
+        newLst.push([mutation.trim(), d.x, d.y]);
       });
       return newLst;
     })
     .join('tspan')
     .text((d, i, j) => {
+      console.log(d);
       if (i == j.length - 1) {
-        return d;
+        return d[0];
       }
-      return d + ",";
+      return d[0] + ",";
     })
     // .call(wrap, 25)
     .style("font-size", "0.60em")
@@ -326,21 +327,30 @@ function visualize_trees(jsonData, distance_measure) {
       var tree1_mutations = jsonData.tree1_mutations; 
       var tree2_mutations = jsonData.tree2_mutations; 
       if (svg_names[i] == 'svg1') {
-        if (tree1_mutations[d]["contribution"] > 0) {
+        if (tree1_mutations[d[0]]["contribution"] > 0) {
           return "red";
         } 
         return "black";
       }
       else if (svg_names[i] == "svg2") {
-        if (tree2_mutations[d]["contribution"] > 0) {
+        if (tree2_mutations[d[0]]["contribution"] > 0) {
           return "red";
         } 
         return "black";
       }
     })
     .on("click", (d, i) => { 
-        var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i;
+        var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
         window.open(gene_url, "_blank"); 
+    })
+    .attr("x", (d, i, j) => {
+      var index = i;
+      return d[1] + ((d[0].length * 10) * (i%2)) + 10;
+    })
+    .attr("dy", (d, i, j) => {
+      if (i % 2 == 0) {
+        return "1.1em";
+      }
     });
 
     // Get the summary statistics for both trees.
