@@ -47,12 +47,10 @@ def calculation_contributions_and_node_mutation_relations(distance_measure):
   else:
     print("Not a valid distance measure")
     exit(1)
-    
+
   node_contribution_dict_1, node_contribution_dict_2, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, distance= calculated_values
   jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
   return(json.dumps(jsonObject))
-
-
 
 @api.route('/parent_child_distance')
 def run_parent_child_distance():
@@ -70,76 +68,15 @@ def run_parent_child_distance():
     string representing tree2 
   """
   return calculation_contributions_and_node_mutation_relations("parent_child")
-  # tree1_data = flask.request.args.get('tree1')
-  # tree2_data = flask.request.args.get('tree2')
-  # tree1_type = flask.request.args.get('treeType1')
-  # tree2_type = flask.request.args.get('treeType2')
-
-  # if tree1_type == "newick":
-  #   tree1_data = Newick_2_dot.convert_newick_2_dot(tree1_data)
-  # if tree2_type == "newick":
-  #   tree2_data = Newick_2_dot.convert_newick_2_dot(tree2_data)
-  
-  # write_dot_tree_2_file(tree1_data, "t1.txt")
-  # write_dot_tree_2_file(tree2_data, "t2.txt")
-
-  # node_contribution_dict_1, node_contribution_dict_2, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, distance= pc_dot.pc_main("t1.txt", "t2.txt")
-  # jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
-  # return(json.dumps(jsonObject))
   
 @api.route('/ancestor_descendant_distance')
 def run_ancestor_descendant_distance():
   return calculation_contributions_and_node_mutation_relations("ancestor_descendant")
-  # tree1_data = flask.request.args.get('tree1')
-  # tree2_data = flask.request.args.get('tree2')
-  # tree1_type = flask.request.args.get('treeType1')
-  # tree2_type = flask.request.args.get('treeType2')
-
-  # if tree1_type == "newick":
-  #   tree1_data = Newick_2_dot.convert_newick_2_dot(tree1_data)
-  # if tree2_type == "newick":
-  #   tree2_data = Newick_2_dot.convert_newick_2_dot(tree2_data)
-  
-  # write_dot_tree_2_file(tree1_data, "t1.txt")
-  # write_dot_tree_2_file(tree2_data, "t2.txt")
-  # node_contribution_dict_1, node_contribution_dict_2,mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, distance = ad_dot.ad_main("t1.txt", "t2.txt")
-  # jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
-  # return(json.dumps(jsonObject))
 
 @api.route('/caset_distance')
 def run_caset_distance():
   return calculation_contributions_and_node_mutation_relations("caset")
-  # tree1_data = flask.request.args.get('tree1')
-  # tree2_data = flask.request.args.get('tree2')
-  # tree1_type = flask.request.args.get('treeType1')
-  # tree2_type = flask.request.args.get('treeType2')
-
-  # if tree1_type == "newick":
-  #   tree1_data = Newick_2_dot.convert_newick_2_dot(tree1_data)
-  # if tree2_type == "newick":
-  #   tree2_data = Newick_2_dot.convert_newick_2_dot(tree2_data)
-  
-  # write_dot_tree_2_file(tree1_data, "t1.txt")
-  # write_dot_tree_2_file(tree2_data, "t2.txt")
-  # node_contribution_dict_1, node_contribution_dict_2,  mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2,distance = cs_dot.cs_main("t1.txt", "t2.txt")
-  # jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
-  # return(json.dumps(jsonObject))
 
 @api.route('/disc_distance')
 def run_disc_distance():
   return calculation_contributions_and_node_mutation_relations("disc")
-  # tree1_data = flask.request.args.get('tree1')
-  # tree2_data = flask.request.args.get('tree2')
-  # tree1_type = flask.request.args.get('treeType1')
-  # tree2_type = flask.request.args.get('treeType2')
-
-  # if tree1_type == "newick":
-  #   tree1_data = Newick_2_dot.convert_newick_2_dot(tree1_data)
-  # if tree2_type == "newick":
-  #   tree2_data = Newick_2_dot.convert_newick_2_dot(tree2_data)
-  
-  # write_dot_tree_2_file(tree1_data, "t1.txt")
-  # write_dot_tree_2_file(tree2_data, "t2.txt")
-  # node_contribution_dict_1, node_contribution_dict_2,  mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, distance = disc_dot.disc_main("t1.txt", "t2.txt")
-  # jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
-  # return(json.dumps(jsonObject))
