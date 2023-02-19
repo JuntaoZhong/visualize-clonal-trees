@@ -108,6 +108,10 @@ function visualize_trees(jsonData, distance_measure) {
   console.log("Tree2 mutations", mutations_tree2);
   tree1_only_mutations = difference(mutations_tree1, shared_mutations);
   tree2_only_mutations = difference(mutations_tree2, shared_mutations);
+  console.log("Shared", shared_mutations);
+  shared_mutations.forEach(mutation => {
+    shared_label.innerHTML +=  "<span>" + mutation  + "</span>";
+  })
   shared_label.innerHTML = shared_mutations;
   tree1_label.innerHTML = tree1_only_mutations;
   tree2_label.innerHTML = tree2_only_mutations;
@@ -217,41 +221,6 @@ function visualize_trees(jsonData, distance_measure) {
         return 10;
       })
     
-    //   function wrap(text, width) {
-    //     text.each(function () {
-    //         var text = d3.select(this),
-    //             words = text.text().split(/\s+/).reverse(),
-    //             word,
-    //             line = [],
-    //             lineNumber = 0,
-    //             lineHeight = 1.1, // ems
-    //             x = text.attr("x"),
-    //             y = text.attr("y"),
-    //             dy = 0, //parseFloat(text.attr("dy")),
-    //             tspan = text.text(null)
-    //                         .append("tspan")
-    //                         .attr("x", x)
-    //                         .attr("y", y)
-    //                         .attr("dy", dy + "em");
-    //         while (word = words.pop()) {
-    //             line.push(word);
-    //             tspan.text(line.join(" "));
-    //             if (tspan.node().getComputedTextLength() > width) {
-    //                 line.pop();
-    //                 tspan.text(line.join(" "));
-    //                 line = [word];
-    //                 tspan = text.append("tspan")
-    //                             .attr("x", 15)
-    //                             .attr("y", y)
-    //                             .attr("dy", ++lineNumber * lineHeight + dy + "em")
-    //                             .text(word);
-    //             }
-    //         }
-    //     });
-    // }
-
-
-    
     // Displaying the labels for the nodes
     var labels = d3_text.data(root.descendants())
     .join("text")
@@ -313,6 +282,7 @@ function visualize_trees(jsonData, distance_measure) {
       return newLst;
     })
     .join('tspan')
+    .classed("mutation-label-hover", true)
     .text((d, i, j) => {
       console.log(d);
       if (i == j.length - 1) {
@@ -733,6 +703,7 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
       return newLst;
     })
     .join('tspan')
+    .classed("mutation-label-hover", true)
     .text((d, i, j) => {
       if (i == j.length - 1) {
         return d;
