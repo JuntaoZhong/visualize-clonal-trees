@@ -6,10 +6,9 @@ import json
 import distance_measures.utils as utils
 
 def get_contributions(g_1,g_2):
-    '''returns three dictionaries for each tree: 
-    node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
-    and AD distance between the trees
-    '''
+    ''' Returns three dictionaries for each tree: 
+        node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
+        and AD distance between the trees'''
     ad_distinct_set_1 = get_pair_differences(g_1,g_2)[0]
     ad_distinct_set_2 = get_pair_differences(g_1,g_2)[1]
 
@@ -18,42 +17,40 @@ def get_contributions(g_1,g_2):
     node_contribution_dict_1, mutation_contribution_dict_1, node_to_mutation_dict_1 = utils.initialize_core_dictionaries(g_1)
     node_contribution_dict_2, mutation_contribution_dict_2, node_to_mutation_dict_2 = utils.initialize_core_dictionaries(g_2)
 
-
     for pair in ad_distinct_set_1:
         anc_mut = pair[0]
         desc_mut = pair[1]
-        anc_node = get_node_from_mutation(g_1,anc_mut)
-        desc_node = get_node_from_mutation(g_1,desc_mut)
+        anc_node = utils.get_node_from_mutation(g_1,anc_mut)
+        desc_node = utils.get_node_from_mutation(g_1,desc_mut)
 
-        #ANCS---------------------------------------------------------
+        #NODE ANC---------------------------------------------------------
         node_contribution_dict_1[anc_node]["contribution"] = node_contribution_dict_1[anc_node]["contribution"] +1
-        #MUT ANC----------------------------
+        #MUT ANC-----------------------------
         mutation_contribution_dict_1[anc_mut]["contribution"] = mutation_contribution_dict_1[anc_mut]["contribution"] +1  
-        #DESC-----------------------------------------------------------------
+        #NODE DESC--------------------------------------------------------
         node_contribution_dict_1[desc_node]["contribution"] = node_contribution_dict_1[desc_node]["contribution"] +1
-         #MUT DESC----------------------------
+        #MUT DESC----------------------------
         mutation_contribution_dict_1[anc_mut]["contribution"] = mutation_contribution_dict_1[anc_mut]["contribution"] +1 
 
     for pair in ad_distinct_set_2:
         anc_mut = pair[0]
         desc_mut = pair[1]
-        anc_node = get_node_from_mutation(g_2,anc_mut)
-        desc_node = get_node_from_mutation(g_2,desc_mut)
+        anc_node = utils.get_node_from_mutation(g_2,anc_mut)
+        desc_node = utils.get_node_from_mutation(g_2,desc_mut)
         #ANCS---------------------------------------------------------
         node_contribution_dict_2[anc_node]["contribution"] = node_contribution_dict_2[anc_node]["contribution"] +1
         #MUT ANC----------------------------
         mutation_contribution_dict_2[anc_mut]["contribution"] = mutation_contribution_dict_2[anc_mut]["contribution"] +1  
         #DESC-----------------------------------------------------------------
         node_contribution_dict_2[desc_node]["contribution"] = node_contribution_dict_2[desc_node]["contribution"] +1
-         #MUT DESC---------------------------
+        #MUT DESC---------------------------
         mutation_contribution_dict_2[anc_mut]["contribution"] = mutation_contribution_dict_2[anc_mut]["contribution"] +1 
     print("ad_distance", ad_distance, "\n")
     return node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, ad_distance
 
-
 def get_pair_differences(g_1,g_2):
-    '''returns the lists of ancestor descendant pairs that
-    are only in g_1 and only in g_2 respectively'''
+    ''' Returns the lists of ancestor descendant pairs that
+        are only in g_1 and only in g_2 respectively'''
     ad_pair_set_1 = get_anc_desc_pairs(g_1)
     ad_pair_set_2 = get_anc_desc_pairs(g_2)
     ad_distinct_set_1 = ad_pair_set_1 - ad_pair_set_2
@@ -76,7 +73,7 @@ def get_anc_desc_pairs(g):
         anc_list = mutation_anc_dict[desc]
         for anc in anc_list:
             anc_desc_pairs.add((anc, desc))
-    # print("mut anc dict: " + str(mutation_anc_dict))
+
     return anc_desc_pairs
 
 def fill_node_dict(g, node, node_anc_dict):
@@ -90,6 +87,8 @@ def fill_node_dict(g, node, node_anc_dict):
     return node_anc_dict
 
 def fill_mutation_dict(g, node, dict):
+    ''' Creates dictionary matching each mutation in g to
+        its ancestor set '''
     node_dict = fill_node_dict(g, node, dict)
     mutation_dict = {}
     for desc in node_dict:
@@ -98,22 +97,11 @@ def fill_mutation_dict(g, node, dict):
         for desc_mutation in desc_mutations:
             desc_mutation_ancestors = []
             for anc in anc_set:
-                # print('anc type: ')
-                # print(type(anc))
                 anc_mutations = utils.get_mutations_from_node(g,anc)
                 desc_mutation_ancestors = desc_mutation_ancestors + anc_mutations
             mutation_dict[desc_mutation] = desc_mutation_ancestors
     
-    # print("mutation dict: " + str(mutation_dict))
     return mutation_dict
-
-# note to self; go back and make this function more efficient by
-# storing mutation-node relationship when getting mutations from 
-# node
-def get_node_from_mutation(g, mutation):
-    for node in g.nodes:
-        if mutation in utils.get_mutations_from_node(g, node):
-            return node
 
 def ad_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
@@ -126,11 +114,8 @@ def ad_main(filename_1, filename_2):
     return (data_1, data_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2)
 
 if __name__=="__main__":
-    # filename_1 = sys.argv[1]
-    # filename_2 = sys.argv[2]
     filename_1 = "test1.txt"
     filename_2 = "test2.txt"
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
     print(get_contributions(g_1,g_2))
-   
