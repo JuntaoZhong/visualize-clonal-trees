@@ -110,7 +110,7 @@ function visualize_trees(jsonData, distance_measure) {
   tree2_only_mutations = difference(mutations_tree2, shared_mutations);
   console.log("Shared", shared_mutations);
   shared_mutations.forEach(mutation => {
-    shared_label.innerHTML +=  "<span>" + mutation  + "</span>";
+    shared_label.innerHTML +=  `<span class="${mutation}">${mutation}</span>`;
   })
   tree1_label.innerHTML = tree1_only_mutations;
   tree2_label.innerHTML = tree2_only_mutations;
