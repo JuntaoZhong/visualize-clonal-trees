@@ -108,9 +108,8 @@ function visualize_trees(jsonData, distance_measure) {
   console.log("Tree2 mutations", mutations_tree2);
   tree1_only_mutations = difference(mutations_tree1, shared_mutations);
   tree2_only_mutations = difference(mutations_tree2, shared_mutations);
-  console.log("Shared", shared_mutations);
   shared_mutations.forEach(mutation => {
-    shared_label.innerHTML +=  `<span class="${mutation}-mutation-hover-label">${mutation}</span>`;
+    shared_label.innerHTML +=  `<span class="${mutation}-mutation-hover-label">${mutation}</span> `;
   })
   tree1_label.innerHTML = tree1_only_mutations;
   tree2_label.innerHTML = tree2_only_mutations;
@@ -283,13 +282,12 @@ function visualize_trees(jsonData, distance_measure) {
     .join('tspan')
     .classed(d => d[0] + "-mutation-hover-label", true)
     .text((d, i, j) => {
-      console.log(d);
       if (i == j.length - 1) {
         return d[0];
       }
       return d[0] + ",";
     })
-    // .call(wrap, 25)
+
     .style("font-size", "0.60em")
     .style("font-family", "Monospace")
     .style("fill", (d) => {
@@ -314,7 +312,6 @@ function visualize_trees(jsonData, distance_measure) {
         console.log("." + i[0] + "-mutation-hover-label");
         var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
         items.style("color", "orange"); 
-        console.log("Items", items);
     })
     .attr("x", (d, i, j) => {
       var index = i;
@@ -701,32 +698,32 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
       var lst = str.split(",");
       var newLst = [];
       lst.forEach(mutation => {
-        newLst.push(mutation.trim());
+        newLst.push([mutation.trim(), d.x, d.y]);
       });
       return newLst;
     })
     .join('tspan')
-    .classed("mutation-label-hover", true)
+    .classed(d => d[0] + "-mutation-hover-label", true)
     .text((d, i, j) => {
       if (i == j.length - 1) {
-        return d;
+        return d[0];
       }
-      return d + ",";
+      return d[0] + ",";
     })
-    // .call(wrap, 25)
+
     .style("font-size", "0.60em")
     .style("font-family", "Monospace")
     .style("fill", (d) => {
       var tree1_mutations = jsonData.tree1_mutations; 
       var tree2_mutations = jsonData.tree2_mutations; 
       if (svg_names[i] == svg1) {
-        if (tree1_mutations[d]["contribution"] > 0) {
+        if (tree1_mutations[d[0]]["contribution"] > 0) {
           return "red";
         } 
         return "black";
       }
       else if (svg_names[i] == svg2) {
-        if (tree2_mutations[d]["contribution"] > 0) {
+        if (tree2_mutations[d[0]]["contribution"] > 0) {
           return "red";
         } 
         return "black";
@@ -735,8 +732,21 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
     .on("click", (d, i) => { 
         var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i;
         window.open(gene_url, "_blank"); 
+    })
+    .attr("x", (d, i, j) => {
+      var index = i;
+      //return d[1] + ((d[0].length * 10) * (i%2)) + 10;
+      if (index % 2 == 0) {
+        return d[1] + 10;
+      }
+      console.log("Prev length:", j[i-1].__data__[0], j[i-1].__data__[0].length);
+      return d[1] + (j[i-1].__data__[0].length + 10) * 3;
+    })
+    .attr("dy", (d, i, j) => {
+      if (i % 2 == 0) {
+        return "1.1em";
+      }
     });
-
     // Get the summary statistics for both trees.
     var t2_max_branching_factor = d3.max(nodes2, function(d) { 
       if (d.children) {
@@ -827,26 +837,18 @@ function difference(arr1, arr2){
   return arr1.filter(x => !arr2.includes(x));
 }
 
-function downloadSVGAsText() {
-  var svg = document.querySelector('#svg1');
+// Function that downloads the svgs as .svg files
+function downloadSVG(svg) {
+  var svg = document.querySelector(svg);
   var base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
   var a = document.createElement('a');
   var e = new MouseEvent('click');
-  a.download = 'tree1_download.svg';
+  a.download = 'tree_download.svg';
   a.href = 'data:image/svg+xml;base64,' + base64doc;
   a.dispatchEvent(e);
 }
 
-function downloadSVG2AsText() {
-  var svg = document.querySelector('#svg2');
-  var base64doc = btoa(unescape(encodeURIComponent(svg.outerHTML)));
-  var a = document.createElement('a');
-  var e = new MouseEvent('click');
-  a.download = 'tree2_download.svg';
-  a.href = 'data:image/svg+xml;base64,' + base64doc;
-  a.dispatchEvent(e);
-}
-
+// switches the icon for the input window onclick
 $('.collapse').on('click', function(e) {
   $(this).toggleClass('expanded');
   $(this).next().toggleClass('bottombox');
@@ -854,19 +856,129 @@ $('.collapse').on('click', function(e) {
   $(this).text(isExpanded ? '+' : '-');
 });
 
+// General toggle function
 function toggle(id) {
     var x = document.getElementById(id);
     x.style.display = x.style.display == 'inline-block' ? 'none' : 'inline-block';
 }
+
+// toggle function for alread hidden elements
 function toggleVisible(id) {
   var x = document.getElementById(id);
   x.style.display = x.style.display == 'none' ? 'inline-block' : 'none';
 }
 
-var downloadSVG1 = document.querySelector('#downloadSVG1');
-downloadSVG1.addEventListener('click', downloadSVGAsText);
-var downloadSVG2 = document.querySelector('#downloadSVG2');
-downloadSVG2.addEventListener('click', downloadSVG2AsText);
+// toggle for visualization containers in multi-view
+function vizbox(container, legend, buttonID, title) {
+  var x = document.getElementById(container);
+  var x2 = document.getElementById(legend);
+  var y = document.getElementById(buttonID);
+  var label = document.getElementById(title);
+  if (x.style.display === "flex") {
+      x.style.display = "none";
+      x2.style.display = "none";
+      label.style.display = "none"
+      y.style.background = "#2C7A7A";
+  } 
+  else {
+      x.style.display = "flex";
+      x2.style.display = "block";
+      label.style.display = "block"
+      y.style.background = "#2C7A7A50";
+  }
+}
 
 
+function singleView() {
+  var x = document.getElementById("distance-dropdown");
+  var x2 = document.getElementById("distance-buttons");
+  var div = document.getElementById("anyviz");
+  var legend = document.getElementById("anyscale");
+  var y = document.getElementById("single");
+  var y2 = document.getElementById("multiple");
+  var hide1 = document.getElementById("viz1")
+  var hide2 = document.getElementById("viz2")
+  var hide3 = document.getElementById("viz3")
+  var hide4 = document.getElementById("viz4")
+  var scale1 = document.getElementById("scale1")
+  var scale2 = document.getElementById("scale2")
+  var scale3 = document.getElementById("scale3")
+  var scale4 = document.getElementById("scale4")
+  var label1 = document.getElementById("pc-label")
+  var label2 = document.getElementById("ad-label")
+  var label3 = document.getElementById("caset-label")
+  var label4 = document.getElementById("disc-label")
+  var button1 = document.getElementById("pc-view")
+  var button2 = document.getElementById("ad-view")
+  var button3 = document.getElementById("caset-view")
+  var button4 = document.getElementById("disc-view")
+  div.style.display = "flex";
+  legend.style.display = "block";
+  hide1.style.display = "none";
+  hide2.style.display = "none";
+  hide3.style.display = "none";
+  hide4.style.display = "none";
+  
+  scale1.style.display = "none";
+  scale2.style.display = "none";
+  scale3.style.display = "none";
+  scale4.style.display = "none";
+  
+  label1.style.display = "none";
+  label2.style.display = "none";
+  label3.style.display = "none";
+  label4.style.display = "none";
 
+  button1.style.color = "#F5F5F5"
+  button1.style.background = "#2C7A7A";
+  button2.style.color = "#F5F5F5"
+  button2.style.background = "#2C7A7A";
+  button3.style.color = "#F5F5F5"
+  button3.style.background = "#2C7A7A";
+  button4.style.color = "#F5F5F5"
+  button4.style.background = "#2C7A7A";
+
+  if (x.style.display === "none") {
+      x.style.display = "inline-block";
+      y.style.background = "#2C7A7A50";
+      y.style.color = "black";
+      y2.style.background = "#2C7A7A";
+      y2.style.color = "#F5F5F5";
+      x2.style.display = "none";
+  }
+  else {
+      x.style.display = "none";
+      x2.style.display = "none";
+      y.style.background = "#2C7A7A";
+      y.style.color = "#F5F5F5";
+      y2.style.background = "#2C7A7A";
+      y2.style.color = "#F5F5F5";
+  }
+}
+
+function multiView() {
+  var x = document.getElementById("distance-buttons");
+  var x2 = document.getElementById("distance-dropdown")
+  var div = document.getElementById("anyviz");
+  var legend = document.getElementById("anyscale");
+  var y = document.getElementById("multiple");
+  var y2 = document.getElementById("single");
+  div.style.display = "none";
+  legend.style.display = "none"
+  if (x.style.display === "inline-block") {
+      x.style.display = "none";
+      y.style.background = "#2C7A7A";
+      y.style.color = "#F5F5F5";
+      y2.style.background = "#2C7A7A";
+      y2.style.color = "#F5F5F5";
+      x2.style.display = "none";
+  }
+  else {
+      x.style.display = "inline-block";
+      x2.style.display = "none";
+      y.style.background = "#2C7A7A50";
+      y.style.color = "black";
+      y2.style.background = "#2C7A7A";
+      y2.style.color = "#F5F5F5";
+  }
+}

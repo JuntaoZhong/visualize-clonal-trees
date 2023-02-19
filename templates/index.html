@@ -15,6 +15,7 @@
         <script src="https://cdn.jsdelivr.net/npm/d3-selection@3"></script>
         <script src="https://cdn.jsdelivr.net/npm/d3-drag@3"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+        
         <title>TreeVizTitle</title>
     </head>
     <body>
@@ -28,107 +29,11 @@
                 <div id="topbox">
                     <div class="top-buttons">
                         <div class="toggle_button view">
-                            <button onclick="view1()" id="single">Single View</button>
+                            <button onclick="singleView()" id="single">Single View</button>
                         </div>
-                        <script>
-                            function view1() {
-                                var x = document.getElementById("distance-dropdown");
-                                var x2 = document.getElementById("distance-buttons");
-                                var div = document.getElementById("anyviz");
-                                var legend = document.getElementById("anyscale");
-                                var y = document.getElementById("single");
-                                var y2 = document.getElementById("multiple");
-                                var hide1 = document.getElementById("viz1")
-                                var hide2 = document.getElementById("viz2")
-                                var hide3 = document.getElementById("viz3")
-                                var hide4 = document.getElementById("viz4")
-                                var scale1 = document.getElementById("scale1")
-                                var scale2 = document.getElementById("scale2")
-                                var scale3 = document.getElementById("scale3")
-                                var scale4 = document.getElementById("scale4")
-                                var label1 = document.getElementById("pc-label")
-                                var label2 = document.getElementById("ad-label")
-                                var label3 = document.getElementById("caset-label")
-                                var label4 = document.getElementById("disc-label")
-                                var button1 = document.getElementById("pc-view")
-                                var button2 = document.getElementById("ad-view")
-                                var button3 = document.getElementById("caset-view")
-                                var button4 = document.getElementById("disc-view")
-                                div.style.display = "flex";
-                                legend.style.display = "block";
-                                hide1.style.display = "none";
-                                hide2.style.display = "none";
-                                hide3.style.display = "none";
-                                hide4.style.display = "none";
-                                
-                                scale1.style.display = "none";
-                                scale2.style.display = "none";
-                                scale3.style.display = "none";
-                                scale4.style.display = "none";
-                                
-                                label1.style.display = "none";
-                                label2.style.display = "none";
-                                label3.style.display = "none";
-                                label4.style.display = "none";
-
-                                button1.style.color = "#F5F5F5"
-                                button1.style.background = "#2C7A7A";
-                                button2.style.color = "#F5F5F5"
-                                button2.style.background = "#2C7A7A";
-                                button3.style.color = "#F5F5F5"
-                                button3.style.background = "#2C7A7A";
-                                button4.style.color = "#F5F5F5"
-                                button4.style.background = "#2C7A7A";
-
-                                if (x.style.display === "none") {
-                                    x.style.display = "inline-block";
-                                    y.style.background = "#2C7A7A50";
-                                    y.style.color = "black";
-                                    y2.style.background = "#2C7A7A";
-                                    y2.style.color = "#F5F5F5";
-                                    x2.style.display = "none";
-                                }
-                                else {
-                                    x.style.display = "none";
-                                    x2.style.display = "none";
-                                    y.style.background = "#2C7A7A";
-                                    y.style.color = "#F5F5F5";
-                                    y2.style.background = "#2C7A7A";
-                                    y2.style.color = "#F5F5F5";
-                                }
-                            }
-                        </script>
                         <div class="toggle_button view">
-                            <button onclick="view2()" id="multiple">Multi View</button>
+                            <button onclick="multiView()" id="multiple">Multi View</button>
                         </div>
-                        <script>
-                            function view2() {
-                                var x = document.getElementById("distance-buttons");
-                                var x2 = document.getElementById("distance-dropdown")
-                                var div = document.getElementById("anyviz");
-                                var legend = document.getElementById("anyscale");
-                                var y = document.getElementById("multiple");
-                                var y2 = document.getElementById("single");
-                                div.style.display = "none";
-                                legend.style.display = "none"
-                                if (x.style.display === "inline-block") {
-                                    x.style.display = "none";
-                                    y.style.background = "#2C7A7A";
-                                    y.style.color = "#F5F5F5";
-                                    y2.style.background = "#2C7A7A";
-                                    y2.style.color = "#F5F5F5";
-                                    x2.style.display = "none";
-                                }
-                                else {
-                                    x.style.display = "inline-block";
-                                    x2.style.display = "none";
-                                    y.style.background = "#2C7A7A50";
-                                    y.style.color = "black";
-                                    y2.style.background = "#2C7A7A";
-                                    y2.style.color = "#F5F5F5";
-                                }
-                            }
-                        </script>
                     </div>
                     <div class="dropdown distance-measure" id="distance-dropdown"> 
                         <p> </p>
@@ -145,94 +50,20 @@
                         <p> </p>
                         <div id="top-measures">
                             <div class="toggle_button dview">
-                                <button onclick="vizbox1(); submit_mult_tree('parent_child_distance', '#viz1_svg1', '#viz1_svg2', 'scale1');" id="pc-view">Parent-Child</button>
+                                <button onclick="vizbox('viz1', 'scale1', 'pc-view', 'pc-label'); submit_mult_tree('parent_child_distance', '#viz1_svg1', '#viz1_svg2', 'scale1');" id="pc-view">Parent-Child</button>
                             </div>
                             <div class="toggle_button dview">
-                                <button onclick="vizbox2(); submit_mult_tree('ancestor_descendant_distance', '#viz2_svg1', '#viz2_svg2', 'scale2');" id="ad-view">Ancestor-Descendant</button>
+                                <button onclick="vizbox('viz2', 'scale2', 'ad-view', 'ad-label'); submit_mult_tree('ancestor_descendant_distance', '#viz2_svg1', '#viz2_svg2', 'scale2');" id="ad-view">Ancestor-Descendant</button>
                             </div>
                         </div>
                         <div id="bottom-measures">
                             <div class="toggle_button dview">
-                                <button onclick="vizbox3(); submit_mult_tree('caset_distance', '#viz3_svg1', '#viz3_svg2', 'scale3');" id="caset-view">CASet</button>
+                                <button onclick="vizbox('viz3', 'scale3', 'caset-view', 'caset-label'); submit_mult_tree('caset_distance', '#viz3_svg1', '#viz3_svg2', 'scale3');" id="caset-view">CASet</button>
                             </div>
                             <div class="toggle_button dview">
-                                <button onclick="vizbox4(); submit_mult_tree('disc_distance', '#viz4_svg1', '#viz4_svg2', 'scale4');" id="disc-view">DISC</button>
+                                <button onclick="vizbox('viz4', 'scale4', 'disc-view', 'disc-label'); submit_mult_tree('disc_distance', '#viz4_svg1', '#viz4_svg2', 'scale4');" id="disc-view">DISC</button>
                             </div>
                         </div>
-                            <script>
-                                function vizbox1() {
-                                    var x = document.getElementById("viz1");
-                                    var x2 = document.getElementById("scale1");
-                                    var y = document.getElementById("pc-view");
-                                    var label = document.getElementById("pc-label")
-                                    if (x.style.display === "flex") {
-                                        x.style.display = "none";
-                                        x2.style.display = "none";
-                                        label.style.display = "none"
-                                        y.style.background = "#2C7A7A";
-                                    } 
-                                    else {
-                                        x.style.display = "flex";
-                                        x2.style.display = "block";
-                                        label.style.display = "block"
-                                        y.style.background = "#2C7A7A50";
-                                    }
-                                }
-                                function vizbox2() {
-                                    var x = document.getElementById("viz2");
-                                    var x2 = document.getElementById("scale2");
-                                    var y = document.getElementById("ad-view");
-                                    var label = document.getElementById("ad-label")
-                                    if (x.style.display === "flex") {
-                                        x.style.display = "none";
-                                        x2.style.display = "none";
-                                        label.style.display = "none"
-                                        y.style.background = "#2C7A7A";
-                                    } 
-                                    else {
-                                        x.style.display = "flex";
-                                        x2.style.display = "block";
-                                        label.style.display = "block"
-                                        y.style.background = "#2C7A7A50";
-                                    }
-                                }
-                                function vizbox3() {
-                                    var x = document.getElementById("viz3");
-                                    var x2 = document.getElementById("scale3");
-                                    var y = document.getElementById("caset-view");
-                                    var label = document.getElementById("caset-label")
-                                    if (x.style.display === "flex") {
-                                        x.style.display = "none";
-                                        x2.style.display = "none";
-                                        label.style.display = "none"
-                                        y.style.background = "#2C7A7A";
-                                    } 
-                                    else {
-                                        x.style.display = "flex";
-                                        x2.style.display = "block";
-                                        label.style.display = "block"
-                                        y.style.background = "#2C7A7A50";
-                                    }
-                                }
-                                function vizbox4() {
-                                    var x = document.getElementById("viz4");
-                                    var x2 = document.getElementById("scale4");
-                                    var y = document.getElementById("disc-view");
-                                    var label = document.getElementById("disc-label")
-                                    if (x.style.display === "flex") {
-                                        x.style.display = "none";
-                                        x2.style.display = "none";
-                                        label.style.display = "none"
-                                        y.style.background = "#2C7A7A";
-                                    } 
-                                    else {
-                                        x.style.display = "flex";
-                                        x2.style.display = "block";
-                                        label.style.display = "block"
-                                        y.style.background = "#2C7A7A50";
-                                    }
-                                }
-                            </script>
                     </div>
                 </div>
                 <hr size="2" noshade="", width="auto">
@@ -373,7 +204,7 @@
                                 <g class="nodes"></g>
                             </g>
                             </svg>
-                            <button class="download" id="downloadSVG1">Download Tree 1</button>
+                            <button class="download" id="downloadSVG1" onclick="downloadSVG('#svg1')">Download Tree 1</button>
                     </div>
                     <div id="tree2_visualization">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg2" viewBox="0 0 550 550" width="100%" height="auto"> 
@@ -382,7 +213,7 @@
                             <g class="nodes"></g>
                         </g>
                         </svg>
-                        <button class="download" id="downloadSVG2">Download Tree 2</button>
+                        <button class="download" id="downloadSVG2" onclick="downloadSVG('#svg2')">Download Tree 2</button>
                     </div>
                 </div>
                 <div class="legend-container" id="anyscale">
