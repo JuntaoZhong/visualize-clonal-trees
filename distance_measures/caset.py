@@ -8,10 +8,9 @@ import json
 import distance_measures.utils as utils
 
 def get_contributions(g_1, g_2):
-    '''returns three dictionaries for each tree: 
+    ''' Returns three dictionaries for each tree: 
     node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
-    and CAset distance between the trees
-    '''
+    and CAset distance between the trees '''
 
     node_contribution_dict_1, mutation_contribution_dict_1, node_to_mutation_dict_1 = utils.initialize_core_dictionaries(g_1)
     node_contribution_dict_2, mutation_contribution_dict_2, node_to_mutation_dict_2 = utils.initialize_core_dictionaries(g_2)         
