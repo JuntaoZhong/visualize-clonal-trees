@@ -281,7 +281,7 @@ function visualize_trees(jsonData, distance_measure) {
       return newLst;
     })
     .join('tspan')
-    .classed(d => d[0] + "mutation-hover-label", true)
+    .classed(d => d[0] + "-mutation-hover-label", true)
     .text((d, i, j) => {
       console.log(d);
       if (i == j.length - 1) {
@@ -311,8 +311,9 @@ function visualize_trees(jsonData, distance_measure) {
     .on("click", (d, i) => { 
         //var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
         //window.open(gene_url, "_blank"); 
-        console.log(i[0] + "mutation-hover-label");
-        var items = d3.selectAll(i[0] + "mutation-hover-label");
+        console.log("." + i[0] + "-mutation-hover-label");
+        var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
+        items.style("color", "orange"); 
         console.log("Items", items);
     })
     .attr("x", (d, i, j) => {
