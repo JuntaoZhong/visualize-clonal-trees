@@ -345,7 +345,12 @@ function visualize_trees(jsonData, distance_measure) {
     })
     .attr("x", (d, i, j) => {
       var index = i;
-      return d[1] + ((d[0].length * 10) * (i%2)) + 10;
+      //return d[1] + ((d[0].length * 10) * (i%2)) + 10;
+      if (index % 2 == 0) {
+        return d[1] + 10;
+      }
+      console.log("Prev length:", j[i-1].__data__[0], j[i-1].__data__[0].length);
+      return d[1] + (j[i-1].__data__[0].length + 10) * 3;
     })
     .attr("dy", (d, i, j) => {
       if (i % 2 == 0) {
@@ -470,6 +475,7 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
   }
 
   // Coloring scheme for parent-child
+  console.log("Tree type:", treetype);
   if (treetype == "pc") {
     node_color_function = () => { return "#e6e6e3";}
     edge_color_function = d => {
@@ -479,6 +485,11 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
       .domain([0, t_max/3, 2*t_max/3, t_max])
       .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
       return scale(d.target.data.contribution);
+    }
+  }
+  else {
+    edge_color_function = () => {
+      return "black";
     }
   }
 
