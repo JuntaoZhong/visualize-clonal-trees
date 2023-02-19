@@ -110,7 +110,7 @@ function visualize_trees(jsonData, distance_measure) {
   tree2_only_mutations = difference(mutations_tree2, shared_mutations);
   console.log("Shared", shared_mutations);
   shared_mutations.forEach(mutation => {
-    shared_label.innerHTML +=  `<span class="${mutation}">${mutation}</span>`;
+    shared_label.innerHTML +=  `<span class="${mutation}-mutation-hover-label">${mutation}</span>`;
   })
   tree1_label.innerHTML = tree1_only_mutations;
   tree2_label.innerHTML = tree2_only_mutations;
@@ -281,7 +281,7 @@ function visualize_trees(jsonData, distance_measure) {
       return newLst;
     })
     .join('tspan')
-    .classed("mutation-label-hover", true)
+    .classed(d => d[0] + "mutation-hover-label", true)
     .text((d, i, j) => {
       console.log(d);
       if (i == j.length - 1) {
@@ -309,8 +309,11 @@ function visualize_trees(jsonData, distance_measure) {
       }
     })
     .on("click", (d, i) => { 
-        var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
-        window.open(gene_url, "_blank"); 
+        //var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
+        //window.open(gene_url, "_blank"); 
+        console.log(i[0] + "mutation-hover-label");
+        var items = d3.selectAll(i[0] + "mutation-hover-label");
+        console.log("Items", items);
     })
     .attr("x", (d, i, j) => {
       var index = i;
