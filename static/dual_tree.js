@@ -604,8 +604,6 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
   ); 
   
   function viz_zoomed({transform}) {
-    // var zx = transform.rescaleX(x).interpolate(d3.interpolateRound);
-    // var zy = transform.rescaleY(y).interpolate(d3.interpolateRound);
     var viz_svg1_nodes =  d3.select(svg1 + ' g.nodes');
     var viz_svg1_links =  d3.select(svg1 + ' g.links');
     viz_svg1_nodes
@@ -615,8 +613,6 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
   };
 
   function viz_zoomed2({transform}) {
-    // var zx = transform.rescaleX(x).interpolate(d3.interpolateRound);
-    // var zy = transform.rescaleY(y).interpolate(d3.interpolateRound);
     var viz_svg2_nodes =  d3.select(svg2 + ' g.nodes');
     var viz_svg2_links =  d3.select(svg2 + ' g.links');
     viz_svg2_nodes
@@ -628,7 +624,6 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
   var svg_names = [svg1, svg2];
   for (var i = 0; i < 2; i++) {
     var root = d3.hierarchy(data[i]);
-    //var tree = d3.tree().size([600, 400]);
     var tree = d3.tree()
     if (root.height > 10) {
       tree.nodeSize([70, 25]);
@@ -678,41 +673,6 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
         return 10;
       })
     
-    //   function wrap(text, width) {
-    //     text.each(function () {
-    //         var text = d3.select(this),
-    //             words = text.text().split(/\s+/).reverse(),
-    //             word,
-    //             line = [],
-    //             lineNumber = 0,
-    //             lineHeight = 1.1, // ems
-    //             x = text.attr("x"),
-    //             y = text.attr("y"),
-    //             dy = 0, //parseFloat(text.attr("dy")),
-    //             tspan = text.text(null)
-    //                         .append("tspan")
-    //                         .attr("x", x)
-    //                         .attr("y", y)
-    //                         .attr("dy", dy + "em");
-    //         while (word = words.pop()) {
-    //             line.push(word);
-    //             tspan.text(line.join(" "));
-    //             if (tspan.node().getComputedTextLength() > width) {
-    //                 line.pop();
-    //                 tspan.text(line.join(" "));
-    //                 line = [word];
-    //                 tspan = text.append("tspan")
-    //                             .attr("x", 15)
-    //                             .attr("y", y)
-    //                             .attr("dy", ++lineNumber * lineHeight + dy + "em")
-    //                             .text(word);
-    //             }
-    //         }
-    //     });
-    // }
-
-
-    
     // Displaying the labels for the nodes
     var labels = d3_text.data(root.descendants())
     .join("text")
@@ -739,18 +699,17 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
         else {
           if (currentNodeX < parentNodeX) {
             return d.x - Math.min(200, (d.data.label.length) * 5);
-            //return d.x - 50;
           }
           else if (currentNodeX > parentNodeX) {
             return d.x - Math.min(50, d.data.label.length * 2);
           }
           else {
-            return d.x + 15;
+            return d.x + 30;
           }
         }
       }
       else {
-        return d.x + 15;
+        return d.x + 30;
       }
     })
     .attr("y", d => { 
