@@ -16,7 +16,7 @@
         <script src="https://cdn.jsdelivr.net/npm/d3-drag@3"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
         
-        <title>TreeVizTitle</title>
+        <title>VECTr</title>
     </head>
     <body>
         <div class="navbar">
@@ -38,8 +38,7 @@
                     <div class="dropdown distance-measure" id="distance-dropdown"> 
                         <p> </p>
                         <label id="metric_drp" for="distance_metric"></label>
-                        <select name="distance_metric" id="distance_metric" onclick="submit_tree()"> 
-                            <!--option value="" selected disabled hidden>Select Metric</option-->
+                        <select name="distance_metric" id="distance_metric" onclick="submit_tree()">
                             <option value="ancestor_descendant_distance">Ancestor-Descendant</option>
                             <option value="parent_child_distance" selected>Parent-Child</option>
                             <option value="caset_distance">CASet</option>
@@ -73,12 +72,10 @@
                         <p class="collapse" id="input-box-toggle" onclick="toggleVisible('bottombox')">-</p>
                 </div>
                 <div class="bottombox" id="bottombox">
-                    
                     <div class="dropdown"> 
                         <h4>Input Tree 1</h4>
                         <label class="indent" for="input1">Select file format</label>
-                        <select name="input1" id="input-type-tree1"> 
-                            <!-- <option value="" selected disabled hidden>Select Input Format</option> -->
+                        <select name="input1" id="input-type-tree1">
                             <option value="dot" selected>DOT</option>
                             <option value="newick">Newick</option>
                             <option value="bourque">Bourque</option>
@@ -116,7 +113,6 @@
                         <h4>Input Tree 2</h4>
                         <label class="indent" for="input2">Select file format</label>
                         <select name="input2" id="input-type-tree2"> 
-                            <!-- <option value="" selected disabled hidden>Select Input Format</option> -->
                             <option value="dot" selected>DOT</option>
                             <option value="newick">Newick</option>
                             <option value="bourque">Bourque</option>
@@ -153,48 +149,47 @@
                 <input id="submit-trees-btn" type="submit" value="Save">
                 </div>
                 <hr size="2" noshade="", width="auto">
-            <table id="summary-statistics-table">
-                <tr id="table-name">
-                  <th colspan="3">Summary Statistics</th>
-                </tr>
-            	<tr>
-                  <th></th>
-                  <th>Tree 1</th>
-                  <th>Tree 2</th>
-            	</tr>
-                <tr>
-                  <th>Branching Factor</th>
-                  <td id="t1-branching-factor"></td>
-                  <td id="t2-branching-factor"></td>
-                </tr>
-                <tr>
-                  <th>Height</th>
-                  <td id="t1-height"></td>
-                  <td id="t2-height"></td>
-                </tr>
-                <tr>
-                  <th>Number nodes</th>
-                  <td id="t1-number-nodes"></td>
-                  <td id="t2-number-nodes"></td>
-                </tr>
-                <tr>
-                  <th>Number mutations</th>
-                  <td id="t1-number-mutations"></td>
-                  <td id="t2-number-mutations"></td>
-                </tr>
-                <tr>
-                  <th>Top 5 Contributions</th>
-                  <th id="t1_top5_summary_element"></th>
-                  <th id="t2_top5_summary_element"></th>
-                </tr>
-            </table>
+                <table id="summary-statistics-table">
+                    <tr id="table-name">
+                        <th colspan="3">Summary Statistics</th>
+                    </tr>
+                    <tr>
+                        <th></th>
+                        <th>Tree 1</th>
+                        <th>Tree 2</th>
+                    </tr>
+                    <tr>
+                        <th>Branching Factor</th>
+                        <td id="t1-branching-factor"></td>
+                        <td id="t2-branching-factor"></td>
+                    </tr>
+                    <tr>
+                        <th>Height</th>
+                        <td id="t1-height"></td>
+                        <td id="t2-height"></td>
+                    </tr>
+                    <tr>
+                        <th>Number nodes</th>
+                        <td id="t1-number-nodes"></td>
+                        <td id="t2-number-nodes"></td>
+                    </tr>
+                    <tr>
+                        <th>Number mutations</th>
+                        <td id="t1-number-mutations"></td>
+                        <td id="t2-number-mutations"></td>
+                    </tr>
+                    <tr>
+                        <th>Top 5 Contributions</th>
+                        <th id="t1_top5_summary_element"></th>
+                        <th id="t2_top5_summary_element"></th>
+                    </tr>
+                </table>
             </div>
             <div class="child" id="main">
                 <div id="tree-label-info-container">
                     <div class="tree-label-info"><h3>Distinct Tree 1 Mutations</h3><p id="tree1-mutations"></p></div>
                     <div class="tree-label-info"><h3>Shared Tree Mutations</h3><p id="shared-mutations"></p></div>
                     <div class="tree-label-info"><h3>Distinct Tree 2 Mutations</h3><p id="tree2-mutations"></p></div>
-
                 </div>
                 <div class="visualizations-container" id="anyviz">
                     <div id="tree1_visualization">
