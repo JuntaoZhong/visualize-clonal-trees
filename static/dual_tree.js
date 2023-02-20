@@ -93,19 +93,13 @@ function visualize_trees(jsonData, distance_measure) {
   var nodes1 = d3.hierarchy(tree1_data).descendants();
   var mutations_tree1 = getAllMutations(nodes1);
   var tree1_label = document.getElementById("tree1-mutations");
-  var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
-  //console.log(t_max1);
 
   var nodes2 = d3.hierarchy(tree2_data).descendants();
-  var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
   var mutations_tree2 = getAllMutations(nodes2);
   var tree2_label = document.getElementById("tree2-mutations");
   
   var shared_label = document.getElementById("shared-mutations");
   shared_mutations = intersect(mutations_tree1, mutations_tree2);
-  console.log("Shared mutations", shared_mutations);
-  console.log("Tree1 mutations", mutations_tree1);
-  console.log("Tree2 mutations", mutations_tree2);
   tree1_only_mutations = difference(mutations_tree1, shared_mutations);
   tree2_only_mutations = difference(mutations_tree2, shared_mutations);
   shared_mutations.forEach(mutation => {
@@ -113,22 +107,10 @@ function visualize_trees(jsonData, distance_measure) {
   })
   tree1_label.innerHTML = tree1_only_mutations;
   tree2_label.innerHTML = tree2_only_mutations;
-  var tree_unique_mutations = [tree1_only_mutations, tree2_only_mutations];
 
-  var t_max = Math.max(t_max1,t_max2);
+  var t_max = Math.max(max_contribution(nodes1), max_contribution(nodes2));
+  fill_tree_scale_color_legend(multi_tree_prefix = "", t_max);
 
-  var label1 = document.getElementById("colorLabel1");
-  var label2 = document.getElementById("colorLabel2");
-  var label3 = document.getElementById("colorLabel3");
-  var label4 = document.getElementById("colorLabel4");
-
-  var visualization_container = document.querySelector(".visualizations-container > div");
-
-  label1.innerHTML = 0;
-  label2.innerHTML = Math.round((t_max / 3) * 100) / 100; 
-  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100; 
-  label4.innerHTML = Math.round(t_max * 100) / 100; 
-  
   var svg1 = d3.select('#svg1');
   console.log('This is svg1', svg1);
   svg1.call(d3.zoom()
@@ -327,69 +309,16 @@ function visualize_trees(jsonData, distance_measure) {
         return "1.1em";
       }
     });
-
-    // Get the summary statistics for both trees.
-    var t2_max_branching_factor = d3.max(nodes2, function(d) { 
-      if (d.children) {
-        return d.children.length;
-      }
-      return 0;
-    });
-
-    var t1_max_branching_factor = d3.max(nodes1, function(d) { 
-      if (d.children) {
-        return d.children.length;
-      }
-      return 0;
-    });
-
-    // tree_dict = jsonData.tree1_mutations
-    function get_top_n_mutations(tree_dict, n) {
-      var mutation_contribution_dict = {};
-      for (const [mutation, value] of Object.entries(tree_dict)) {
-        mutation_contribution_dict[mutation] = value["contribution"];
-      }
-      var items = Object.keys(mutation_contribution_dict).map(
-      (key) => { return [key, mutation_contribution_dict[key]] });
-      items.sort(
-        (first, second) => { return second[1] - first[1] } // from greatest to least
-      );
-      var keys = items.map((e) => { return e[0] });
-      
-      var output_str = ""
-      for (v = 0; v < Math.min(n, keys.length); v++){
-        output_str = output_str.concat(keys[v])
-        if (v < Math.min(n, keys.length) - 1){
-          output_str = output_str.concat(", ")
-        }
-      }
-      console.log(tree_dict)
-      return(output_str)
-    }
  
     if (svg_names[i] == "svg1") {
-      var t1_height_summary_element = document.getElementById("t1-height")
-      var t1_branching_factor_summary_element = document.getElementById("t1-branching-factor")
-      var t1_num_nodes_summary_element = document.getElementById("t1-number-nodes");
-      var t1_num_mutations_summary_element = document.getElementById("t1-number-mutations");
-      var t1_height = root.height;
-      t1_branching_factor_summary_element.innerHTML = t1_max_branching_factor; 
-      t1_height_summary_element.innerHTML = t1_height;
-      t1_num_nodes_summary_element.innerHTML = nodes1.length;
-      t1_num_mutations_summary_element.innerHTML = mutations_tree1.length;
-      t1_top5_summary_element.innerHTML = get_top_n_mutations(jsonData.tree1_mutations, 5);
+      t1_max_branching_factor = get_branching_factor(nodes1);
+      t1_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
+      fill_in_table("t1", t1_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t1_top5_mutations);
     }
     else {
-      var t2_height_summary_element = document.getElementById("t2-height");
-      var t2_branching_factor_summary_element = document.getElementById("t2-branching-factor");
-      var t2_num_nodes_summary_element = document.getElementById("t2-number-nodes");
-      var t2_num_mutations_summary_element = document.getElementById("t2-number-mutations");
-      var t2_height = root.height;
-      t2_branching_factor_summary_element.innerHTML = t2_max_branching_factor; 
-      t2_height_summary_element.innerHTML = t2_height;
-      t2_num_nodes_summary_element.innerHTML = nodes2.length;
-      t2_num_mutations_summary_element.innerHTML = mutations_tree2.length;
-      t2_top5_summary_element.innerHTML = get_top_n_mutations(jsonData.tree2_mutations, 5);
+      t2_max_branching_factor = get_branching_factor(nodes2);
+      t2_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
+      fill_in_table("t2", t2_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t2_top5_mutations);
     }
 
     // Set the coloring scheme based off of the distance measure
@@ -445,7 +374,6 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
   }
 
   // Coloring scheme for parent-child
-  console.log("Tree type:", treetype);
   if (treetype == "pc") {
     node_color_function = () => { return "#e6e6e3";}
     edge_color_function = d => {
@@ -528,11 +456,8 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
   var nodes1 = d3.hierarchy(tree1_data).descendants();
   var mutations_tree1 = getAllMutations(nodes1);
   var tree1_label = document.getElementById("tree1-mutations");
-  var t_max1 = d3.max(nodes1, function(d) { return d.data.contribution;});
-  console.log(t_max1);
 
   var nodes2 = d3.hierarchy(tree2_data).descendants();
-  var t_max2 = d3.max(nodes2, function(d) { return d.data.contribution;});
   var mutations_tree2 = getAllMutations(nodes2);
   var tree2_label = document.getElementById("tree2-mutations");
   
@@ -543,21 +468,9 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
   shared_label.innerHTML = shared_mutations;
   tree1_label.innerHTML = tree1_only_mutations;
   tree2_label.innerHTML = tree2_only_mutations;
-  var tree_unique_mutations = [tree1_only_mutations, tree2_only_mutations];
 
-  var t_max = Math.max(t_max1,t_max2);
-
-  var label1 = document.getElementById(scale + "_colorLabel1");
-  var label2 = document.getElementById(scale + "_colorLabel2");
-  var label3 = document.getElementById(scale + "_colorLabel3");
-  var label4 = document.getElementById(scale + "_colorLabel4");
-
-  var visualization_container = document.querySelector(".visualizations-container > div");
-
-  label1.innerHTML = 0;
-  label2.innerHTML = Math.round((t_max / 3) * 100) / 100; 
-  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100; 
-  label4.innerHTML = Math.round(t_max * 100) / 100; 
+  var t_max = Math.max(max_contribution(nodes1), max_contribution(nodes2));
+  fill_tree_scale_color_legend(multi_tree_prefix = scale, t_max);
   
   var viz_svg1 = d3.select(svg1);
   viz_svg1.call(d3.zoom()
@@ -747,45 +660,18 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
         return "1.1em";
       }
     });
-    // Get the summary statistics for both trees.
-    var t2_max_branching_factor = d3.max(nodes2, function(d) { 
-      if (d.children) {
-        return d.children.length;
-      }
-      return 0;
-    });
-
-    var t1_max_branching_factor = d3.max(nodes1, function(d) { 
-      if (d.children) {
-        return d.children.length;
-      }
-      return 0;
-    });
  
-    if (svg_names[i] == svg1) {
-      var t1_height_summary_element = document.getElementById("t1-height")
-      var t1_branching_factor_summary_element = document.getElementById("t1-branching-factor")
-      var t1_num_nodes_summary_element = document.getElementById("t1-number-nodes");
-      var t1_num_mutations_summary_element = document.getElementById("t1-number-mutations");
-      var t1_height = root.height;
-      t1_branching_factor_summary_element.innerHTML = t1_max_branching_factor; 
-      t1_height_summary_element.innerHTML = t1_height;
-      console.log("Edges", jsonData.tree1_edges);
-      t1_num_nodes_summary_element.innerHTML = nodes1.length;
-      t1_num_mutations_summary_element.innerHTML = mutations_tree1.length;
+    if (svg_names[i] == "svg1") {
+      t1_max_branching_factor = get_branching_factor(nodes1);
+      t1_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
+      fill_in_table("t1", t1_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t1_top5_mutations);
     }
     else {
-      var t2_height_summary_element = document.getElementById("t2-height");
-      var t2_branching_factor_summary_element = document.getElementById("t2-branching-factor");
-      var t2_num_nodes_summary_element = document.getElementById("t2-number-nodes");
-      var t2_num_mutations_summary_element = document.getElementById("t2-number-mutations");
-      var t2_height = root.height;
-      t2_branching_factor_summary_element.innerHTML = t2_max_branching_factor; 
-      t2_height_summary_element.innerHTML = t1_height;
-      t2_num_nodes_summary_element.innerHTML = nodes2.length;
-      t2_num_mutations_summary_element.innerHTML = mutations_tree2.length;
+      t2_max_branching_factor = get_branching_factor(nodes2);
+      t2_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
+      fill_in_table("t2", t2_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t2_top5_mutations);
     }
-
+  
     // Set the coloring scheme based off of the distance measure
     switch (distance_measure) {
       case "ancestor_descendant_distance":
@@ -982,3 +868,63 @@ function multiView() {
       y2.style.color = "#F5F5F5";
   }
 }
+
+function get_branching_factor(nodes) {
+  var max_branching_factor = d3.max(nodes, function(d) { 
+    if (nodes.children) {
+      return d.children.length;
+    }
+    return 0;
+  });
+  return max_branching_factor;
+}
+
+// tree_dict = jsonData.tree1_mutations
+function get_top_n_mutations(tree_dict, n) {
+  var mutation_contribution_dict = {};
+  for (const [mutation, value] of Object.entries(tree_dict)) {
+    mutation_contribution_dict[mutation] = value["contribution"];
+  }
+  var items = Object.keys(mutation_contribution_dict).map(
+  (key) => { return [key, mutation_contribution_dict[key]] });
+  items.sort(
+    (first, second) => { return second[1] - first[1] } // from greatest to least
+  );
+  var keys = items.map((e) => { return e[0] });
+  
+  var output_str = ""
+  for (v = 0; v < Math.min(n, keys.length); v++){
+    output_str = output_str.concat(keys[v])
+    if (v < Math.min(n, keys.length) - 1){
+      output_str = output_str.concat(", ")
+    }
+  }
+  console.log(tree_dict)
+  return(output_str)
+}
+
+function max_contribution(nodes){
+  return d3.max(nodes, function(d) { return d.data.contribution;});
+}
+
+function fill_tree_scale_color_legend(multi_tree_prefix = "", t_max) {
+  var label1 = document.getElementById(`${multi_tree_prefix}_colorLabel1`);
+  var label2 = document.getElementById(`${multi_tree_prefix}_colorLabel2`);
+  var label3 = document.getElementById(`${multi_tree_prefix}_colorLabel3`);
+  var label4 = document.getElementById(`${multi_tree_prefix}_colorLabel4`);
+
+  label1.innerHTML = 0;
+  label2.innerHTML = Math.round((t_max / 3) * 100) / 100; 
+  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100; 
+  label4.innerHTML = Math.round(t_max * 100) / 100; 
+}
+
+function fill_in_table(tree_name = "t1", max_branching_factor, height, num_nodes, num_mutations, top_5_mutations) {
+  document.getElementById(`${tree_name}-height`).innerHTML = height;
+  document.getElementById(`${tree_name}-branching-factor`).innerHTML = max_branching_factor;
+  document.getElementById(`${tree_name}-number-nodes`).innerHTML = num_nodes;
+  document.getElementById(`${tree_name}-number-mutations`).innerHTML = num_mutations;
+  document.getElementById(`${tree_name}_top5_summary_element`).innerHTML = top_5_mutations;
+}
+
+
