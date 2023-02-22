@@ -8,7 +8,9 @@ submitTreesBtn = document.getElementById("submit-trees-btn");
 distanceMetric = document.getElementById("distance_metric");
 demoTreesBtn = document.getElementById("demo-trees-btn");
 distanceMeasureLabel = document.getElementById("distance-measure-label");
-
+//var coloring = ['#f0f172', '#8cb8be','#527bb4','#00429d'];
+var coloring = ['#f0f172', '#80bda5', '#4180a9', '#00429d']
+//var coloring = ["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"];
 window.onload = () => {
   submit_tree();
 }
@@ -48,7 +50,7 @@ function set_visualization_event_listeners(distance_measure) {
     case "ancestor_descendant_distance":
       d3.selectAll("circle.node")
         .on("mouseover", (d, i) => {
-          div.html(i.data.contribution);
+          div.html(round_to_thousands(i.data.contribution));
           div.style("opacity", 1); 
           div.style("left", (event.pageX + 10 ) + "px")
              .style("top", (event.pageY + 10) + "px");
@@ -100,8 +102,10 @@ function visualize_trees(jsonData, distance_measure) {
   
   var shared_label = document.getElementById("shared-mutations");
   shared_mutations = intersect(mutations_tree1, mutations_tree2);
+  console.log("shared mutations: ", shared_mutations);
   tree1_only_mutations = difference(mutations_tree1, shared_mutations);
   tree2_only_mutations = difference(mutations_tree2, shared_mutations);
+  shared_label.innerHTML='';
   shared_mutations.forEach(mutation => {
     shared_label.innerHTML +=  `<span class="${mutation}-mutation-hover-label">${mutation}</span> `;
   })
@@ -249,7 +253,7 @@ function visualize_trees(jsonData, distance_measure) {
     })
 
     // Making each mutation a tspan
-    var tspans = labels
+    //var tspans = labels
     .selectAll("tspan")
     .data(d => {
       var str = d.data.label;
@@ -288,12 +292,22 @@ function visualize_trees(jsonData, distance_measure) {
         return "black";
       }
     })
+    .on("mouseover", (d, i) => {
+      console.log("." + i[0] + "-mutation-hover-label");
+      var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
+      items.style("color", "orange");
+    }) // Here is the hover thing
+    .on("mouseout", (d,i) => {
+      console.log("." + i[0] + "-mutation-hover-label");
+      var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
+      items.style("color", "black")
+    })
     .on("click", (d, i) => { 
-        //var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
-        //window.open(gene_url, "_blank"); 
-        console.log("." + i[0] + "-mutation-hover-label");
-        var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
-        items.style("color", "orange"); 
+        var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
+        window.open(gene_url, "_blank"); 
+        // console.log("." + i[0] + "-mutation-hover-label");
+        // var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
+        // items.style("color", "orange"); 
     })
     .attr("x", (d, i, j) => {
       var index = i;
@@ -353,7 +367,7 @@ function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
       .style("fill", function(d) {
         var scale = d3.scaleLinear()
         .domain([0, t_max/3, 2*t_max/3, t_max])
-        .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
+        .range([coloring[0],coloring[1], coloring[2], coloring[3]]);
         return scale(d.data.contribution);
         })
 
@@ -368,7 +382,7 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
 
     var scale = d3.scaleLinear()
     .domain([0, t_max/3, 2*t_max/3, t_max])
-    .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
+    .range([coloring[0],coloring[1], coloring[2], coloring[3]]);
     return scale(d.data.contribution);
 
   }
@@ -381,7 +395,7 @@ function pc_ad_d3_trees(root, d3_nodes, d3_links, treetype, t_max) {
 
       var scale = d3.scaleLinear()
       .domain([0, t_max/3, 2*t_max/3, t_max])
-      .range(["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"]);
+      .range([coloring[0],coloring[1], coloring[2], coloring[3]]);
       return scale(d.target.data.contribution);
     }
   }
@@ -871,7 +885,7 @@ function multiView() {
 
 function get_branching_factor(nodes) {
   var max_branching_factor = d3.max(nodes, function(d) { 
-    if (nodes.children) {
+    if (d.children) {
       return d.children.length;
     }
     return 0;
@@ -927,4 +941,7 @@ function fill_in_table(tree_name = "t1", max_branching_factor, height, num_nodes
   document.getElementById(`${tree_name}_top5_summary_element`).innerHTML = top_5_mutations;
 }
 
+function round_to_thousands(value){
+  return (Math.round((value) * 1000) / 1000)
+}
 
