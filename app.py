@@ -20,6 +20,14 @@ app.register_blueprint(api.api, url_prefix='/api')
 def home():
     return flask.render_template('index.html')
 
+@app.route('/general_info')
+def general_info():
+    '''
+    This should render the template for the basic home page
+    which allows the user to search a pokemon by name
+    '''
+    return flask.render_template('general_info.html')
+
 # This route supports relative links among your web pages, assuming those pages
 # are stored in the templates/ directory or one of its descendant directories,
 # without requiring you to have specific routes for each page.

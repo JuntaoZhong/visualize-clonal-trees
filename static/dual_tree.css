@@ -10,6 +10,10 @@
     padding-right: 0%;
 }
 
+#info-link{
+    margin-right: 10%;
+}
+
 .navbar h1 {
     margin: 15px;
     position: center;
@@ -31,8 +35,10 @@
     appearance: none;
     margin: 10px;
     margin-bottom: 5px;
-    margin-right: 25%;
-    
+    margin-right: 25%; 
+}
+.navbar a {
+    margin-right: 25%; 
 }
 #cell{
     width: 70px;
