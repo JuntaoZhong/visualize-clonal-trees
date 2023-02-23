@@ -309,16 +309,17 @@ function visualize_trees(jsonData, distance_measure) {
       }
     })
     .on("click", (d, i) => { 
-        //var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
-        //window.open(gene_url, "_blank"); 
-        console.log("." + i[0] + "-mutation-hover-label");
-        var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
-        items.style("color", "orange"); 
-        console.log("Items", items);
+        var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
+        window.open(gene_url, "_blank"); 
+        //console.log("." + i[0] + "-mutation-hover-label");
+        //var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
+        //items.style("color", "orange"); 
+        //changeColor;
     })
     .attr("x", (d, i, j) => {
       var index = i;
       //return d[1] + ((d[0].length * 10) * (i%2)) + 10;
+      console.log(this);
       if (index % 2 == 0) {
         return d[1] + 10;
       }
@@ -420,6 +421,9 @@ function visualize_trees(jsonData, distance_measure) {
   }
 }
 
+function changeColor(d, i) {
+  console.log(this);
+}
 function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
 
     d3_nodes.selectAll('circle.node')
