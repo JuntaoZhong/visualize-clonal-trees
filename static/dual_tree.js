@@ -106,17 +106,72 @@ function visualize_trees(jsonData, distance_measure) {
   tree1_only_mutations = difference(mutations_tree1, shared_mutations);
   tree2_only_mutations = difference(mutations_tree2, shared_mutations);
   shared_label.innerHTML='';
+  tree1_label.innerHTML='';
+  tree2_label.innerHTML='';
   shared_mutations.forEach(mutation => {
     shared_label.innerHTML +=  `<span class="${mutation}-mutation-hover-label">${mutation}</span> `;
   })
-  tree1_label.innerHTML = tree1_only_mutations;
-  tree2_label.innerHTML = tree2_only_mutations;
+  tree1_only_mutations.forEach(mutation => {
+    tree1_label.innerHTML +=  `<span class="${mutation}-mutation-hover-label">${mutation}</span> `;
+  })
+  tree2_only_mutations.forEach(mutation => {
+    tree2_label.innerHTML +=  `<span class="${mutation}-mutation-hover-label">${mutation}</span> `;
+  })
+
+  var spans = d3.selectAll("span");
+  spans.on('mouseover', (d) => {
+      console.log(jsonData);
+      var items = d3.selectAll("." + d.target.className);
+      items.style("color", "orange");
+      items.style("fill", "orange");
+      items.style("transition", "color 1s");
+      items.style("cursor", "pointer");
+      items.style("font-weight", "bold");
+  })
+  spans.on('mouseout', (d) => {
+      console.log(jsonData);
+      var items = d3.selectAll("." + d.target.className);
+      items.style("transition", "color 1s");
+      items.style("color", "black");
+      items.style("font-weight", "normal");
+      items.style("fill", (d, index, items) => {
+        if (items[index].localName == "span") {
+          return "black";
+        }
+        else {
+          var tree = items[index].ownerSVGElement.id;
+          var contribution = items[index].parentNode.__data__.data["contribution"];
+          console.log(items[index]);
+          console.log(items);
+          console.log(tree);
+          if (tree == 'svg1') {
+            var mutation = items[index].__data__[0];
+            var contribution = d[3][mutation]["contribution"];
+            if (contribution > 0) {
+              return "red";
+            }
+            else {
+              return "black";
+            }
+          }
+          else {
+            var mutation = items[index].__data__[0];
+            var contribution = d[4][mutation]["contribution"];
+            if (contribution > 0) {
+              return "red";
+            }
+            else {
+              return "black";
+            }
+          }
+        }
+      });
+  })
 
   var t_max = Math.max(max_contribution(nodes1), max_contribution(nodes2));
   fill_tree_scale_color_legend(multi_tree_prefix = "", t_max);
 
   var svg1 = d3.select('#svg1');
-  console.log('This is svg1', svg1);
   svg1.call(d3.zoom()
     .extent([[0, 0], [700, 700]])
     .scaleExtent([1, 8])
@@ -154,6 +209,7 @@ function visualize_trees(jsonData, distance_measure) {
 
   var svg_names = ['svg1', 'svg2'];
   for (var i = 0; i < 2; i++) {
+    var cur_svg = svg_names[i];
     var root = d3.hierarchy(data[i]);
     //var tree = d3.tree().size([600, 400]);
     var tree = d3.tree()
@@ -261,12 +317,16 @@ function visualize_trees(jsonData, distance_measure) {
       var lst = str.split(",");
       var newLst = [];
       lst.forEach(mutation => {
-        newLst.push([mutation.trim(), d.x, d.y]);
+        var tree1_mutations = jsonData.tree1_mutations; 
+        var tree2_mutations = jsonData.tree2_mutations; 
+        newLst.push([mutation.trim(), d.x, d.y, tree1_mutations, tree2_mutations]);
       });
       return newLst;
     })
     .join('tspan')
-    .classed(d => d[0] + "-mutation-hover-label", true)
+    .attr("class", d => {
+      return d[0] + "-mutation-hover-label";
+    })
     .text((d, i, j) => {
       if (i == j.length - 1) {
         return d[0];
@@ -274,7 +334,7 @@ function visualize_trees(jsonData, distance_measure) {
       return d[0] + ",";
     })
 
-    .style("font-size", "0.60em")
+    .style("font-size", "0.70em")
     .style("font-family", "Monospace")
     .style("fill", (d) => {
       var tree1_mutations = jsonData.tree1_mutations; 
@@ -293,15 +353,45 @@ function visualize_trees(jsonData, distance_measure) {
       }
     })
     .on("mouseover", (d, i) => {
-      console.log("." + i[0] + "-mutation-hover-label");
+      console.log(i[0] + "-mutation-hover-label");
+      //var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
       var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
       items.style("color", "orange");
+      items.style("fill", "orange");
       items.style("transition", "color 1s");
+      items.style("cursor", "pointer");
+      items.style("font-weight", "bold");
     }) // Here is the hover thing
     .on("mouseout", (d,i) => {
       console.log("." + i[0] + "-mutation-hover-label");
-      var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
-      items.style("color", "black")
+      var items = d3.selectAll("tspan." + i[0] + "-mutation-hover-label");
+      if (cur_svg == "svg1") {
+        var contribution = jsonData.tree1_mutations[i[0]].contribution;
+        console.log(contribution);
+        items.style("color", "black")
+        items.style("fill", "black");
+        if (contribution > 0) {
+          items.style("color", "red")
+          items.style("fill", "red");
+        }
+        else {
+          items.style("color", "black")
+          items.style("fill", "black");
+        } 
+      }
+      else {
+        var contribution = jsonData.tree1_mutations[i[0]].contribution;
+        if (contribution > 0) {
+          items.style("color", "red")
+          items.style("fill", "red");
+        }
+        else {
+          items.style("color", "black")
+          items.style("fill", "black");
+        }
+      }
+      items.style("font-weight", "normal");
+      d3.selectAll("span." + i[0] + "-mutation-hover-label").style("color", "black");
     })
     .on("click", (d, i) => { 
         var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
@@ -318,7 +408,7 @@ function visualize_trees(jsonData, distance_measure) {
         return d[1] + 10;
       }
       console.log("Prev length:", j[i-1].__data__[0], j[i-1].__data__[0].length);
-      return d[1] + (j[i-1].__data__[0].length + 10) * 3;
+      return d[1] + (j[i-1].__data__[0].length + 10) * 3.5;
     })
     .attr("dy", (d, i, j) => {
       if (i % 2 == 0) {
@@ -336,6 +426,7 @@ function visualize_trees(jsonData, distance_measure) {
       t2_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
       fill_in_table("t2", t2_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t2_top5_mutations);
     }
+
 
     // Set the coloring scheme based off of the distance measure
     switch (distanceMetric.value) {
@@ -365,6 +456,7 @@ function visualize_trees(jsonData, distance_measure) {
 function changeColor(d, i) {
   console.log(this);
 }
+
 function dist_caset_d3_trees(root, d3_nodes, d3_links, t_max) {
 
     d3_nodes.selectAll('circle.node')
