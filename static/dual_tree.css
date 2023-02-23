@@ -23,7 +23,6 @@
     justify-content: center;
     font-family: 'Poppins';
     color: white;
-    /* border: 2px solid rgb(16, 16, 16); */
 }
 
 .navbar button {
@@ -69,22 +68,26 @@
 }
 .child{
     display: table-cell;
-    /* border: 2px solid black; */
 }
 
 #main{
-    /* height:600px; */
-    /* position: relative; */
-    /* width: 75%; */
     padding: 20px;
     background-color: #F5F5F5;
     overflow-y: scroll;
 }
 
-.input-collapse {
+.input-collapse, .info-collapse {
     display: table;
     width: 50%;
-    /* margin-left: 1px; */
+    cursor: pointer;
+}
+
+.info-collapse {
+    width: 100%;
+    border-top: 1px solid #999;
+    background-color: rgb(60, 70, 73);
+    margin-bottom: 0;
+    display: inline-block;
 }
 
 #input-sub {
@@ -341,7 +344,7 @@ p{
     height: 30px;
     width: 400px;
     border: 1px solid black;
-    background-image: linear-gradient(to right, #ffffcc, #a1dab4, #41b6c4, #225ea8);
+    background-image: linear-gradient(to right, #f0f172, #80bda5, #4180a9, #00429d);
     margin: auto;
 }
 
@@ -428,4 +431,35 @@ p{
     border: 2px solid black;
     text-align: center;
     background-color: #D9DEDE;
+}
+
+.info-label {
+    margin-left: 1%;
+}
+.collapsible {
+    background-color: #D9DEDE;
+    height: auto;
+    margin-top: 0;
+    display: inline-block;
+    font-size: 15pt;
+}
+
+.collapsible > div > p{
+    font-size: 12pt;;
+}
+.collapsible > p{
+    font-size: 12pt;;
+}
+
+.info-headings {
+    color:#f9f9f9;
+}
+
+#example_svg {
+    align-items: center;
+}
+
+#example_svg > img{
+    width: 500px;
+    height: 500px;
 }

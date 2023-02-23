@@ -1,49 +1,186 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dual_tree.css') }}" />
-    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
-    <title>VECTr</title>
-</head>
-<body>
-    <div class="navbar">
-        <a id="info-link" href="{{ url_for('home') }}"><button><img id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button></a>
-        <h1>VECTr: Visual Encodings for Clonal Trees</h1>
-    </div>
-    <h2>How to use VECTR</h2>
-    <div>
-        <p>VECTr is a web based tool for visualizing clonal trees. You can begin by selecting the trees you will be visualizing. 
-            We currently support <a>NEWICK</a> and <a>DOT</a> tree formats so any input tree will have to be in either format. 
-            There are two example trees that are set by default but to replace those you can either select a file or input 
-            the tree manually through the textbox. You can then select the file format and save your input.
-        </p>
-        <p>
-            Parent-child is the default distance metric for the tool
-        </p>
-    </div>  
-    <h2>Distance Measures</h2>  
-    <div></div>
-    <h2>Input Formats</h2>
-    <div>
-        <h3>Newick</h3>
-        <p>
-            In mathematics, Newick tree format (or Newick notation or New Hampshire tree format) is a way of 
-            representing graph-theoretical trees with edge lengths using parentheses, curly brackets and commas.
-            Some example newick trees are: <br>
-            <br>
-            <pre>
-            (,,(,));                        no nodes are named 
-            (A,B,(C,D));                    leaf nodes are named 
-            (A,B,(C,D)E)F;                  all nodes are named 
-            </pre>
-        </p>
-    </div>
-</body>
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dual_tree.css') }}" />
+        <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+        <title>VECTr</title>
+    </head>
+    <body>
+        <div class="navbar">
+            <a id="info-link" href="{{ url_for('home') }}"><button><img id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button></a>
+            <h1>VECTr: Visual Encodings for Clonal Trees</h1>
+        </div>   
+        <div class="info-collapse" onclick="toggleVisible('welcome')">
+            <h2 class="info-headings">Clonal Tree Visualization</h2>
+        </div> 
+        <div class="collapsible" id="welcome">
+            <div id="example_svg">
+                <img src="{{ url_for('static', filename='tree_download_1.svg') }}" alt=""> 
+                <img src="{{ url_for('static', filename='tree_download_2.svg') }}" alt="">
+            </div>  
+            <p>
+                Tumors are the result of an evolutionary process (Nowell 1976). Clonal trees are one way to describe the evolution of 
+                a tumor, and it is often helpful to visually and quantitatively compare these trees. We have implemented a 
+                visualization tool, VECTr, that can take two input trees and output a visual comparison between them based on a 
+                user-chosen distance metric. These distance metrics are fundamental to the comparisons and are described below.
+            </p>
+            
+        </div>
+        <div class="info-collapse" onclick="toggleVisible('use-info')">
+            <h2 class="info-headings">How to use VECTR</h2>
+        </div> 
+        <div class="collapsible use-info" id="use-info"> 
+            <p>
+                Since VECTr is a web based tool for visualizing clonal trees. You can begin by selecting the trees you will be visualizing. 
+                We currently support <a>NEWICK</a> and <a>DOT</a> tree formats so any input tree will have to be in either format. 
+                There are two example trees that are set by default but to replace those you can either select a file or input 
+                the tree manually through the textbox. You can then select the file format and save your input.
+            </p>
+            <p>
+                Parent-child is the default distance metric for the tool, however, you can slect different distance metrics using the dropdown.
+                The available distance measures are Ancestor-Descendant, Parent-Child, CASet, and DISC (More information on the distance
+                measures can be found below). There are two options of views for you to choose from. Single View allows you to visualize one
+                distance measure at a time as well as download the visualizations. While Multi View, as the name implies, allows you to view 
+                trees with multiple distance measures but does not allow for download or highlighting functionality. 
+            </p>
+        </div>
+        <div class="info-collapse"  onclick="toggleVisible('distance-info')">
+            <h2 class="info-headings">Distance Measures</h2>
+        </div> 
+        <div class="collapsible distance-info" id="distance-info">
+            <div>
+                <h3 class="info-label">Parent-Child Distance</h3>
+                <p>
+                    <strong><u>Overview</u></strong>: Parent-Child emphasizes mutation differences between parent and children pairs.
+                </p>
+                <p>
+                    The traditional parent-child metric counts the number of parent-child relationships that are unique to exactly 
+                    one of the trees (with the parent and child connected by exactly one edge). In our implementation, every
+                    parent-child pair contributes 1 to the child node if it does not appear in the other tree, and 0 otherwise.
+                </p>
+                <img src="" alt="">
+                <p></p>
+            </div>
+            <div>
+            <h3 class="info-label">Ancestor-Descendant Distance</h3>
+                <p>
+                    <strong><u>Overview</u></strong>: Ancestor-Descendant emphasizes mutation differences between ancestor and descendant pairs.
+                </p>
+                <p>
+                    The ancestor-descendant measure generalizes the parent-child measure by allowing a contributing pair of nodes to 
+                    be connected by a directed path rather than an edge. In our implementation, each ancestor-descendant pair 
+                    contributes 1 if it does not appear in the other tree, and 0 otherwise. The contribution of each node is 
+                    determined by the number of contributing ancestor-descendant pairs it appears in. 
+                </p>
+                <img src="" alt="">
+                <p></p>
+            </div>
+            <div> 
+                <h3 class="info-label">CASet Distance</h3>
+                <p>
+                    <strong><u>Overview</u></strong>: CASet emphasizes mutation differences closer to the root of the tree.
+                </p>
+                <p>
+                    If mutations i and j appear in a tree, the common ancestor set of i and j (denoted C (i, j)) 
+                    consists of the set of mutations that are ancestors of both i and j.In other words, Jacc(A,B) yields a 
+                    normalized symmetric difference between A and B.Which is the Average proportion of the union that isn't 
+                    shared (E.g., 1 means all elements in the union are also in the intersection, 0 means no elements in the union are 
+                    also in the intersection.) The CASet distance between trees Tk and Tl is computed as follows
+                </p>
+                <img src="" alt="">
+                <p>
+                    That is, the CASet distance measure looks at each pair of mutations present in the trees and computes the common 
+                    ancestor sets of these mutations in each tree. It takes the Jaccard distance between the common ancestor sets in 
+                    each tree, and then averages this across all mutation pairs.
+                </p>
+                <p>
+                    From a visualization perspective, the difficulty lies in visually encoding information about the distance between 
+                    two trees. The key to achieving this task lies in the observation that, much like the ancestor-descendant 
+                    distance measure, CASet functionally assigns a contribution to each ancestor-descendant pair of mutations, 
+                    then takes the sum of those contributions. We simply need to extract the contributions of each 
+                    ancestor-descendant pair, then depict them visually in the same way we depicted the ancestor-descendant distance.
+                </p>
+                <p>
+                    If a mutation appears near the root in the left tree, and near a leaf in the right, it will appear in many common-ancestor sets of mutations in the left 
+                    tree, and few on the right. Each time such a mutation appears in a common ancestor set of two mutations lower 
+                    down on a tree, its ancestor-descendant relationship with each of the lower mutations contributes towards the 
+                    distance measure.
+                </p>
+                <img src="" alt="">
+                <p></p>
+            </div>
+            <div>
+                <h3 class="info-label">DISC Distance</h3>
+                <p>
+                    <strong><u>Overview</u></strong>: DISC emphasizes mutation differences closer to the leaves of the tree.
+                </p>
+                <p>
+                    If mutations A and B appear in the same tree, the distinctly inherited ancestor set of A and B consists of the 
+                    set of mutations that are distinct ancestors of only either A or B. The Distinctly Inherited Set Comparison (DISC) 
+                    distance measure is the average Jaccard distance between all corresponding inherited ancestor sets between trees Tk and Ti:
+                </p>
+                <img src="" alt="">
+            </div>
+        </div>
+        <div class="info-collapse" onclick="toggleVisible('format-info')">
+            <h2 class="info-headings">Input Formats</h2>
+        </div>
+        <div class="collapsible format-info" id="format-info">
+            <h3 class="info-label">Newick</h3>
+            <p>
+                In mathematics, Newick tree format (or Newick notation or New Hampshire tree format) is a way of 
+                representing graph-theoretical trees with edge lengths using parentheses, curly brackets and commas.
+                Some example newick trees are: <br>
+                <br>
+                <pre>
+                    (,,(,));                               no nodes are named
+                    (A,B,(C,D));                           leaf nodes are named
+                    (A,B,(C,D)E)F;                         all nodes are named
+                    (:0.1,:0.2,(:0.3,:0.4):0.5);           all but root node have a distance to parent
+                    (:0.1,:0.2,(:0.3,:0.4):0.5):0.0;       all have a distance to parent
+                    (A:0.1,B:0.2,(C:0.3,D:0.4):0.5);       distances and leaf names (popular)
+                    (A:0.1,B:0.2,(C:0.3,D:0.4)E:0.5)F;     distances and all names
+                    ((B:0.2,(C:0.3,D:0.4)E:0.5)F:0.1)A;    a tree rooted on a leaf node (rare)
+                </pre>
+                <p>
+                    For more information on Newick Trees visit: <a href="https://en.wikipedia.org/wiki/Newick_format" target="_blank">Wikipedia-Newick</a>
+                </p>
+            </p>
+            <h3 class="info-label">DOT</h3>
+            <p>
+                DOT is a graph description language. At its simplest, DOT can be used to describe an undirected graph. 
+                An undirected graph shows simple relations between objects, such as friendship between people. The graph 
+                keyword is used to begin a new graph, and nodes are described within curly braces. A double-hyphen (--) 
+                is used to show relations between the nodes.
+                <pre>
+                    graph graphname {
+                        a -- b -- c;
+                        b -- d;
+                    }
+                </pre>
+            </p>
+            <p>
+                Similar to undirected graphs, DOT can describe directed graphs, such as flowcharts and dependency trees. 
+                The syntax is the same as for undirected graphs, except the digraph keyword is used to begin the graph, and 
+                an arrow (->) is used to show relationships between nodes.
+                <pre>
+                    digraph graphname {
+                        a -> b -> c;
+                        b -> d;
+                    }
+                </pre>
+                <p>
+                    For more information on DOT format visit: <a href="https://en.wikipedia.org/wiki/DOT_(graph_description_language) " target="_blank">Wikipedia-DOT</a>
+                </p>
+            </p>
+        </div>
+    </body>
+    <script src="{{ url_for('static', filename='dual_tree.js') }}"></script>
 </html>
