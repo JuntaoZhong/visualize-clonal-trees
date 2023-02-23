@@ -296,6 +296,7 @@ function visualize_trees(jsonData, distance_measure) {
       console.log("." + i[0] + "-mutation-hover-label");
       var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
       items.style("color", "orange");
+      items.style("transition", "color 1s");
     }) // Here is the hover thing
     .on("mouseout", (d,i) => {
       console.log("." + i[0] + "-mutation-hover-label");
