@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='dual_tree.css') }}" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet">
+    <title>VECTr</title>
+</head>
+<body>
+    <div class="navbar">
+        <a id="info-link" href="{{ url_for('home') }}"><button><img id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button></a>
+        <h1>VECTr: Visual Encodings for Clonal Trees</h1>
+    </div>
+    <h2>How to use VECTR</h2>
+    <div>
+        <p>VECTr is a web based tool for visualizing clonal trees. You can begin by selecting the trees you will be visualizing. 
+            We currently support <a>NEWICK</a> and <a>DOT</a> tree formats so any input tree will have to be in either format. 
+            There are two example trees that are set by default but to replace those you can either select a file or input 
+            the tree manually through the textbox. You can then select the file format and save your input.
+        </p>
+        <p>
+            Parent-child is the default distance metric for the tool
+        </p>
+    </div>  
+    <h2>Distance Measures</h2>  
+    <div></div>
+    <h2>Input Formats</h2>
+    <div>
+        <h3>Newick</h3>
+        <p>
+            In mathematics, Newick tree format (or Newick notation or New Hampshire tree format) is a way of 
+            representing graph-theoretical trees with edge lengths using parentheses, curly brackets and commas.
+            Some example newick trees are: <br>
+            <br>
+            <pre>
+            (,,(,));                        no nodes are named 
+            (A,B,(C,D));                    leaf nodes are named 
+            (A,B,(C,D)E)F;                  all nodes are named 
+            </pre>
+        </p>
+    </div>
+</body>
+</html>
