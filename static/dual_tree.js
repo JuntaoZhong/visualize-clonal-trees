@@ -982,13 +982,7 @@ function multiView() {
   var y = document.getElementById("multiple");
   var y2 = document.getElementById("single");
   var top_five = document.getElementById("top_five");
-  var top_five_label = document.getElementById("top_five_label");
-  var top_five_tree_1 = document.getElementById("t1_top5_summary_element");
-  var top_five_tree_2 = document.getElementById("t2_top5_summary_element");
   top_five.style.display = "none";
-  // top_five_label.style.display = "none";
-  // top_five_tree_1.style.display = "none";
-  // top_five_tree_2.style.display = "none";
   div.style.display = "none";
   legend.style.display = "none"
   if (x.style.display === "inline-block") {
