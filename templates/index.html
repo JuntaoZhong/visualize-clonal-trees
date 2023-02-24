@@ -19,8 +19,9 @@
     </head>
     <body>
         <div class="navbar">
-            <a href="{{ url_for('general_info') }}"><button ><img id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button></a>
-            <h1>Clonal Tree Visualization</h1>
+            <a href="{{ url_for('home') }}"><button ><img id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button></a>
+            <h1 >VECTr Visualization</h1>
+            <a id="how-to" href="{{ url_for('general_info') }}"><h1 >?</h1></a>
         </div>
         <div class="container">
             <div class="child" id="sidebar">

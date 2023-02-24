@@ -22,7 +22,7 @@
         </div> 
         <div class="collapsible" id="welcome">
             <div id="example_svg">
-                <img src="{{ url_for('static', filename='tree_download_1.svg') }}" alt=""> 
+                <img id="left-example" src="{{ url_for('static', filename='tree_download_1.svg') }}" alt=""> 
                 <img src="{{ url_for('static', filename='tree_download_2.svg') }}" alt="">
             </div>  
             <p>
@@ -65,8 +65,14 @@
                     one of the trees (with the parent and child connected by exactly one edge). In our implementation, every
                     parent-child pair contributes 1 to the child node if it does not appear in the other tree, and 0 otherwise.
                 </p>
-                <img src="" alt="">
-                <p></p>
+                <figure>
+                    <img class="img-examples" src="{{ url_for('static', filename='pc-example.png') }}" alt="">
+                    <!-- <figcaption>
+                        The visualization of the parent-child distance of these two trees show us that the edges (A, (DEFG)) and ((DEFG), C)in tree 1 
+                        (shown on the left) and ((DEFG), B) in tree 2 (shown on the right) are the edges contributing to the difference 
+                        between the two trees.
+                    </figcaption> -->
+                </figure>
             </div>
             <div>
             <h3 class="info-label">Ancestor-Descendant Distance</h3>
@@ -79,41 +85,49 @@
                     contributes 1 if it does not appear in the other tree, and 0 otherwise. The contribution of each node is 
                     determined by the number of contributing ancestor-descendant pairs it appears in. 
                 </p>
-                <img src="" alt="">
+                <figure>
+                    <img class="img-examples" src="{{ url_for('static', filename='ancestor-example.png') }}" alt="">
+                    <!-- <figcaption>
+                        The above visualization shows that the ancestor-descendant relationships (A,(DEFG)) and ((DEFG), C) in the left tree are 
+                        and ((DEFG), B), ((DEFG), A) and (B, A) are responsible for the distance between the trees. 
+                    </figcaption> -->
+                </figure>
                 <p></p>
             </div>
             <div> 
-                <h3 class="info-label">CASet Distance</h3>
+                <hr size="2" noshade="", width="auto">
                 <p>
-                    <strong><u>Overview</u></strong>: CASet emphasizes mutation differences closer to the root of the tree.
+                    For both CASet and DISC their computation is based on Jaccard Distance.
+                    The Jaccard distance between two sets A and B is given by:
                 </p>
+                <img class="formulas" src="{{ url_for('static', filename='jaccard-formula.png') }}" alt="The formula for Jaccard">
                 <p>
                     If mutations i and j appear in a tree, the common ancestor set of i and j (denoted C (i, j)) 
                     consists of the set of mutations that are ancestors of both i and j.In other words, Jacc(A,B) yields a 
                     normalized symmetric difference between A and B.Which is the Average proportion of the union that isn't 
                     shared (E.g., 1 means all elements in the union are also in the intersection, 0 means no elements in the union are 
-                    also in the intersection.) The CASet distance between trees Tk and Tl is computed as follows
+                    also in the intersection.)
                 </p>
-                <img src="" alt="">
+                <hr size="2" noshade="", width="auto">
+                <h3 class="info-label">CASet Distance</h3>
                 <p>
-                    That is, the CASet distance measure looks at each pair of mutations present in the trees and computes the common 
+                    <strong><u>Overview</u></strong>: CASet emphasizes mutation differences closer to the root of the tree.
+                </p>
+                <p>
+                    The Common Ancestor Set (CASet) distance between trees Tk and Tl is computed as follows
+                </p>
+                <figure>
+                    <img class="formulas" src="{{ url_for('static', filename='CASet-formula.png') }}" alt="The formula for CASet">
+                    <figcaption>
+
+                    </figcaption>
+                </figure>
+                <p>
+                    The CASet distance measure looks at each pair of mutations present in the trees and computes the common 
                     ancestor sets of these mutations in each tree. It takes the Jaccard distance between the common ancestor sets in 
                     each tree, and then averages this across all mutation pairs.
                 </p>
-                <p>
-                    From a visualization perspective, the difficulty lies in visually encoding information about the distance between 
-                    two trees. The key to achieving this task lies in the observation that, much like the ancestor-descendant 
-                    distance measure, CASet functionally assigns a contribution to each ancestor-descendant pair of mutations, 
-                    then takes the sum of those contributions. We simply need to extract the contributions of each 
-                    ancestor-descendant pair, then depict them visually in the same way we depicted the ancestor-descendant distance.
-                </p>
-                <p>
-                    If a mutation appears near the root in the left tree, and near a leaf in the right, it will appear in many common-ancestor sets of mutations in the left 
-                    tree, and few on the right. Each time such a mutation appears in a common ancestor set of two mutations lower 
-                    down on a tree, its ancestor-descendant relationship with each of the lower mutations contributes towards the 
-                    distance measure.
-                </p>
-                <img src="" alt="">
+                <img class="img-examples" src="{{ url_for('static', filename='CASet-example.png') }}" alt="Example of DISC Visualization">
                 <p></p>
             </div>
             <div>
@@ -126,7 +140,18 @@
                     set of mutations that are distinct ancestors of only either A or B. The Distinctly Inherited Set Comparison (DISC) 
                     distance measure is the average Jaccard distance between all corresponding inherited ancestor sets between trees Tk and Ti:
                 </p>
-                <img src="" alt="">
+                <img class="formulas" src="{{ url_for('static', filename='DISC-formula.png') }}" alt="The formula for CASet">
+                <p>
+                    The DISC distance measure looks at each pair of mutations present in the trees and computes the Distinctly 
+                    inherited sets of these mutations in each tree. It then takes the Jaccard distance between these distinct sets in 
+                    each tree, and then averages this across all mutation pairs.
+                </p>
+                <figure>
+                    <img class="img-examples" src="{{ url_for('static', filename='DISC-example.png') }}" alt="">
+                    <figcaption>
+                        
+                    </figcaption>
+                </figure>
             </div>
         </div>
         <div class="info-collapse" onclick="toggleVisible('format-info')">

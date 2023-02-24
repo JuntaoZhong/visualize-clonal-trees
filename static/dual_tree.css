@@ -14,15 +14,21 @@
     margin-right: 10%;
 }
 
-.navbar h1 {
+.navbar h1{
     margin: 15px;
+    margin-right: 0;
     position: center;
     width: auto;
-    margin-right: 0;
     font-size: 50px;
     justify-content: center;
     font-family: 'Poppins';
     color: white;
+}
+
+#how-to {
+    margin-left: 30%;
+    margin-right: 0;
+    color: #2C7A7A;
 }
 
 .navbar button {
@@ -447,7 +453,15 @@ p{
 .collapsible > div > p{
     font-size: 12pt;;
 }
-.collapsible > p{
+
+.img-examples {
+    width: 40%;
+    height: auto;
+    margin-left: 30%;
+    border: 1px solid rgb(60, 70, 73);
+    border-radius: 10px;
+}
+.collapsible > p{ 
     font-size: 12pt;;
 }
 
@@ -460,6 +474,29 @@ p{
 }
 
 #example_svg > img{
-    width: 500px;
-    height: 500px;
+    width: 450px;
+    height: 450px;
+    background-color: #F5F5F5;
+    border: 1px solid rgb(60, 70, 73);
+    margin-top: 1%;
+    margin-right: 2%;
+    border-radius: 10px;
+}
+
+#left-example {
+    margin-left: 22%;
+}
+
+.formulas {
+    margin-left: 2%;
+    border: 1px solid rgb(60, 70, 73);
+    width: 25%;
+    height: auto;
+}
+
+figcaption {
+    font-size: 10pt;
+    align-items: center;
+    width: 80%;
+    margin-left: 15%;
 }
