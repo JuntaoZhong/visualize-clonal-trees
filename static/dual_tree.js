@@ -139,7 +139,12 @@ function visualize_trees(jsonData, distance_measure) {
       items.style("transition", "color 0.5s");
       items.style("color", mutation_table_color);
       items.style("font-weight", "normal");
-      items.style("font-size", "1em").style("transition", "font-size 0.5s");
+      items.style("font-size", (d, index, items) => {
+        if (items[index].localName == "span") {
+          return "1em"; 
+        }
+        return "0.7em";
+      }).style("transition", "font-size 0.5s");
       items.style("fill", (d, index, items) => {
         if (items[index].localName == "span") {
           return mutation_table_color;
