@@ -11,6 +11,10 @@ distanceMeasureLabel = document.getElementById("distance-measure-label");
 //var coloring = ['#f0f172', '#8cb8be','#527bb4','#00429d'];
 var coloring = ['#f0f172', '#80bda5', '#4180a9', '#00429d']
 //var coloring = ["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"];
+var no_contribution_color = "black";
+var contribution_color = "#DD6503";
+var highlight_color = "red";
+var mutation_table_color = "black";
 window.onload = () => {
   submit_tree();
 }
@@ -122,8 +126,8 @@ function visualize_trees(jsonData, distance_measure) {
   spans.on('mouseover', (d) => {
       console.log(jsonData);
       var items = d3.selectAll("." + d.target.className);
-      items.style("color", "orange");
-      items.style("fill", "orange");
+      items.style("color",highlight_color);
+      items.style("fill", highlight_color);
       items.style("transition", "color 0.5s");
       items.style("cursor", "pointer");
       items.style("font-weight", "bold");
@@ -133,12 +137,12 @@ function visualize_trees(jsonData, distance_measure) {
       console.log(jsonData);
       var items = d3.selectAll("." + d.target.className);
       items.style("transition", "color 0.5s");
-      items.style("color", "black");
+      items.style("color", mutation_table_color);
       items.style("font-weight", "normal");
       items.style("font-size", "1em").style("transition", "font-size 0.5s");
       items.style("fill", (d, index, items) => {
         if (items[index].localName == "span") {
-          return "black";
+          return mutation_table_color;
         }
         else {
           var tree = items[index].ownerSVGElement.id;
@@ -150,20 +154,20 @@ function visualize_trees(jsonData, distance_measure) {
             var mutation = items[index].__data__[0];
             var contribution = d[3][mutation]["contribution"];
             if (contribution > 0) {
-              return "red";
+              return contribution_color;
             }
             else {
-              return "black";
+              return no_contribution_color;
             }
           }
           else {
             var mutation = items[index].__data__[0];
             var contribution = d[4][mutation]["contribution"];
             if (contribution > 0) {
-              return "red";
+              return contribution_color;
             }
             else {
-              return "black";
+              return no_contribution_color;
             }
           }
         }
@@ -343,23 +347,23 @@ function visualize_trees(jsonData, distance_measure) {
       var tree2_mutations = jsonData.tree2_mutations; 
       if (svg_names[i] == 'svg1') {
         if (tree1_mutations[d[0]]["contribution"] > 0) {
-          return "red";
+          return contribution_color;
         } 
-        return "black";
+        return no_contribution_color;
       }
       else if (svg_names[i] == "svg2") {
         if (tree2_mutations[d[0]]["contribution"] > 0) {
-          return "red";
+          return contribution_color;
         } 
-        return "black";
+        return no_contribution_color;
       }
     })
     .on("mouseover", (d, i) => {
       console.log(i[0] + "-mutation-hover-label");
       //var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
       var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
-      items.style("color", "orange");
-      items.style("fill", "orange");
+      items.style("color", highlight_color);
+      items.style("fill", highlight_color);
       items.style("transition", "color 0.5s");
       items.style("cursor", "pointer");
       items.style("font-weight", "bold");
@@ -371,31 +375,31 @@ function visualize_trees(jsonData, distance_measure) {
       if (cur_svg == "svg1") {
         var contribution = jsonData.tree1_mutations[i[0]].contribution;
         console.log(contribution);
-        items.style("color", "black")
-        items.style("fill", "black");
+        items.style("color", no_contribution_color)
+        items.style("fill", no_contribution_color);
         if (contribution > 0) {
-          items.style("color", "red")
-          items.style("fill", "red");
+          items.style("color", contribution_color)
+          items.style("fill", contribution_color);
         }
         else {
-          items.style("color", "black")
-          items.style("fill", "black");
+          items.style("color", no_contribution_color)
+          items.style("fill", no_contribution_color);
         } 
       }
       else {
         var contribution = jsonData.tree1_mutations[i[0]].contribution;
         if (contribution > 0) {
-          items.style("color", "red")
-          items.style("fill", "red");
+          items.style("color", contribution_color)
+          items.style("fill", contribution_color);
         }
         else {
-          items.style("color", "black")
-          items.style("fill", "black");
+          items.style("color", no_contribution_color)
+          items.style("fill", no_contribution_color);
         }
       }
       items.style("font-weight", "normal");
       items.style("font-size", "0.70em").style("transition", "font-size 0.5s");
-      d3.selectAll("span." + i[0] + "-mutation-hover-label").style("color", "black").style("font-size", "1em").style("transition", "font-size 0.5s");
+      d3.selectAll("span." + i[0] + "-mutation-hover-label").style("color", mutation_table_color).style("font-size", "1em").style("transition", "font-size 0.5s");
     })
     .on("click", (d, i) => { 
         var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
@@ -746,15 +750,15 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
       var tree2_mutations = jsonData.tree2_mutations; 
       if (svg_names[i] == svg1) {
         if (tree1_mutations[d[0]]["contribution"] > 0) {
-          return "red";
+          return contribution_color;
         } 
-        return "black";
+        return no_contribution_color;
       }
       else if (svg_names[i] == svg2) {
         if (tree2_mutations[d[0]]["contribution"] > 0) {
-          return "red";
+          return contribution_color;
         } 
-        return "black";
+        return no_contribution_color;
       }
     })
     .on("click", (d, i) => { 
