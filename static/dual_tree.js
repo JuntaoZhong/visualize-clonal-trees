@@ -124,16 +124,18 @@ function visualize_trees(jsonData, distance_measure) {
       var items = d3.selectAll("." + d.target.className);
       items.style("color", "orange");
       items.style("fill", "orange");
-      items.style("transition", "color 1s");
+      items.style("transition", "color 0.5s");
       items.style("cursor", "pointer");
       items.style("font-weight", "bold");
+      items.style("font-size", "1.40em").style("transition", "font-size 0.5s");
   })
   spans.on('mouseout', (d) => {
       console.log(jsonData);
       var items = d3.selectAll("." + d.target.className);
-      items.style("transition", "color 1s");
+      items.style("transition", "color 0.5s");
       items.style("color", "black");
       items.style("font-weight", "normal");
+      items.style("font-size", "1em").style("transition", "font-size 0.5s");
       items.style("fill", (d, index, items) => {
         if (items[index].localName == "span") {
           return "black";
@@ -358,9 +360,10 @@ function visualize_trees(jsonData, distance_measure) {
       var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
       items.style("color", "orange");
       items.style("fill", "orange");
-      items.style("transition", "color 1s");
+      items.style("transition", "color 0.5s");
       items.style("cursor", "pointer");
       items.style("font-weight", "bold");
+      items.style("font-size", "1.40em").style("transition", "font-size 0.5s");
     }) // Here is the hover thing
     .on("mouseout", (d,i) => {
       console.log("." + i[0] + "-mutation-hover-label");
@@ -391,7 +394,8 @@ function visualize_trees(jsonData, distance_measure) {
         }
       }
       items.style("font-weight", "normal");
-      d3.selectAll("span." + i[0] + "-mutation-hover-label").style("color", "black");
+      items.style("font-size", "0.70em").style("transition", "font-size 0.5s");
+      d3.selectAll("span." + i[0] + "-mutation-hover-label").style("color", "black").style("font-size", "1em").style("transition", "font-size 0.5s");
     })
     .on("click", (d, i) => { 
         var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
@@ -909,6 +913,14 @@ function singleView() {
   var button2 = document.getElementById("ad-view")
   var button3 = document.getElementById("caset-view")
   var button4 = document.getElementById("disc-view")
+  var top_five = document.getElementById("top_five");
+  var top_five_label = document.getElementById("top_five_label");
+  var top_five_tree_1 = document.getElementById("t1_top5_summary_element");
+  var top_five_tree_2 = document.getElementById("t2_top5_summary_element");
+  top_five.style.display = "";
+  // top_five_label.style.display = "table-cell";
+  // top_five_tree_1.style.display = "table-cell";
+  // top_five_tree_2.style.display = "table-cell";
   div.style.display = "flex";
   legend.style.display = "block";
   hide1.style.display = "none";
@@ -960,6 +972,14 @@ function multiView() {
   var legend = document.getElementById("anyscale");
   var y = document.getElementById("multiple");
   var y2 = document.getElementById("single");
+  var top_five = document.getElementById("top_five");
+  var top_five_label = document.getElementById("top_five_label");
+  var top_five_tree_1 = document.getElementById("t1_top5_summary_element");
+  var top_five_tree_2 = document.getElementById("t2_top5_summary_element");
+  top_five.style.display = "none";
+  // top_five_label.style.display = "none";
+  // top_five_tree_1.style.display = "none";
+  // top_five_tree_2.style.display = "none";
   div.style.display = "none";
   legend.style.display = "none"
   if (x.style.display === "inline-block") {
