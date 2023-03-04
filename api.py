@@ -7,7 +7,6 @@ import json
 sys.path.append('py_scripts')
 sys.path.append('distance_measures')
 sys.path.append('input_conversion')
-import check_input
 import os
 import pydot
 import distance_measures.parent_child as pc_dot

@@ -436,8 +436,8 @@ function visualize_trees(jsonData, distance_measure) {
     }
     else {
       t2_max_branching_factor = get_branching_factor(nodes2);
-      t2_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
-      fill_in_table("t2", t2_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t2_top5_mutations);
+      t2_top5_mutations = get_top_n_mutations(jsonData.tree2_mutations, 5);
+      fill_in_table("t2", t2_max_branching_factor, root.height, nodes2.length, mutations_tree2.length, t2_top5_mutations);
     }
 
 
