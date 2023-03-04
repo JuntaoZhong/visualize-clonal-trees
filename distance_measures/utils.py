@@ -9,17 +9,17 @@ def initialize_core_dictionaries(g):
     '''
     node_contribution_dict = {}
     mutation_contribution_dict = {}
-    node_to_mutation_dict = {}
+    node_mutations_dict = {}
  
     for node in g.nodes:
         node_contribution_dict[node] = {}
         node_contribution_dict[node]["contribution"] = 0
         mutation_list = get_mutations_from_node(g,node)
-        node_to_mutation_dict[node] = mutation_list
+        node_mutations_dict[node] = mutation_list
         for mutation in mutation_list:
             mutation_contribution_dict[mutation] = {}
             mutation_contribution_dict[mutation]["contribution"] = 0
-    return node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
+    return node_contribution_dict, mutation_contribution_dict, node_mutations_dict
 
 
 def get_root(g):
