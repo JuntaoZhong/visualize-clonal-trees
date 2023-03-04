@@ -3,6 +3,7 @@ Takes in a Newick string, the current node that is being parsed, and the output 
 '''
 def parse_next(newick_string, current_node, output):
     if ',' not in newick_string and '(' not in newick_string or (newick_string[0] == "{" and newick_string[-1] == "}"):
+        print("base case")
         base_case(newick_string, current_node, output)
     elif newick_string[0] == "(" and newick_string[-1] == ')':
         find_substrings(newick_string, current_node, output)
@@ -74,14 +75,13 @@ def find_substrings(newick_string, current_node, output):
 '''
 Takes in a Newick string, the current node that is being parsed, and the output file, and finds the next node to parse.
 '''
-def find_next_node(newick_string, current_node, output):
-    
+def find_next_node(newick_string, current_node, output):    
     #If we are at the root of the tree, find the root and parse the next string
     if ')' in newick_string:
         substrings = newick_string.split(')')
         next_node = substrings[-1]
         
-        #Parse the root if it multi-labelled
+        #Parse the root if it is multi-labelled
         if next_node[0] == "{" and next_node[-1] == '}':
             node_trimmed = next_node[1:-1]
             labels = node_trimmed.split(',')
@@ -92,7 +92,7 @@ def find_next_node(newick_string, current_node, output):
             if current_node is not None:
                 output.write("\t" + str(current_node) + " -> " + str(node_name) + ";\n")
             output.write("\t" + str(node_name) + " [label=\"" + all_labels + "\"];\n")
-            reverse_newick = newick_string[::-1].replace(next_node, "", 1)
+            reverse_newick = newick_string[::-1].replace(next_node[::-1], "", 1)
             label_without_root = reverse_newick[::-1]
             parse_next(label_without_root, node_name, output)
             
@@ -101,7 +101,7 @@ def find_next_node(newick_string, current_node, output):
             if current_node is not None:
                 output.write("\t" + str(current_node) + " -> " + str(next_node) + ";\n")
             output.write("\t" + str(next_node) + " [label=\"" + next_node + "\"];\n")
-            reverse_newick = newick_string[::-1].replace(next_node, "", 1)
+            reverse_newick = newick_string[::-1].replace(next_node[::-1], "", 1)
             label_without_root = reverse_newick[::-1]
             parse_next(label_without_root, next_node, output)
             

@@ -152,9 +152,6 @@ function visualize_trees(jsonData, distance_measure) {
         else {
           var tree = items[index].ownerSVGElement.id;
           var contribution = items[index].parentNode.__data__.data["contribution"];
-          console.log(items[index]);
-          console.log(items);
-          console.log(tree);
           if (tree == 'svg1') {
             var mutation = items[index].__data__[0];
             var contribution = d[3][mutation]["contribution"];
@@ -375,36 +372,77 @@ function visualize_trees(jsonData, distance_measure) {
       items.style("font-size", "1.40em").style("transition", "font-size 0.5s");
     }) // Here is the hover thing
     .on("mouseout", (d,i) => {
-      console.log("." + i[0] + "-mutation-hover-label");
-      var items = d3.selectAll("tspan." + i[0] + "-mutation-hover-label");
-      if (cur_svg == "svg1") {
-        var contribution = jsonData.mutation_contribution_dict_1[i[0]].contribution;
-        console.log(contribution);
-        items.style("color", no_contribution_color)
-        items.style("fill", no_contribution_color);
-        if (contribution > 0) {
-          items.style("color", contribution_color)
-          items.style("fill", contribution_color);
-        }
-        else {
-          items.style("color", no_contribution_color)
-          items.style("fill", no_contribution_color);
-        } 
-      }
-      else {
-        var contribution = jsonData.mutation_contribution_dict_2[i[0]].contribution;
-        if (contribution > 0) {
-          items.style("color", contribution_color)
-          items.style("fill", contribution_color);
-        }
-        else {
-          items.style("color", no_contribution_color)
-          items.style("fill", no_contribution_color);
-        }
-      }
+      
+      console.log(jsonData);
+      var items = d3.selectAll("." + i[0] + "-mutation-hover-label");
+      items.style("transition", "color 0.5s");
+      items.style("color", mutation_table_color);
       items.style("font-weight", "normal");
-      items.style("font-size", "0.70em").style("transition", "font-size 0.5s");
-      d3.selectAll("span." + i[0] + "-mutation-hover-label").style("color", mutation_table_color).style("font-size", "1em").style("transition", "font-size 0.5s");
+      items.style("font-size", (d, index, items) => {
+        if (items[index].localName == "span") {
+          return "1em"; 
+        }
+        return "0.7em";
+      }).style("transition", "font-size 0.5s");
+      items.style("fill", (d, index, items) => {
+        if (items[index].localName == "span") {
+          return mutation_table_color;
+        }
+        else {
+          var tree = items[index].ownerSVGElement.id;
+          var contribution = items[index].parentNode.__data__.data["contribution"];
+          if (tree == 'svg1') {
+            var mutation = items[index].__data__[0];
+            var contribution = d[3][mutation]["contribution"];
+            if (contribution > 0) {
+              return contribution_color;
+            }
+            else {
+              return no_contribution_color;
+            }
+          }
+          else {
+            var mutation = items[index].__data__[0];
+            var contribution = d[4][mutation]["contribution"];
+            if (contribution > 0) {
+              return contribution_color;
+            }
+            else {
+              return no_contribution_color;
+            }
+          }
+        }
+      });
+    
+
+      // if (cur_svg == "svg1") {
+      //   var contribution = jsonData.mutation_contribution_dict_1[i[0]].contribution;
+      //   console.log(contribution);
+      //   items.style("color", no_contribution_color)
+      //   items.style("fill", no_contribution_color);
+      //   if (contribution > 0) {
+      //     items.style("color", contribution_color)
+      //     items.style("fill", contribution_color);
+      //   }
+      //   else {
+      //     items.style("color", no_contribution_color)
+      //     items.style("fill", no_contribution_color);
+      //   } 
+      // }
+      // else {
+      //   var contribution = jsonData.mutation_contribution_dict_2[i[0]].contribution;
+      //   if (contribution > 0) {
+      //     items.style("color", contribution_color)
+      //     items.style("fill", contribution_color);
+      //   }
+      //   else {
+      //     items.style("color", no_contribution_color)
+      //     items.style("fill", no_contribution_color);
+      //   }
+      // }
+      // items.style("font-weight", "normal");
+      // items.style("font-size", "0.70em").style("transition", "font-size 0.5s");
+      // d3.selectAll("span." + i[0] + "-mutation-hover-label").style("color", mutation_table_color).style("font-size", "1em").style("transition", "font-size 0.5s");
     })
     .on("click", (d, i) => { 
         var gene_url = "https://www.genecards.org/cgi-bin/carddisp.pl?gene=" + i[0];
