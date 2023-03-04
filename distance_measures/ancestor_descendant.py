@@ -7,15 +7,15 @@ import distance_measures.utils as utils
 
 def get_contributions(g_1,g_2):
     ''' Returns three dictionaries for each tree: 
-        node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
+        node_contribution_dict, mutation_contribution_dict, node_mutations_dict
         and AD distance between the trees'''
     ad_distinct_set_1 = get_pair_differences(g_1,g_2)[0]
     ad_distinct_set_2 = get_pair_differences(g_1,g_2)[1]
 
     ad_distance = len(ad_distinct_set_1) + len(ad_distinct_set_2)
 
-    node_contribution_dict_1, mutation_contribution_dict_1, node_to_mutation_dict_1 = utils.initialize_core_dictionaries(g_1)
-    node_contribution_dict_2, mutation_contribution_dict_2, node_to_mutation_dict_2 = utils.initialize_core_dictionaries(g_2)
+    node_contribution_dict_1, mutation_contribution_dict_1, node_mutations_dict_1 = utils.initialize_core_dictionaries(g_1)
+    node_contribution_dict_2, mutation_contribution_dict_2, node_mutations_dict_2 = utils.initialize_core_dictionaries(g_2)
 
     for pair in ad_distinct_set_1:
         anc_mut = pair[0]
@@ -46,7 +46,7 @@ def get_contributions(g_1,g_2):
         #MUT DESC---------------------------
         mutation_contribution_dict_2[anc_mut]["contribution"] = mutation_contribution_dict_2[anc_mut]["contribution"] +1 
     print("ad_distance", ad_distance, "\n")
-    return node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, ad_distance
+    return node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_mutations_dict_1, node_mutations_dict_2, ad_distance
 
 def get_pair_differences(g_1,g_2):
     ''' Returns the lists of ancestor descendant pairs that
@@ -106,12 +106,12 @@ def fill_mutation_dict(g, node, dict):
 def ad_main(filename_1, filename_2):
     g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
     g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2 = get_contributions(g_1,g_2)
+    dict_1, dict_2, distance, mutation_dict_1, mutation_dict_2, node_mutations_dict_1, node_mutations_dict_2 = get_contributions(g_1,g_2)
     nx.set_node_attributes(g_1,dict_1)
     nx.set_node_attributes(g_2,dict_2)
     data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
     data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
-    return (data_1, data_2, distance, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2)
+    return (data_1, data_2, distance, mutation_dict_1, mutation_dict_2, node_mutations_dict_1, node_mutations_dict_2)
 
 if __name__=="__main__":
     filename_1 = "test1.txt"

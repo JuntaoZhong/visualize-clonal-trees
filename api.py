@@ -8,7 +8,6 @@ sys.path.append('py_scripts')
 sys.path.append('distance_measures')
 sys.path.append('input_conversion')
 import os
-import pydot
 import distance_measures.parent_child as pc_dot
 import distance_measures.ancestor_descendant as ad_dot
 import distance_measures.caset as cs_dot
@@ -47,8 +46,10 @@ def calculation_contributions_and_node_mutation_relations(distance_measure):
     print("Not a valid distance measure")
     exit(1)
 
-  node_contribution_dict_1, node_contribution_dict_2, mutation_dict_1, mutation_dict_2, node_to_mutation_dict_1, node_to_mutation_dict_2, distance= calculated_values
-  jsonObject = {"tree1_edges": node_contribution_dict_1, "tree2_edges": node_contribution_dict_2, "tree1_mutations": mutation_dict_1, "tree2_mutations": mutation_dict_2, "node_to_mutation1":node_to_mutation_dict_1, "node_to_mutation2":node_to_mutation_dict_2, "distance": distance}
+  node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_mutations_dict_1, node_mutations_dict_2, distance = calculated_values
+  #Currently, node_mutations_dict_1 and node_mutations_dict_2 are being calculated but not passed to frontend. There might be a future use for such dictionaries though (line below would pass them along).
+  #jsonObject = {"node_contribution_dict_1": node_contribution_dict_1, "node_contribution_dict_2": node_contribution_dict_2, "mutation_contribution_dict_1": mutation_contribution_dict_1, "mutation_contribution_dict_2": mutation_contribution_dict_2, "node_mutations_dict_1":node_mutations_dict_1, "node_mutations_dict_2":node_mutations_dict_2, "distance": distance}
+  jsonObject = {"node_contribution_dict_1": node_contribution_dict_1, "node_contribution_dict_2": node_contribution_dict_2, "mutation_contribution_dict_1": mutation_contribution_dict_1, "mutation_contribution_dict_2": mutation_contribution_dict_2, "distance": distance}
   return(json.dumps(jsonObject))
 
 @api.route('/parent_child_distance')

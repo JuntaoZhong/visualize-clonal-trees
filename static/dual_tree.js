@@ -91,8 +91,8 @@ function set_visualization_event_listeners(distance_measure) {
 function visualize_trees(jsonData, distance_measure) {
 
   set_visualization_event_listeners(distance_measure);
-  var tree1_data = jsonData.tree1_edges;
-  var tree2_data = jsonData.tree2_edges;
+  var tree1_data = jsonData.node_contribution_dict_1;
+  var tree2_data = jsonData.node_contribution_dict_2;
   var data = [tree1_data, tree2_data]
   var distance = jsonData.distance;
 
@@ -328,9 +328,9 @@ function visualize_trees(jsonData, distance_measure) {
       var lst = str.split(",");
       var newLst = [];
       lst.forEach(mutation => {
-        var tree1_mutations = jsonData.tree1_mutations; 
-        var tree2_mutations = jsonData.tree2_mutations; 
-        newLst.push([mutation.trim(), d.x, d.y, tree1_mutations, tree2_mutations]);
+        var mutation_contribution_dict_1 = jsonData.mutation_contribution_dict_1; 
+        var mutation_contribution_dict_2 = jsonData.mutation_contribution_dict_2; 
+        newLst.push([mutation.trim(), d.x, d.y, mutation_contribution_dict_1, mutation_contribution_dict_2]);
       });
       return newLst;
     })
@@ -348,16 +348,16 @@ function visualize_trees(jsonData, distance_measure) {
     .style("font-size", "0.70em")
     .style("font-family", "Monospace")
     .style("fill", (d) => {
-      var tree1_mutations = jsonData.tree1_mutations; 
-      var tree2_mutations = jsonData.tree2_mutations; 
+      var mutation_contribution_dict_1 = jsonData.mutation_contribution_dict_1; 
+      var mutation_contribution_dict_2 = jsonData.mutation_contribution_dict_2; 
       if (svg_names[i] == 'svg1') {
-        if (tree1_mutations[d[0]]["contribution"] > 0) {
+        if (mutation_contribution_dict_1[d[0]]["contribution"] > 0) {
           return contribution_color;
         } 
         return no_contribution_color;
       }
       else if (svg_names[i] == "svg2") {
-        if (tree2_mutations[d[0]]["contribution"] > 0) {
+        if (mutation_contribution_dict_2[d[0]]["contribution"] > 0) {
           return contribution_color;
         } 
         return no_contribution_color;
@@ -378,7 +378,7 @@ function visualize_trees(jsonData, distance_measure) {
       console.log("." + i[0] + "-mutation-hover-label");
       var items = d3.selectAll("tspan." + i[0] + "-mutation-hover-label");
       if (cur_svg == "svg1") {
-        var contribution = jsonData.tree1_mutations[i[0]].contribution;
+        var contribution = jsonData.mutation_contribution_dict_1[i[0]].contribution;
         console.log(contribution);
         items.style("color", no_contribution_color)
         items.style("fill", no_contribution_color);
@@ -392,7 +392,7 @@ function visualize_trees(jsonData, distance_measure) {
         } 
       }
       else {
-        var contribution = jsonData.tree1_mutations[i[0]].contribution;
+        var contribution = jsonData.mutation_contribution_dict_2[i[0]].contribution;
         if (contribution > 0) {
           items.style("color", contribution_color)
           items.style("fill", contribution_color);
@@ -431,12 +431,12 @@ function visualize_trees(jsonData, distance_measure) {
  
     if (svg_names[i] == "svg1") {
       t1_max_branching_factor = get_branching_factor(nodes1);
-      t1_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
+      t1_top5_mutations = get_top_n_mutations(jsonData.mutation_contribution_dict_1, 5);
       fill_in_table("t1", t1_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t1_top5_mutations);
     }
     else {
       t2_max_branching_factor = get_branching_factor(nodes2);
-      t2_top5_mutations = get_top_n_mutations(jsonData.tree2_mutations, 5);
+      t2_top5_mutations = get_top_n_mutations(jsonData.mutation_contribution_dict_2, 5);
       fill_in_table("t2", t2_max_branching_factor, root.height, nodes2.length, mutations_tree2.length, t2_top5_mutations);
     }
 
@@ -572,8 +572,8 @@ function submit_mult_tree(distance_measure, svg1,svg2, scale) {
 function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
   
   set_visualization_event_listeners(distance_measure);
-  var tree1_data = jsonData.tree1_edges;
-  var tree2_data = jsonData.tree2_edges;
+  var tree1_data = jsonData.node_contribution_dict_1;
+  var tree2_data = jsonData.node_contribution_dict_2;
   var data = [tree1_data, tree2_data]
   var distance = jsonData.distance;
 
@@ -751,16 +751,16 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
     .style("font-size", "0.60em")
     .style("font-family", "Monospace")
     .style("fill", (d) => {
-      var tree1_mutations = jsonData.tree1_mutations; 
-      var tree2_mutations = jsonData.tree2_mutations; 
+      var mutation_contribution_dict_1 = jsonData.mutation_contribution_dict_1; 
+      var mutation_contribution_dict_2 = jsonData.mutation_contribution_dict_2; 
       if (svg_names[i] == svg1) {
-        if (tree1_mutations[d[0]]["contribution"] > 0) {
+        if (mutation_contribution_dict_1[d[0]]["contribution"] > 0) {
           return contribution_color;
         } 
         return no_contribution_color;
       }
       else if (svg_names[i] == svg2) {
-        if (tree2_mutations[d[0]]["contribution"] > 0) {
+        if (mutation_contribution_dict_2[d[0]]["contribution"] > 0) {
           return contribution_color;
         } 
         return no_contribution_color;
@@ -787,12 +787,12 @@ function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
  
     if (svg_names[i] == "svg1") {
       t1_max_branching_factor = get_branching_factor(nodes1);
-      t1_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
+      t1_top5_mutations = get_top_n_mutations(jsonData.mutation_contribution_dict_1, 5);
       fill_in_table("t1", t1_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t1_top5_mutations);
     }
     else {
       t2_max_branching_factor = get_branching_factor(nodes2);
-      t2_top5_mutations = get_top_n_mutations(jsonData.tree1_mutations, 5);
+      t2_top5_mutations = get_top_n_mutations(jsonData.mutation_contribution_dict_2, 5);
       fill_in_table("t2", t2_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t2_top5_mutations);
     }
   
@@ -1013,7 +1013,7 @@ function get_branching_factor(nodes) {
   return max_branching_factor;
 }
 
-// tree_dict = jsonData.tree1_mutations
+
 function get_top_n_mutations(tree_dict, n) {
   var mutation_contribution_dict = {};
   for (const [mutation, value] of Object.entries(tree_dict)) {
