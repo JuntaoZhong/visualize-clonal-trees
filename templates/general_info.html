@@ -29,26 +29,26 @@
                 Tumors are the result of an evolutionary process (Nowell 1976). Clonal trees are one way to describe the evolution of 
                 a tumor, and it is often helpful to visually and quantitatively compare these trees. We have implemented a 
                 visualization tool, VECTr, that can take two input trees and output a visual comparison between them based on a 
-                user-chosen distance metric. These distance metrics are fundamental to the comparisons and are described below.
+                user-chosen distance measure. These distance measures are fundamental to the comparisons and are described below.
             </p>
             
         </div>
         <div class="info-collapse" onclick="toggleVisible('use-info')">
-            <h2 class="info-headings">How to use VECTR</h2>
+            <h2 class="info-headings">How to use VECTr</h2>
         </div> 
         <div class="collapsible use-info" id="use-info"> 
             <p>
-                Since VECTr is a web based tool for visualizing clonal trees. You can begin by selecting the trees you will be visualizing. 
-                We currently support <a>NEWICK</a> and <a>DOT</a> tree formats so any input tree will have to be in either format. 
-                There are two example trees that are set by default but to replace those you can either select a file or input 
-                the tree manually through the textbox. You can then select the file format and save your input.
+                VECTr is a web-based tool for visualizing clonal trees distance measures. A user begins by providing a pair of trees;
+                 we currently support the <a>NEWICK</a> and <a>DOT</a> tree formats. 
+                A pair of example trees is provided as a default. To replace them, a user can either select a file or provide input 
+                trees manually through the available textboxes. The user can then select a file format and save their input.
             </p>
             <p>
-                Parent-child is the default distance metric for the tool, however, you can slect different distance metrics using the dropdown.
-                The available distance measures are Ancestor-Descendant, Parent-Child, CASet, and DISC (More information on the distance
-                measures can be found below). There are two options of views for you to choose from. Single View allows you to visualize one
-                distance measure at a time as well as download the visualizations. While Multi View, as the name implies, allows you to view 
-                trees with multiple distance measures but does not allow for download or highlighting functionality. 
+                Parent-child is the default distance measure for the tool, and a user can slect different distance measures using the dropdown.
+                The available distance measures are Ancestor-Descendant, Parent-Child, CASet, and DISC (more information on the distance
+                measures is provided below). There are two view options available. Single View allows a user to visualize one
+                distance measure at a time as well as download the visualizations. Meanwhile, Multi View, as the name implies, allows users to 
+                simultaneously view trees visualized according multiple distance measures but does not allow for download or highlighting functionality. 
             </p>
         </div>
         <div class="info-collapse"  onclick="toggleVisible('distance-info')">
@@ -61,7 +61,7 @@
                     <strong><u>Overview</u></strong>: Parent-Child emphasizes mutation differences between parent and children pairs.
                 </p>
                 <p>
-                    The traditional parent-child metric counts the number of parent-child relationships that are unique to exactly 
+                    The parent-child measure counts the number of parent-child relationships that are unique to exactly 
                     one of the trees (with the parent and child connected by exactly one edge). In our implementation, every
                     parent-child pair contributes 1 to the child node if it does not appear in the other tree, and 0 otherwise.
                 </p>
@@ -97,21 +97,19 @@
             <div> 
                 <hr size="2" noshade="", width="auto">
                 <p>
-                    For both CASet and DISC their computation is based on Jaccard Distance.
-                    The Jaccard distance between two sets A and B is given by:
+                    CASet and DISC are both computed using the Jaccard Distance.
+                    The Jaccard distance sets A and B is given by:
                 </p>
                 <img class="formulas" src="{{ url_for('static', filename='jaccard-formula.png') }}" alt="The formula for Jaccard">
                 <p>
-                    If mutations i and j appear in a tree, the common ancestor set of i and j (denoted C (i, j)) 
-                    consists of the set of mutations that are ancestors of both i and j.In other words, Jacc(A,B) yields a 
-                    normalized symmetric difference between A and B.Which is the Average proportion of the union that isn't 
-                    shared (E.g., 1 means all elements in the union are also in the intersection, 0 means no elements in the union are 
-                    also in the intersection.)
+                    If mutations <em>i</em> and <em>j</em> appear in a tree, the common ancestor set of  <em>i</em> and <em>j</em> (denoted <em>C</em>(<em>i</em>,<em>j</em>)) 
+                    consists of the set of mutations that are ancestors of both <em>i</em> and <em>j</em>. In other words, <em>Jacc</em>(<em>A</em>,<em>B</em>) yields a 
+                    normalized symmetric difference between <em>A</em> and <em>B</em>.
                 </p>
                 <hr size="2" noshade="", width="auto">
                 <h3 class="info-label">CASet Distance</h3>
                 <p>
-                    <strong><u>Overview</u></strong>: CASet emphasizes mutation differences closer to the root of the tree.
+                    <strong><u>Overview</u></strong>: CASet emphasizes mutation differences closer to the root.
                 </p>
                 <p>
                     The Common Ancestor Set (CASet) distance between trees Tk and Tl is computed as follows
