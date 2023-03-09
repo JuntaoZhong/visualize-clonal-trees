@@ -9,7 +9,7 @@ distanceMetric = document.getElementById("distance_metric");
 demoTreesBtn = document.getElementById("demo-trees-btn");
 distanceMeasureLabel = document.getElementById("distance-measure-label");
 //var coloring = ['#f0f172', '#8cb8be','#527bb4','#00429d'];
-var coloring = ['#f0f172', '#80bda5', '#4180a9', '#00429d']
+var coloring = ['#f0f172', '#80bda5', '#4180a9', '#00429d'];
 //var coloring = ["#ffffcc", "#a1dab4", "#41b6c4", "#225ea8"];
 var no_contribution_color = "black";
 var contribution_color = "#DD6503";
@@ -605,7 +605,6 @@ function submit_mult_tree(distance_measure, svg1,svg2, scale) {
      visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale);
   });
 }
-
 
 function visualize_mult_trees(jsonData, distance_measure, svg1, svg2, scale) {
   
