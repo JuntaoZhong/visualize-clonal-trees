@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Minimalista - New Amazing HTML5 Template</title>
+    <title>Visualizing Clonal Trees</title>
     <link rel="stylesheet" href="css/components.css">
     <link rel="stylesheet" href="css/icons.css">
     <link rel="stylesheet" href="css/responsee.css">
@@ -18,8 +18,6 @@
   </head>
 
   <body class="size-1140">
-  	<!-- PREMIUM FEATURES BUTTON -->
-  	<a target="_blank" class="hide-s" href="../template/minimalista-premium-responsive-business-template/" style="position:fixed;top:120px;right:-14px;z-index:10;"><img src="img/premium-features.png" alt=""></a>
     <div id="page-wrapper">
       <!-- HEADER -->
       <header role="banner" class="position-absolute margin-top-30 margin-m-top-0 margin-s-top-0">    
@@ -52,9 +50,22 @@
         <article>
           <header class="section background-white">
             <div class="line text-center">        
-              <h1 class="text-dark text-s-size-30 text-m-size-40 text-l-size-headline text-thin text-line-height-1">Be More with Less</h1>
-              <p class="margin-bottom-0 text-size-16 text-dark">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie consequat, vel illum dolore eu feugiat nulla facilisis.<br>
-              Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>
+              <h1 class="text-dark text-s-size-30 text-m-size-40 text-l-size-headline text-thin text-line-height-1">VECTr: Visual Encodings for Clonal Trees</h1>
+              <p class="margin-bottom-0 text-size-16 text-dark">
+              <br>
+
+              <br>
+Tumors are the result of an evolutionary process (Nowell 1976). Clonal trees are one way to describe the evolution of a tumor, and it is often helpful to visually and quantitatively compare these trees. We have implemented a visualization tool, VECTr, that can take two input trees and output a visual comparison between them based on a user-chosen distance metric. These distance metrics are fundamental to the comparisons and are described below
+              <br>
+              <br>
+Since VECTr is a web based tool for visualizing clonal trees. You can begin by selecting the trees you will be visualizing. We currently support NEWICK and DOT tree formats so any input tree will have to be in either format. There are two example trees that are set by default but to replace those you can either select a file or input the tree manually through the textbox. You can then select the file format and save your input.
+              <br>
+              <br>
+Parent-child is the default distance metric for the tool, however, you can slect different distance metrics using the dropdown. The available distance measures are Ancestor-Descendant, Parent-Child, CASet, and DISC (More information on the distance measures can be found below). There are two options of views for you to choose from. Single View allows you to visualize one distance measure at a time as well as download the visualizations. While Multi View, as the name implies, allows you to view trees with multiple distance measures but does not allow for download or highlighting functionality.
+              <br>
+              <br>
+<a target="blank" href="distance_documentation.pdf" download>Click here to learn more about the distance measures</a>
+              </p>
             </div>  
           </header>
           <div class="background-white full-width"> 
@@ -166,61 +177,6 @@
                   </div> 
                 </div> 
                 <img class="full-img" src="img/portfolio/thumb-10.jpg" alt=""/>
-              </a>	
-            </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
-                <div class="image-hover-overlay background-primary"> 
-                  <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
-                  </div> 
-                </div> 
-                <img class="full-img" src="img/portfolio/thumb-11.jpg" alt=""/>
-              </a>	
-            </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
-                <div class="image-hover-overlay background-primary"> 
-                  <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
-                  </div> 
-                </div> 
-                <img class="full-img" src="img/portfolio/thumb-12.jpg" alt=""/>
-              </a>	
-            </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
-                <div class="image-hover-overlay background-primary"> 
-                  <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
-                  </div> 
-                </div> 
-                <img class="full-img" src="img/portfolio/thumb-01.jpg" alt=""/>
-              </a>	
-            </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
-                <div class="image-hover-overlay background-primary"> 
-                  <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
-                  </div> 
-                </div> 
-                <img class="full-img" src="img/portfolio/thumb-02.jpg" alt=""/>
-              </a>	
-            </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
-                <div class="image-hover-overlay background-primary"> 
-                  <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
-                  </div> 
-                </div> 
-                <img class="full-img" src="img/portfolio/thumb-03.jpg" alt=""/>
               </a>	
             </div>
           </div>  

@@ -1,7 +1,0 @@
-graph my_graph {
-   bgcolor="yellow";
-   a [label="Foo"];
-   b [shape=circle];
-   a -- b -- c [color=blue];
-   a -- c
-}

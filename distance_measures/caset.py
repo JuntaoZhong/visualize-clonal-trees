@@ -1,6 +1,3 @@
-import argparse
-import pickle
-from graphviz import Source
 import sys
 from networkx.readwrite import json_graph
 import networkx as nx

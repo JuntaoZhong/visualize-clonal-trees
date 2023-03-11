@@ -1,8 +1,5 @@
-from graphviz import Source
-import sys
 import networkx as nx
 from networkx.readwrite import json_graph
-import json
 import distance_measures.utils as utils
 
 def get_contributions(g_1,g_2):
