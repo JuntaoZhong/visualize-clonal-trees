@@ -45,22 +45,22 @@
                             <option value="disc_distance">DISC</option>
                         </select>
                     </div>
-                    <div id="distance-buttons">
+                    <div class="multiview" id="distance-buttons">
                         <p> </p>
                         <div id="top-measures">
                             <div class="toggle_button dview">
-                                <button onclick="vizbox('viz1', 'scale1', 'pc-view', 'pc-label'); submit_mult_tree('parent_child_distance', '#viz1_svg1', '#viz1_svg2', 'scale1');" id="pc-view">Parent-Child</button>
+                                <button onclick="vizbox('viz1', 'scale1', 'pc-view', 'pc-label'); submit_mult_tree('parent_child_distance', '#viz1_svg1', '#viz1_svg2', 'scale1');" class="multiview" id="pc-view">Parent-Child</button>
                             </div>
                             <div class="toggle_button dview">
-                                <button onclick="vizbox('viz2', 'scale2', 'ad-view', 'ad-label'); submit_mult_tree('ancestor_descendant_distance', '#viz2_svg1', '#viz2_svg2', 'scale2');" id="ad-view">Ancestor-Descendant</button>
+                                <button onclick="vizbox('viz2', 'scale2', 'ad-view', 'ad-label'); submit_mult_tree('ancestor_descendant_distance', '#viz2_svg1', '#viz2_svg2', 'scale2');" class="multiview" id="ad-view">Ancestor-Descendant</button>
                             </div>
                         </div>
                         <div id="bottom-measures">
                             <div class="toggle_button dview">
-                                <button onclick="vizbox('viz3', 'scale3', 'caset-view', 'caset-label'); submit_mult_tree('caset_distance', '#viz3_svg1', '#viz3_svg2', 'scale3');" id="caset-view">CASet</button>
+                                <button onclick="vizbox('viz3', 'scale3', 'caset-view', 'caset-label'); submit_mult_tree('caset_distance', '#viz3_svg1', '#viz3_svg2', 'scale3');" class="multiview" id="caset-view">CASet</button>
                             </div>
                             <div class="toggle_button dview">
-                                <button onclick="vizbox('viz4', 'scale4', 'disc-view', 'disc-label'); submit_mult_tree('disc_distance', '#viz4_svg1', '#viz4_svg2', 'scale4');" id="disc-view">DISC</button>
+                                <button onclick="vizbox('viz4', 'scale4', 'disc-view', 'disc-label'); submit_mult_tree('disc_distance', '#viz4_svg1', '#viz4_svg2', 'scale4');" class="multiview" id="disc-view">DISC</button>
                             </div>
                         </div>
                     </div>
@@ -207,7 +207,7 @@
                         <button class="download" id="downloadSVG2" onclick="downloadSVG('#svg2')">Download Tree 2</button>
                     </div>
                 </div>
-                <div class="legend-container" id="anyscale">
+                <div class="legend-container" class="singleview" id="anyscale">
                     <div id="distance-measure-label"></div>
                     <div class="legend"></div>
                     <div class="legend-labels-container">
@@ -217,8 +217,8 @@
                     <div class="label", id="_colorLabel4">4</div>
                     </div>
                 </div>
-                <h3 class="hidden_label" id="pc-label">Parent-Child Visualization</h3>
-                <div class="visualizations-container" id="viz1">
+                <h3 class="hidden_label multiview" id="pc-label">Parent-Child Visualization</h3>
+                <div class="visualizations-container multiview" id="viz1">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz1_svg1"> 
                             <g transform="translate(270,50)">
@@ -236,7 +236,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="legend-container" id="scale1">
+                <div class="legend-container multiview" id="scale1">
                     <div class="legend"></div>
                     <div class="legend-labels-container">
                     <div class="label", id="scale1_colorLabel1">1</div>
@@ -245,8 +245,8 @@
                     <div class="label", id="scale1_colorLabel4">4</div>
                     </div>
                 </div>
-                <h3 class="hidden_label" id="ad-label">Ancestor-Descendant Visualization</h3>
-                <div class="visualizations-container" id="viz2">
+                <h3 class="hidden_label multiview" id="ad-label">Ancestor-Descendant Visualization</h3>
+                <div class="visualizations-container multiview" id="viz2">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz2_svg1"> 
                             <g transform="translate(270,50)">
@@ -264,7 +264,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="legend-container" id="scale2">
+                <div class="legend-container multiview" id="scale2">
                     <div class="legend"></div>
                     <div class="legend-labels-container">
                     <div class="label", id="scale2_colorLabel1">1</div>
@@ -273,8 +273,8 @@
                     <div class="label", id="scale2_colorLabel4">4</div>
                     </div>
                 </div>
-                <h3 class="hidden_label" id="caset-label">CASet Visualization</h3>
-                <div class="visualizations-container" id="viz3">
+                <h3 class="hidden_label multiview" id="caset-label">CASet Visualization</h3>
+                <div class="visualizations-container multiview" id="viz3">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz3_svg1"> 
                             <g transform="translate(270,50)">
@@ -292,7 +292,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="legend-container" id="scale3">
+                <div class="legend-container multiview" id="scale3">
                     <div class="legend"></div>
                     <div class="legend-labels-container">
                     <div class="label", id="scale3_colorLabel1">1</div>
@@ -301,8 +301,8 @@
                     <div class="label", id="scale3_colorLabel4">4</div>
                     </div>
                 </div>
-                <h3 class="hidden_label" id="disc-label">DISC Visualization</h3>
-                <div class="visualizations-container" id="viz4">
+                <h3 class="hidden_label multiview" id="disc-label">DISC Visualization</h3>
+                <div class="visualizations-container multiview" id="viz4">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" viewBox="0 0 550 550" width="100%" height="auto" id="viz4_svg1"> 
                             <g transform="translate(270,50)">
@@ -320,7 +320,7 @@
                         </svg>
                     </div>
                 </div>
-                <div class="legend-container4" id="scale4">
+                <div class="legend-container4 multiview" id="scale4">
                     <div class="legend"></div>
                     <div class="legend-labels-container">
                     <div class="label", id="scale4_colorLabel1">1</div>
