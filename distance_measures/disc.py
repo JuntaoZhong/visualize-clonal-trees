@@ -1,3 +1,7 @@
+"""
+Functions to determine distinctly inhereted ancestor sets in a graph and calculate DISC distance between two graphs
+and the contributions to that distance on a node and mutation basis.
+"""
 import sys
 from networkx.readwrite import json_graph
 import networkx as nx
@@ -5,10 +9,16 @@ import json
 import distance_measures.utils as utils
 
 def get_contributions(g_1, g_2):
-    '''returns three dictionaries for each tree: 
-    node_contribution_dict, mutation_contribution_dict, node_mutations_dict
-    and DISC distance between the trees
-    '''
+    """
+    Required:
+        - Two trees
+    Returns:
+        - Three dictionaries for each tree: 
+            node_contribution_dict, mutation_contribution_dict, node_mutations_dict
+            and DISC distance between the trees
+    Note:
+        Primary core code for DISC api route
+    """
     node_contribution_dict_1, mutation_contribution_dict_1, node_mutations_dict_1 = utils.initialize_core_dictionaries(g_1)
     node_contribution_dict_2, mutation_contribution_dict_2, node_mutations_dict_2 = utils.initialize_core_dictionaries(g_2)
 
@@ -46,11 +56,19 @@ def get_contributions(g_1, g_2):
                         node_contribution_dict_2[utils.get_node_from_mutation(g_2, set_minus_2_mut)]["contribution"] += jacc_dist / len(disc_2_set_minus_1) /(number_mutations*((number_mutations-1)))
                         mutation_contribution_dict_2[set_minus_2_mut]["contribution"] += jacc_dist / len(disc_2_set_minus_1) /(number_mutations*((number_mutations-1)))
     
-    dc_distance = (1/(number_mutations*((number_mutations-1))) * unscaled_disc_distance) # number_mutations choose 2
-    print("dc_distance", dc_distance, "\n")
+    dc_distance = (1/(number_mutations*((number_mutations-1))) * unscaled_disc_distance) #scale dist based on number of mutations
+    print("\n","dc_distance", dc_distance)
     return node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_mutations_dict_1, node_mutations_dict_2, dc_distance
 
 def get_distinct_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
+    """
+    Required:
+        - Two mutations and the mutation-to-ancestors dictionary for some tree
+    Returns:
+        - the set of mutations that are ancestors of mutation_1 but not mutation_2
+    Note:
+        Called on each pair of mutations in get_contributions().
+    """
     if(mutation_1 in mutation_anc_dict and mutation_2 in mutation_anc_dict):
         return set(mutation_anc_dict[mutation_1]).difference(set(mutation_anc_dict[mutation_2]))
     elif(mutation_1 in mutation_anc_dict and not mutation_2 in mutation_anc_dict):
@@ -58,27 +76,3 @@ def get_distinct_ancestor_set(mutation_1, mutation_2, mutation_anc_dict):
     else:
         return set()
 
-def disc_main(filename_1, filename_2):
-    g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
-    g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2, distance, mutation_dict_1, mutation_dict_2, node_mutations_dict_1, node_mutations_dict_2 = get_contributions(g_1,g_2)
-    nx.set_node_attributes(g_1,dict_1)
-    nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
-    return (data_1, data_2, distance, mutation_dict_1, mutation_dict_2, node_mutations_dict_1, node_mutations_dict_2)
-
-if __name__=="__main__":
-    filename_1 = sys.argv[1]
-    filename_2 = sys.argv[2]
-    g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
-    g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2, distance,mutation_dict_1, mutation_dict_2, node_mutations_dict_1, node_mutations_dict_2 = get_contributions(g_1,g_2)
-    nx.set_node_attributes(g_1,dict_1)
-    nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
-    s_1 = json.dumps(data_1)
-    s_2 = json.dumps(data_2)
-    print(s_1)
-    print(s_2)

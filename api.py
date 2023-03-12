@@ -12,6 +12,7 @@ import distance_measures.parent_child as pc_dot
 import distance_measures.ancestor_descendant as ad_dot
 import distance_measures.caset as cs_dot
 import distance_measures.disc as disc_dot
+import distance_measures.distance_measure_contribution as dist_meas_cont
 import input_conversion.Newick_2_dot_2 as Newick_2_dot
 
 api = flask.Blueprint('api', __name__)
@@ -30,23 +31,11 @@ def calculation_contributions_and_node_mutation_relations(distance_measure):
     tree1_data = Newick_2_dot.convert_newick_2_dot(tree1_data)
   if tree2_type == "newick":
     tree2_data = Newick_2_dot.convert_newick_2_dot(tree2_data)
-  
-  write_dot_tree_2_file(tree1_data, "t1.txt")
-  write_dot_tree_2_file(tree2_data, "t2.txt")
-
-  if distance_measure == "parent_child":
-    calculated_values = pc_dot.pc_main("t1.txt", "t2.txt")
-  elif distance_measure == "ancestor_descendant":
-    calculated_values = ad_dot.ad_main("t1.txt", "t2.txt")
-  elif distance_measure == "caset":
-    calculated_values = cs_dot.cs_main("t1.txt", "t2.txt")
-  elif distance_measure == "disc":
-    calculated_values = disc_dot.disc_main("t1.txt", "t2.txt")
-  else:
-    print("Not a valid distance measure")
-    exit(1)
-
-  node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_mutations_dict_1, node_mutations_dict_2, distance = calculated_values
+  tree_1_write_location = "t1.txt"
+  tree_2_write_location = "t2.txt"
+  write_dot_tree_2_file(tree1_data, tree_1_write_location)
+  write_dot_tree_2_file(tree2_data, tree_2_write_location)
+  node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_mutations_dict_1, node_mutations_dict_2, distance = dist_meas_cont.dist_main(distance_measure, tree_1_write_location, tree_2_write_location)
   #Currently, node_mutations_dict_1 and node_mutations_dict_2 are being calculated but not passed to frontend. There might be a future use for such dictionaries though (line below would pass them along).
   #jsonObject = {"node_contribution_dict_1": node_contribution_dict_1, "node_contribution_dict_2": node_contribution_dict_2, "mutation_contribution_dict_1": mutation_contribution_dict_1, "mutation_contribution_dict_2": mutation_contribution_dict_2, "node_mutations_dict_1":node_mutations_dict_1, "node_mutations_dict_2":node_mutations_dict_2, "distance": distance}
   jsonObject = {"node_contribution_dict_1": node_contribution_dict_1, "node_contribution_dict_2": node_contribution_dict_2, "mutation_contribution_dict_1": mutation_contribution_dict_1, "mutation_contribution_dict_2": mutation_contribution_dict_2, "distance": distance}
