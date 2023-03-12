@@ -1,0 +1,7 @@
+digraph Tree {
+	C [label="C"];
+	A [label="A"];
+	B_D_E_F_G [label="B,D,E,F,G"];
+	C -> A;
+	A -> B_D_E_F_G;
+}
