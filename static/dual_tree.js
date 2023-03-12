@@ -509,23 +509,7 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
   var data = [tree1_data, tree2_data]
   var distance = jsonData.distance;
 
-  var nodes1 = d3.hierarchy(tree1_data).descendants();
-  var mutations_tree1 = getAllMutations(nodes1);
-  var tree1_label = document.getElementById("tree1-mutations");
-
-  var nodes2 = d3.hierarchy(tree2_data).descendants();
-  var mutations_tree2 = getAllMutations(nodes2);
-  var tree2_label = document.getElementById("tree2-mutations");
-  
-  var shared_label = document.getElementById("shared-mutations");
-  shared_mutations = intersect(mutations_tree1, mutations_tree2);
-  tree1_only_mutations = difference(mutations_tree1, shared_mutations);
-  tree2_only_mutations = difference(mutations_tree2, shared_mutations);
-  shared_label.innerHTML = shared_mutations;
-  tree1_label.innerHTML = tree1_only_mutations;
-  tree2_label.innerHTML = tree2_only_mutations;
-
-  var t_max = Math.max(max_contribution(nodes1), max_contribution(nodes2));
+  var t_max = Math.max(max_contribution(dom_data.t1_nodes), max_contribution(dom_data.t2_nodes));
   fill_tree_scale_color_legend(multi_tree_prefix = scale, t_max);
   
   var viz_svg1 = d3.select(svg1);
@@ -584,12 +568,7 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
       .classed('link', true)
       .style("transform", "translate(5, 20), scale(0.5)")
       .style("stroke-width", () => {
-        if (distance_measure != "parent_child_distance") {
-          return "2px";
-        }
-        else {
-          return "5px";
-        }
+        change_edge_stroke_width(distance_measure);
       })
       .attr('x1', d =>  { return d.source.x;})
       .attr('y1', d => { return d.source.y;})
@@ -616,44 +595,14 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
     var labels = d3_text.data(root.descendants())
     .join("text")
     .classed("mutation-label", true)
-    .attr("x", d => { 
-      var currentNode = d;
-      var parentNode = d.parent;
-      if (parentNode) {
-        var currentNodeX = d.x;
-        var parentNodeX = parentNode.x;
-        if (d.data.children == null) {
-          if (currentNodeX < parentNodeX) {
-            return d.x - (d.data.label.length) * 4;
-          }
-          else if (currentNodeX > parentNodeX) {
-            return d.x - 50;
-          }
-          else {
-            return d.x - 5;
-          }
-        }
-        else {
-          if (currentNodeX < parentNodeX) {
-            return d.x - Math.min(200, (d.data.label.length) * 5);
-          }
-          else if (currentNodeX > parentNodeX) {
-            return d.x - Math.min(50, d.data.label.length * 2);
-          }
-          else {
-            return d.x + 30;
-          }
-        }
-      }
-      else {
-        return d.x + 30;
-      }
+    .attr("x", label => { 
+      // Varies x depending on node position relative to others 
+      return setX_label(label);
     })
-    .attr("y", d => { 
-      if (d.data.children == null) {
-        return d.y + 20; 
-      }
-      return d.y - 15; 
+    .attr("y", label => { 
+      // Varies y depending on leave/inner node
+      return label.data.childre == null ? label.y + 20: label.y - 15;
+     
     })
 
     // Making each mutation a tspan
@@ -714,14 +663,14 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
     });
  
     if (svg_names[i] == "svg1") {
-      t1_max_branching_factor = get_branching_factor(nodes1);
+      t1_max_branching_factor = get_branching_factor(dom_data.t1_nodes);
       t1_top5_mutations = get_top_n_mutations(jsonData.mutation_contribution_dict_1, 5);
-      fill_in_table("t1", t1_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t1_top5_mutations);
+      fill_in_table("t1", t1_max_branching_factor, root.height, dom_data.t1_nodes.length, dom_data.t1_mutations.length, t1_top5_mutations);
     }
     else {
-      t2_max_branching_factor = get_branching_factor(nodes2);
+      t2_max_branching_factor = get_branching_factor(dom_data.t2_nodes);
       t2_top5_mutations = get_top_n_mutations(jsonData.mutation_contribution_dict_2, 5);
-      fill_in_table("t2", t2_max_branching_factor, root.height, nodes1.length, mutations_tree1.length, t2_top5_mutations);
+      fill_in_table("t2", t2_max_branching_factor, root.height, dom_data.t2_nodes.length, dom_data.t2_mutations.length, t2_top5_mutations);
     }
   
     // Set the coloring scheme based off of the distance measure

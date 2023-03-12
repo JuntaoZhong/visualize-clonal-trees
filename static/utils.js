@@ -98,3 +98,41 @@ function change_label_fill(data, label) {
     }
   }
 }
+
+function change_edge_stroke_width(distance_measure) {
+  return distance_measure == "parent_child_distance" ? "2px": "5px";
+}
+
+function setX_label(label) {
+  var currentNode = label;
+  var parentNode = label.parent;
+  if (parentNode) {
+    var currentNodeX = label.x;
+    var parentNodeX = parentNode.x;
+    if (label.data.children == null) {
+      if (currentNodeX < parentNodeX) {
+        return label.x - (label.data.label.length) * 4;
+      }
+      else if (currentNodeX > parentNodeX) {
+        return label.x - 50;
+      }
+      else {
+        return label.x - 5;
+      }
+    }
+    else {
+      if (currentNodeX < parentNodeX) {
+        return label.x - Math.min(200, (label.data.label.length) * 5);
+      }
+      else if (currentNodeX > parentNodeX) {
+        return label.x - Math.min(50, label.data.label.length * 2);
+      }
+      else {
+        return label.x + 30;
+      }
+    }
+  }
+  else {
+    return label.x + 30;
+  }
+}
