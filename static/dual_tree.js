@@ -466,7 +466,7 @@ function submit_tree() {
   var tree1Type = inputTypeTree1.value;
   var tree2Type = inputTypeTree2.value;
 
-  var baseURL = "http://localhost:5000/api/";
+  var baseURL = get_API_base_URL();
   var url = baseURL + distanceMetric.value + "?";
   var url_components = [url, "tree1=", tree1Input, "&tree2=", tree2Input, "&treeType1=", tree1Type, "&treeType2=", tree2Type]
   url = url_components.join("");
@@ -488,7 +488,7 @@ function submit_mult_tree(distance_measure, svg1,svg2, scale) {
   var tree1Type = inputTypeTree1.value;
   var tree2Type = inputTypeTree2.value;
 
-  var baseURL = "http://localhost:5000/api/";
+  var baseURL = get_API_base_URL();
   var url = baseURL + distance_measure + "?";
   var url_components = [url, "tree1=", tree1Input, "&tree2=", tree2Input, "&treeType1=", tree1Type, "&treeType2=", tree2Type]
   url = url_components.join("");

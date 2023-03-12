@@ -8,7 +8,7 @@ import distance_measures.caset as CASet
 import distance_measures.parent_child as PC
 
 def initialize_core_dictionaries(g):
-    '''returns three dictionaries for the tree g initialized to base values: 
+    ''' Returns three dictionaries for the tree g initialized to base values: 
     node_contribution_dict, mutation_contribution_dict, node_to_mutation_dict
     '''
     node_contribution_dict = {}
@@ -28,7 +28,8 @@ def initialize_core_dictionaries(g):
 
 def get_root(g):
     ''' Returns node with in-degree 0. Exits and
-        prints error if multiple such nodes exist '''
+        prints error if multiple such nodes exist
+    '''
     root_candidates = set(g.nodes)
     root_candidates = set([x for x in root_candidates if "\\" not in x])
     all_nodes = g.nodes
@@ -48,7 +49,7 @@ def get_root(g):
 
 
 def get_mutations_from_node(g, node):
-    ''' Returns list of strings representing mutations at node in the tree g'''
+    ''' Returns list of strings representing mutations at node in the tree g '''
     label =  g.nodes[node]['label']
     label_list = label.split(",")
     label_list[0] = label_list[0][1:]
@@ -56,7 +57,7 @@ def get_mutations_from_node(g, node):
     return [label.translate({ord(i):None for i in ' \"'}) for label in label_list]
 
 def make_mutation_anc_dict(g):
-    ''' Returns mutation-to-ancestor-set dictionary for tree g'''
+    ''' Returns mutation-to-ancestor-set dictionary for tree g '''
     mutation_anc_dict = {}
     root = get_root(g)
     mutation_anc_dict[root] = {root}
@@ -65,7 +66,8 @@ def make_mutation_anc_dict(g):
 
 def fill_mutation_anc_dict(g, node, dict):
     ''' Creates dictionary matching each mutation to its
-        set of ancestor mutations '''
+        set of ancestor mutations
+    '''
     # Fills node-ancestor dictionary
     node_dict = fill_node_anc_dict(g, node, dict)
     mutation_dict = {}
@@ -83,7 +85,8 @@ def fill_mutation_anc_dict(g, node, dict):
 
 def fill_node_anc_dict(g, node, node_anc_dict):
     ''' Recursively creates dictionary matching each node
-        in g to its set of ancestor nodes'''
+        in g to its set of ancestor nodes
+    '''
     for child in g.successors(node):
         child_anc_set = node_anc_dict[node].copy()
         child_anc_set.add(child)
@@ -95,13 +98,13 @@ def fill_node_anc_dict(g, node, node_anc_dict):
 # storing mutation-node relationship when getting mutations from 
 # node
 def get_node_from_mutation(g, mutation):
-    '''Returns the node in the tree g that mutation is apart of'''
+    ''' Returns the node in the tree g that mutation is apart of '''
     for node in g.nodes:
         if mutation in get_mutations_from_node(g, node):
             return node
 
 def get_all_mutations(g):
-    ''' Returns all mutations in tree g, as set of strings'''
+    ''' Returns all mutations in tree g, as set of strings '''
     mutation_set = set()
     for node in g.nodes:
         mutation_set = mutation_set.union(set(get_mutations_from_node(g, node)))
@@ -109,7 +112,8 @@ def get_all_mutations(g):
 
 def fill_node_dict(g, node, node_anc_dict):
     ''' Recursively creates dictionary matching each node
-        in g to its ancestor set '''
+        in g to its ancestor set 
+    '''
     for child in g.successors(node):
         child_anc_set = node_anc_dict[node].copy()
         child_anc_set.add(child)
@@ -119,7 +123,8 @@ def fill_node_dict(g, node, node_anc_dict):
 
 def fill_mutation_dict(g, node, dict):
     ''' Creates dictionary matching each mutation in g to
-        its ancestor set '''
+        its ancestor set 
+    '''
     node_dict = fill_node_dict(g, node, dict)
     mutation_dict = {}
     for desc in node_dict:

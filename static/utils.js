@@ -136,3 +136,8 @@ function setX_label(label) {
     return label.x + 30;
   }
 }
+
+function get_API_base_URL() {
+  var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api/';
+  return baseURL;
+}

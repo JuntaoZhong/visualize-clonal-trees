@@ -52,8 +52,8 @@ def get_parent_child_pairs(g):
     Note:
         Used in get_contributions() .
     """
-    # key is mutation 
-    # value is ancestor set of mutation
+    #key is mutation 
+    #value is ancestor set of mutation
     queue = [utils.get_root(g)]
     node_mutation_list = []
     while len(queue) >= 1:

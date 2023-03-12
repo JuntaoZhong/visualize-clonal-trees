@@ -1,11 +1,7 @@
-#!/usr/bin/env python3
 '''
-    webapp.py
-    Jeff Ondich
-    6 November 2020
-
-    A tiny Flask web application, including API, to be used
-    as a template for setting up your web app assignment.
+  Credit to Jeff Ondich for basic flask app
+    "A tiny Flask web application, including API, to be used
+    as a template for setting up your web app assignment."
 '''
 import sys
 import argparse
