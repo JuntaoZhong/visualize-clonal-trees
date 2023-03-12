@@ -13,7 +13,12 @@ var no_contribution_color = "black";
 var contribution_color = "#DD6503";
 var highlight_color = "red";
 var mutation_table_color = "black";
+
 window.onload = () => {
+  submit_tree();
+}
+
+submitTreesBtn.onclick = () => {
   submit_tree();
 }
 
@@ -698,9 +703,6 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
   }
 }
 
-submitTreesBtn.onclick = () => {
-  submit_tree();
-}
 
 function getAllMutations(nodes) {
   var all_mutations = [];
@@ -793,123 +795,82 @@ function visualize(viewtype, svg1, svg2, json_data, distance_measure, scale) {
 }
 
 function singleView() {
-  var x = document.getElementById("distance-dropdown");
-  var x2 = document.getElementById("distance-buttons");
+  var distance_dropdown = document.getElementById("distance-dropdown");
+  var distance_btns = document.getElementById("distance-buttons");
   var div = document.getElementById("anyviz");
   var legend = document.getElementById("anyscale");
-  var y = document.getElementById("single");
-  var y2 = document.getElementById("multiple");
-  var hide1 = document.getElementById("viz1")
-  var hide2 = document.getElementById("viz2")
-  var hide3 = document.getElementById("viz3")
-  var hide4 = document.getElementById("viz4")
-  var scale1 = document.getElementById("scale1")
-  var scale2 = document.getElementById("scale2")
-  var scale3 = document.getElementById("scale3")
-  var scale4 = document.getElementById("scale4")
-  var label1 = document.getElementById("pc-label")
-  var label2 = document.getElementById("ad-label")
-  var label3 = document.getElementById("caset-label")
-  var label4 = document.getElementById("disc-label")
-  var button1 = document.getElementById("pc-view")
-  var button2 = document.getElementById("ad-view")
-  var button3 = document.getElementById("caset-view")
-  var button4 = document.getElementById("disc-view")
+  var singleview_btn  = document.getElementById("single");
+  var multiview_btn = document.getElementById("multiple");
   var top_five = document.getElementById("top_five");
   var top_five_label = document.getElementById("top_five_label");
   var top_five_tree_1 = document.getElementById("t1_top5_summary_element");
   var top_five_tree_2 = document.getElementById("t2_top5_summary_element");
+
+  multiview_elements = document.querySelectorAll(".multiview"); 
+  multiview_elements.forEach(element => {
+    element.style.display = "none";
+  });
+
   top_five.style.display = "";
   div.style.display = "flex";
   legend.style.display = "block";
-  hide1.style.display = "none";
-  hide2.style.display = "none";
-  hide3.style.display = "none";
-  hide4.style.display = "none";
-  
-  scale1.style.display = "none";
-  scale2.style.display = "none";
-  scale3.style.display = "none";
-  scale4.style.display = "none";
-  
-  label1.style.display = "none";
-  label2.style.display = "none";
-  label3.style.display = "none";
-  label4.style.display = "none";
 
-  button1.style.color = "#F5F5F5"
-  button1.style.background = "#2C7A7A";
-  button2.style.color = "#F5F5F5"
-  button2.style.background = "#2C7A7A";
-  button3.style.color = "#F5F5F5"
-  button3.style.background = "#2C7A7A";
-  button4.style.color = "#F5F5F5"
-  button4.style.background = "#2C7A7A";
-
-  if (x.style.display === "none") {
-      x.style.display = "inline-block";
-      y.style.background = "#2C7A7A50";
-      y.style.color = "black";
-      y2.style.background = "#2C7A7A";
-      y2.style.color = "#F5F5F5";
-      x2.style.display = "none";
+  if (distance_dropdown.style.display === "none") {
+      distance_dropdown.style.display = "inline-block";
+      distance_btns.style.display = "none";
+      singleview_btn.style.background = "#2C7A7A50";
+      singleview_btn.style.color = "black";
+      multiview_btn.style.background = "#2C7A7A";
+      multiview_btn.style.color = "#F5F5F5";
   }
   else {
-      x.style.display = "none";
-      x2.style.display = "none";
-      y.style.background = "#2C7A7A";
-      y.style.color = "#F5F5F5";
-      y2.style.background = "#2C7A7A";
-      y2.style.color = "#F5F5F5";
+      distance_dropdown.style.display = "none";
+      distance_btns.style.display = "none";
+      singleview_btn.style.background = "#2C7A7A";
+      singleview_btn.style.color = "#F5F5F5";
+      multiview_btn.style.background = "#2C7A7A";
+      multiview_btn.style.color = "#F5F5F5";
   }
 }
 
 function multiView() {
-  var x = document.getElementById("distance-buttons");
-  var x2 = document.getElementById("distance-dropdown")
+
+  multiview_elements = document.querySelectorAll(".multiview"); 
+  multiview_elements.forEach(element => {
+    if (element.localName == "button") {
+      element.style.display = "block";
+      element.style.color = "#F5F5F5"
+      element.style.background = "#2C7A7A";
+    }
+  });
+
+  var distance_btns = document.getElementById("distance-buttons");
+  var distance_dropdown = document.getElementById("distance-dropdown")
   var div = document.getElementById("anyviz");
   var legend = document.getElementById("anyscale");
-  var y = document.getElementById("multiple");
-  var y2 = document.getElementById("single");
+  var singleview_btn = document.getElementById("single");
+  var multiview_btn = document.getElementById("multiple");
   var top_five = document.getElementById("top_five");
+
   top_five.style.display = "none";
   div.style.display = "none";
   legend.style.display = "none"
-  if (x.style.display === "inline-block") {
-      x.style.display = "none";
-      y.style.background = "#2C7A7A";
-      y.style.color = "#F5F5F5";
-      y2.style.background = "#2C7A7A";
-      y2.style.color = "#F5F5F5";
-      x2.style.display = "none";
+
+  if (distance_btns.style.display === "inline-block") {
+      distance_btns.style.display = "none";
+      distance_dropdown.style.display = "none";
+      singleview_btn.style.background = "#2C7A7A";
+      singleview_btn.style.color = "#F5F5F5";
+      multiview_btn.style.background = "#2C7A7A";
+      multiview_btn.style.color = "#F5F5F5";
   }
   else {
-      x.style.display = "inline-block";
-      x2.style.display = "none";
-      y.style.background = "#2C7A7A50";
-      y.style.color = "black";
-      y2.style.background = "#2C7A7A";
-      y2.style.color = "#F5F5F5";
+      distance_btns.style.display = "inline-block";
+      distance_dropdown.style.display = "none";
+      multiview_btn.style.background = "#2C7A7A50";
+      multiview_btn.style.color = "black";
+      singleview_btn.style.background = "#2C7A7A";
+      singleview_btn.style.color = "#F5F5F5";
   }
 }
 
-
-function fill_tree_scale_color_legend(multi_tree_prefix = "", t_max) {
-  var label1 = document.getElementById(`${multi_tree_prefix}_colorLabel1`);
-  var label2 = document.getElementById(`${multi_tree_prefix}_colorLabel2`);
-  var label3 = document.getElementById(`${multi_tree_prefix}_colorLabel3`);
-  var label4 = document.getElementById(`${multi_tree_prefix}_colorLabel4`);
-
-  label1.innerHTML = 0;
-  label2.innerHTML = Math.round((t_max / 3) * 100) / 100; 
-  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100; 
-  label4.innerHTML = Math.round(t_max * 100) / 100; 
-}
-
-function fill_in_table(tree_name = "t1", max_branching_factor, height, num_nodes, num_mutations, top_5_mutations) {
-  document.getElementById(`${tree_name}-height`).innerHTML = height;
-  document.getElementById(`${tree_name}-branching-factor`).innerHTML = max_branching_factor;
-  document.getElementById(`${tree_name}-number-nodes`).innerHTML = num_nodes;
-  document.getElementById(`${tree_name}-number-mutations`).innerHTML = num_mutations;
-  document.getElementById(`${tree_name}_top5_summary_element`).innerHTML = top_5_mutations;
-}

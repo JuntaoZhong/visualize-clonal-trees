@@ -141,3 +141,23 @@ function get_API_base_URL() {
   var baseURL = window.location.protocol + '//' + window.location.hostname + ':' + window.location.port + '/api/';
   return baseURL;
 }
+
+function fill_tree_scale_color_legend(multi_tree_prefix = "", t_max) {
+  var label1 = document.getElementById(`${multi_tree_prefix}_colorLabel1`);
+  var label2 = document.getElementById(`${multi_tree_prefix}_colorLabel2`);
+  var label3 = document.getElementById(`${multi_tree_prefix}_colorLabel3`);
+  var label4 = document.getElementById(`${multi_tree_prefix}_colorLabel4`);
+
+  label1.innerHTML = 0;
+  label2.innerHTML = Math.round((t_max / 3) * 100) / 100; 
+  label3.innerHTML = Math.round((t_max * 2 / 3) * 100) / 100; 
+  label4.innerHTML = Math.round(t_max * 100) / 100; 
+}
+
+function fill_in_table(tree_name = "t1", max_branching_factor, height, num_nodes, num_mutations, top_5_mutations) {
+  document.getElementById(`${tree_name}-height`).innerHTML = height;
+  document.getElementById(`${tree_name}-branching-factor`).innerHTML = max_branching_factor;
+  document.getElementById(`${tree_name}-number-nodes`).innerHTML = num_nodes;
+  document.getElementById(`${tree_name}-number-mutations`).innerHTML = num_mutations;
+  document.getElementById(`${tree_name}_top5_summary_element`).innerHTML = top_5_mutations;
+}
