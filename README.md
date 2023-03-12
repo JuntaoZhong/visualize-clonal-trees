@@ -37,4 +37,4 @@ Basic code structure as of 2023-03-11 (date per ISO 8601):
     CS-department-website
         - Contains the HTML and CSS for our website describing VECTr
     requirements.txt
-        - Contains list of Python packages to use with Python 3.8 for running our code (networkx, graphviz, and pydot are important if trying to set up quickly)
+        - Contains list of Python packages to use with Python 3.8 for running our code (networkx and graphviz are important if trying to set up quickly)
