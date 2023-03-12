@@ -1,27 +1,23 @@
-#!/bin/python3
+"""
+Functions to determine pair-child pairs in a graph and calculate parent-child distance between two graphs
+and the contributions to that distance on a node and mutation basis.
+"""
 import sys
 import networkx as nx
 from networkx.readwrite import json_graph
 import distance_measures.utils as utils
 
-
-def parent_child_symmetric_difference(g_1,g_2):
-    pc_pair_set_1 = get_parent_child_pairs(g_1)
-    pc_pair_set_2 = get_parent_child_pairs(g_2)
-    return pc_pair_set_1.symmetric_difference(pc_pair_set_2)
-
-def get_pair_differences(g_1,g_2):
-    pc_pair_set_1 = set(get_parent_child_pairs(g_1))
-    pc_pair_set_2 = set(get_parent_child_pairs(g_2))
-    pc_distinct_set_1 = pc_pair_set_1 - pc_pair_set_2
-    pc_distinct_set_2 = pc_pair_set_2 - pc_pair_set_1
-    return  pc_distinct_set_1, pc_distinct_set_2
-
 def get_contributions(g_1,g_2):
-    '''returns three dictionaries for each tree: 
-    node_contribution_dict, mutation_contribution_dict, node_mutations_dict
-    and PC distance between the trees
-    '''
+    """
+    Required:
+        - Two trees
+    Returns:
+        - Three dictionaries for each tree: 
+            node_contribution_dict, mutation_contribution_dict, node_mutations_dict
+            and PC distance between the trees
+    Note:
+        Primary core code for parent-child api route
+    """
     pc_distinct_set_1 = get_pair_differences(g_1,g_2)[0]
     pc_distinct_set_2 = get_pair_differences(g_1,g_2)[1]
 
@@ -44,12 +40,18 @@ def get_contributions(g_1,g_2):
         node_contribution_dict_2[desc_node]["contribution"] += 1
         mutation_contribution_dict_2[desc_mut]["contribution"] += 1 
         mutation_contribution_dict_2[anc_mut]["contribution"] += 1 
-    print("pc_distance", pc_distance, "\n")
+    print("\n","pc_distance", pc_distance)
     return node_contribution_dict_1, node_contribution_dict_2, mutation_contribution_dict_1, mutation_contribution_dict_2, node_mutations_dict_1, node_mutations_dict_2, pc_distance
 
 def get_parent_child_pairs(g):
-    ''' Returns list of 2-tuples of nodes in g whose
-        second element is a descendant of the first element '''
+    """
+    Required:
+        - A tree
+    Returns:
+        - A list of the ancestor-descendant pairs (parent, child) in the tree
+    Note:
+        Used in get_contributions() .
+    """
     # key is mutation 
     # value is ancestor set of mutation
     queue = [utils.get_root(g)]
@@ -64,19 +66,18 @@ def get_parent_child_pairs(g):
                     node_mutation_list.append((curr_mutation, child_mutation))
     return node_mutation_list
 
-def pc_main(filename_1, filename_2):
-    g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
-    g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    dict_1, dict_2, distance, mutation_dict_1, mutation_dict_2, node_mutations_dict_1, node_mutations_dict_2 = get_contributions(g_1,g_2)
-    nx.set_node_attributes(g_1,dict_1)
-    nx.set_node_attributes(g_2,dict_2)
-    data_1 = json_graph.tree_data(g_1, root=utils.get_root(g_1))
-    data_2 = json_graph.tree_data(g_2, root=utils.get_root(g_2))
-    return (data_1, data_2, distance, mutation_dict_1, mutation_dict_2, node_mutations_dict_1, node_mutations_dict_2)
-
-if __name__=="__main__":
-    filename_1 = sys.argv[1]
-    filename_2 = sys.argv[2]
-    g_1 = nx.DiGraph(nx.nx_pydot.read_dot(filename_1))
-    g_2 = nx.DiGraph(nx.nx_pydot.read_dot(filename_2))
-    print(get_contributions(g_1,g_2))
+def get_pair_differences(g_1,g_2):
+    """
+    Required:
+        - Two trees
+    Returns:
+        - Two lists: one containing the parent_child pairs in g_1, but not g_2 
+            and one containing the parent-child pairs in g_2, but not g_1
+    Note:
+        Used in get_contributions()
+    """
+    pc_pair_set_1 = set(get_parent_child_pairs(g_1))
+    pc_pair_set_2 = set(get_parent_child_pairs(g_2))
+    pc_distinct_set_1 = pc_pair_set_1 - pc_pair_set_2
+    pc_distinct_set_2 = pc_pair_set_2 - pc_pair_set_1
+    return  pc_distinct_set_1, pc_distinct_set_2
