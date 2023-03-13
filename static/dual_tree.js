@@ -670,12 +670,22 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
     if (svg_names[i] == "svg1") {
       t1_max_branching_factor = get_branching_factor(dom_data.t1_nodes);
       t1_top5_mutations = get_top_n_mutations(jsonData.mutation_contribution_dict_1, 5);
-      fill_in_table("t1", t1_max_branching_factor, root.height, dom_data.t1_nodes.length, dom_data.t1_mutations.length, t1_top5_mutations);
+      fill_in_table("t1", 
+        t1_max_branching_factor, 
+        root.height, 
+        dom_data.t1_nodes.length, 
+        dom_data.t1_mutations.length, 
+        t1_top5_mutations);
     }
     else {
       t2_max_branching_factor = get_branching_factor(dom_data.t2_nodes);
       t2_top5_mutations = get_top_n_mutations(jsonData.mutation_contribution_dict_2, 5);
-      fill_in_table("t2", t2_max_branching_factor, root.height, dom_data.t2_nodes.length, dom_data.t2_mutations.length, t2_top5_mutations);
+      fill_in_table("t2", 
+        t2_max_branching_factor, 
+        root.height, 
+        dom_data.t2_nodes.length, 
+        dom_data.t2_mutations.length, 
+        t2_top5_mutations);
     }
   
     // Set the coloring scheme based off of the distance measure
@@ -702,7 +712,6 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
     }
   }
 }
-
 
 function getAllMutations(nodes) {
   var all_mutations = [];
