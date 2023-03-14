@@ -18,14 +18,18 @@
         <title>VECTr</title>
     </head>
     <body>
+        <!-- Top Navigation Bar -->
         <div class="navbar">
-            <a href="{{ url_for('home') }}"><button ><img id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button></a>
+            <a href="{{ url_for('home') }}"><button ><img alt="home button" id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button></a>
             <h1 >VECTr Visualization</h1>
-            <a id="how-to" href="{{ url_for('general_info') }}"><h1 >?</h1></a>
+            <a alt="help button"id="how-to" href="{{ url_for('general_info') }}"><h1 >?</h1></a>
         </div>
+        <!-- Main div element -->
         <div class="container">
+            <!-- Div element containing the input related elements -->
             <div class="child" id="sidebar">
                 <h2>Distance Metric</h2>
+                <!-- Distance metric and View type select -->
                 <div id="topbox">
                     <div class="top-buttons">
                         <div class="toggle_button view">
@@ -71,6 +75,7 @@
                     <h2>Input</h2>
                     <p class="collapse" id="input-box-toggle" onclick="toggleVisible('bottombox')">-</p>
                 </div>
+                <!-- Container for editings input -->
                 <div class="bottombox" id="bottombox">
                     <div class="dropdown"> 
                         <h4>Input Tree 1</h4>
@@ -86,6 +91,7 @@
                         <button onclick="toggle('text_box1')" id="toggle1">Modify Tree Manually</button>
                     </div>
                     <div id="text_box1">
+                    <!-- Default Tree 1 -->
                     <textarea class="text-box" id="tree1-text" name="" cols="30" rows="10">digraph Tree {
     1 [label="P, T, S, J, C, A"];
     2 [label="E, N2, AR, MA"];
@@ -121,6 +127,7 @@
                         <button onclick="toggle('text_box2')" id="toggle2">Modify Tree Manually</button>
                     </div>
                     <div id="text_box2">
+                    <!-- Default tree 2 -->
                     <textarea class="text-box" id="tree2-text" name="" cols="30" rows="10">digraph Tree {
     1 [label="P, T, J, C, A"];
     2 [label="E, N2, AR, N3"];
@@ -145,6 +152,7 @@
                 <input id="submit-trees-btn" type="submit" value="Save">
                 </div>
                 <hr size="2" noshade="", width="auto">
+                <!-- Table to display summary statistics for trees -->
                 <table id="summary-statistics-table">
                     <tr id="table-name">
                         <th colspan="3">Summary Statistics</th>
@@ -181,12 +189,15 @@
                     </tr>
                 </table>
             </div>
+            <!-- Container for svg tree visualizations -->
             <div class="child" id="main">
+                <!-- Mutation Highlighting Table -->
                 <div id="tree-label-info-container">
                     <div class="tree-label-info"><h3>Distinct Tree 1 Mutations</h3><p id="tree1-mutations"></p></div>
                     <div class="tree-label-info"><h3>Shared Tree Mutations</h3><p id="shared-mutations"></p></div>
                     <div class="tree-label-info"><h3>Distinct Tree 2 Mutations</h3><p id="tree2-mutations"></p></div>
                 </div>
+                <!-- Single View Visualization SVGs -->
                 <div class="visualizations-container" id="anyviz">
                     <div id="tree1_visualization">
                             <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg1" viewBox="0 0 550 550" width="100%" height="auto"> 
@@ -217,6 +228,7 @@
                     <div class="label", id="_colorLabel4">4</div>
                     </div>
                 </div>
+                <!-- Multiview Visualization SVGs -->
                 <h3 class="hidden_label multiview" id="pc-label">Parent-Child Visualization</h3>
                 <div class="visualizations-container multiview" id="viz1">
                     <div id="tree1_visualization">

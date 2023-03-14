@@ -13,10 +13,12 @@
         <title>VECTr</title>
     </head>
     <body>
+        <!-- Top Navigation Bar -->
         <div class="navbar">
             <a id="info-link" href="{{ url_for('home') }}"><button><img id="cell" src="{{ url_for('static', filename='cells_img.png') }}"></button></a>
             <h1>VECTr: Visual Encodings for Clonal Trees</h1>
         </div>   
+        <!-- Main Content -->
         <div class="info-collapse" onclick="toggleVisible('welcome')">
             <h2 class="info-headings">Clonal Tree Visualization</h2>
         </div> 
@@ -67,11 +69,6 @@
                 </p>
                 <figure>
                     <img class="img-examples" src="{{ url_for('static', filename='pc-example.png') }}" alt="">
-                    <!-- <figcaption>
-                        The visualization of the parent-child distance of these two trees show us that the edges (A, (DEFG)) and ((DEFG), C)in tree 1 
-                        (shown on the left) and ((DEFG), B) in tree 2 (shown on the right) are the edges contributing to the difference 
-                        between the two trees.
-                    </figcaption> -->
                 </figure>
             </div>
             <div>
@@ -87,10 +84,6 @@
                 </p>
                 <figure>
                     <img class="img-examples" src="{{ url_for('static', filename='ancestor-example.png') }}" alt="">
-                    <!-- <figcaption>
-                        The above visualization shows that the ancestor-descendant relationships (A,(DEFG)) and ((DEFG), C) in the left tree are 
-                        and ((DEFG), B), ((DEFG), A) and (B, A) are responsible for the distance between the trees. 
-                    </figcaption> -->
                 </figure>
                 <p></p>
             </div>
@@ -116,9 +109,6 @@
                 </p>
                 <figure>
                     <img class="formulas" src="{{ url_for('static', filename='CASet-formula.png') }}" alt="The formula for CASet">
-                    <figcaption>
-
-                    </figcaption>
                 </figure>
                 <p>
                     The CASet distance measure looks at each pair of mutations present in the trees and computes the common 
@@ -138,7 +128,7 @@
                     set of mutations that are distinct ancestors of only either A or B. The Distinctly Inherited Set Comparison (DISC) 
                     distance measure is the average Jaccard distance between all corresponding inherited ancestor sets between trees Tk and Ti:
                 </p>
-                <img class="formulas" src="{{ url_for('static', filename='DISC-formula.png') }}" alt="The formula for CASet">
+                <img class="formulas" src="{{ url_for('static', filename='DISC-formula.png') }}" alt="The formula for DISC">
                 <p>
                     The DISC distance measure looks at each pair of mutations present in the trees and computes the Distinctly 
                     inherited sets of these mutations in each tree. It then takes the Jaccard distance between these distinct sets in 
@@ -146,9 +136,6 @@
                 </p>
                 <figure>
                     <img class="img-examples" src="{{ url_for('static', filename='DISC-example.png') }}" alt="">
-                    <figcaption>
-                        
-                    </figcaption>
                 </figure>
             </div>
         </div>
@@ -205,5 +192,7 @@
             </p>
         </div>
     </body>
+    <script src="{{ url_for('static', filename='utils.js') }}"></script>
+    <script src="{{ url_for('static', filename='set_functions.js') }}"></script>
     <script src="{{ url_for('static', filename='dual_tree.js') }}"></script>
 </html>
