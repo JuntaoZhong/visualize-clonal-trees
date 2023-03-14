@@ -19,8 +19,8 @@ def home():
 @app.route('/general_info')
 def general_info():
     '''
-    This should render the template for the basic home page
-    which allows the user to search a pokemon by name
+    This should render the template for information page
+        for our input formats and distance measures
     '''
     return flask.render_template('general_info.html')
 
