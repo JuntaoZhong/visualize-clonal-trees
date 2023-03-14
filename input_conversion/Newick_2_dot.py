@@ -1,10 +1,9 @@
-import sys
-
 '''
 Takes in a Newick string, the current node that is being parsed, and the output file and chooses whether to call the base case, find the next substrings (children) of the current node, or find the next node
 '''
 def parse_next(newick_string, current_node, output):
     if ',' not in newick_string and '(' not in newick_string or (newick_string[0] == "{" and newick_string[-1] == "}"):
+        print("base case")
         base_case(newick_string, current_node, output)
     elif newick_string[0] == "(" and newick_string[-1] == ')':
         find_substrings(newick_string, current_node, output)
@@ -76,14 +75,13 @@ def find_substrings(newick_string, current_node, output):
 '''
 Takes in a Newick string, the current node that is being parsed, and the output file, and finds the next node to parse.
 '''
-def find_next_node(newick_string, current_node, output):
-    
+def find_next_node(newick_string, current_node, output):    
     #If we are at the root of the tree, find the root and parse the next string
     if ')' in newick_string:
         substrings = newick_string.split(')')
         next_node = substrings[-1]
         
-        #Parse the root if it multi-labelled
+        #Parse the root if it is multi-labelled
         if next_node[0] == "{" and next_node[-1] == '}':
             node_trimmed = next_node[1:-1]
             labels = node_trimmed.split(',')
@@ -94,22 +92,29 @@ def find_next_node(newick_string, current_node, output):
             if current_node is not None:
                 output.write("\t" + str(current_node) + " -> " + str(node_name) + ";\n")
             output.write("\t" + str(node_name) + " [label=\"" + all_labels + "\"];\n")
-            newick_string = newick_string.replace(next_node, "")
-            parse_next(newick_string, node_name, output)
+            reverse_newick = newick_string[::-1].replace(next_node[::-1], "", 1)
+            label_without_root = reverse_newick[::-1]
+            parse_next(label_without_root, node_name, output)
             
         #Parse the root if it is not multi-labelled
         else:
             if current_node is not None:
                 output.write("\t" + str(current_node) + " -> " + str(next_node) + ";\n")
             output.write("\t" + str(next_node) + " [label=\"" + next_node + "\"];\n")
-            newick_string = newick_string.replace(next_node, "")
-            parse_next(newick_string, next_node, output)
+            reverse_newick = newick_string[::-1].replace(next_node[::-1], "", 1)
+            label_without_root = reverse_newick[::-1]
+            parse_next(label_without_root, next_node, output)
             
     #If there are no substrings, find the next node and go into the base case
     elif '}' in newick_string:
         substrings = newick_string.split('}')
         next_node = substrings[-1]
-        newick_string = newick_string.replace(next_node, "")
+        #newick_string = newick_string.replace(next_node, "")
+        print(f"I am remove {next_node}")
+        print(f"Current: {current_node}")
+        print(f"Newic string: {newick_string}")
+        newick_string = newick_string[::-1].replace(next_node[::-1], "", 1)[::-1]
+        print(f"Newic string: {newick_string}")
         output.write("\t" + str(current_node) + " -> " + str(next_node) + ";\n")
         base_case(newick_string, next_node, output)
 
@@ -123,26 +128,24 @@ def write_first_line(output):
 Writes the last line
 '''
 def write_last_line(output):
-    output.write("}")    
+    output.write("}")
 
-if __name__ == "__main__":
-    
-    #Pre-processing
-    newick_file = open(sys.argv[1], "r")
-    output = open(sys.argv[2], "w")
+def convert_newick_2_dot(newick_string):
+    newick_string = newick_string.replace(" ", "")
+    newick_string = newick_string.replace(";", "")
+    dot_string = ""
+    dot_string = dot_string + "{"
+
+    output = open("newick_2_dot_tree.txt", "w")
+
     write_first_line(output)
-    newick_input = newick_file.read()
-    newick_input = newick_input.replace(" ", "")
-    
-    #Parse and write to file
-    newick_input = newick_input[0:-1]
-    parse_next(newick_input, None, output)
+    parse_next(newick_string, None, output)
     write_last_line(output)
-    output.close()
     
     #Write in correct order
-    output = open(sys.argv[2], "r+")
+    output = open("newick_2_dot_tree.txt", "r+")
     output_lines = output.readlines()
+
     name_lines = []
     pc_lines = []
     for i in output_lines[1:-1]:
@@ -152,10 +155,24 @@ if __name__ == "__main__":
             pc_lines.append(i)
     output.truncate(0)
     output.seek(0)
+
+    final_string = "digraph Tree {\n"
+    
     output.write(output_lines[0])
     for i in name_lines:
-        output.write(i)
+        #print(i)
+        final_string = final_string + i
     for j in pc_lines:
-        output.write(j)
-    output.write(output_lines[-1])
-    output.close()  
+        #print(j)
+        final_string = final_string + j
+
+    final_string = final_string + "}"
+
+    removed_newlines = ""
+    for i in final_string:
+      if i != "\n":
+        removed_newlines+=i
+    print(f"This is the final string {final_string}\n")
+    print(f"This is the final string with newlines removed {removed_newlines}\n")
+    #return final_string
+    return removed_newlines 

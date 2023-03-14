@@ -13,7 +13,7 @@ import distance_measures.ancestor_descendant as ad_dot
 import distance_measures.caset as cs_dot
 import distance_measures.disc as disc_dot
 import distance_measures.distance_measure_contribution as dist_meas_cont
-import input_conversion.Newick_2_dot_2 as Newick_2_dot
+import input_conversion.Newick_2_dot as Newick_2_dot
 
 api = flask.Blueprint('api', __name__)
 
