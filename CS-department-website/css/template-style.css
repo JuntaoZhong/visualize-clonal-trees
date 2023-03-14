@@ -545,6 +545,7 @@ aside.aside-left {
 .image-with-hover-overlay {
   display: block;
   position: relative;
+  border:1px solid #002633
 }
 .image-border-radius img {
   border-radius: 3px;
@@ -1928,6 +1929,7 @@ b, strong, .text-strong {
 }
 .text-size-headline, .text-l-size-headline {
   font-size: 100px;
+  font-weight: normal;
 }
 #page-wrapper {
     border: 30px solid #fff;

@@ -26,9 +26,9 @@
           <div class="s-12 l-1">
             <a href="index.html" class="logo">
               <!-- Logo version before sticky nav -->
-              <img class="logo-before" src="img/cells_img.png" alt="">
+              <img class="logo-before" src="img/cells_green_img.png" alt="">
               <!-- Logo version after sticky nav -->
-              <img class="logo-after" src="img/cells_img.png" alt="">
+              <img class="logo-after" src="img/cells_green_img.png" alt="">
             </a>
           </div>
           <div class="s-12 l-10">
@@ -36,6 +36,7 @@
               <ul class="right chevron">
                 <li><a href="index.html">Home</a></li>
                 <li><a href="about-us.html">About Us</a></li>
+                <li><a href="https://github.com/JuntaoZhong/visualize-clonal-trees" target="_blank">VECTr Repository</a></li>
               </ul>
             </div>
           </div>  
@@ -48,136 +49,144 @@
         <article>
           <header class="section background-white">
             <div class="line text-center">        
-              <h1 class="text-dark text-s-size-30 text-m-size-40 text-l-size-headline text-thin text-line-height-1">VECTr: Visual Encodings for Clonal Trees</h1>
+              <h1 class="text-dark text-s-size-30 text-m-size-40 text-l-size-headline text-thin text-line-height-1">VECTr: <br> Visual Encodings for Clonal Trees</h1>
+              
               <p class="margin-bottom-0 text-size-16 text-dark">
+              <br>
+              <br>
+              Tumors are the result of an evolutionary process (Nowell 1976). Clonal trees are one way to describe the evolution of a tumor, and it is often helpful to visually and quantitatively compare these trees. We have implemented a visualization tool, VECTr, that can take two input trees and output a visual comparison between them based on a user-chosen distance metric. <br>
+              <br>
+              These distance metrics are fundamental to the comparisons and are described below
+              <br>
+              <br>
+              <a target="blank" href="distance_doc.pdf" download><strong> Click here to learn more about the distance measures</strong></a>
+              <br>
+              <br>
+              <img src="images/VECTr_screenshot.png" alt="" style="margin-left:auto; margin-right:auto;">
+              <br>
+              <br>
+              VECTr, pictured above, is a web based tool for visualizing clonal trees. You can begin by selecting the trees you will be visualizing. 
+              We currently support NEWICK and DOT tree formats so any input tree will have to be in either format. There are two example trees that 
+              are set by default but to replace those you can either select a file or input the tree manually through the textbox. You can then select 
+              the file format and save your input.
+              <br>
+              <br>
+              Parent-child is the default distance metric for the tool, however, you can slect different distance metrics using the dropdown. 
+              The available distance measures are Ancestor-Descendant, Parent-Child, CASet, and DISC (More information on the distance measures can be found above). 
+              <br>
+              <br>
+              There are two options of views for you to choose from. Single View allows you to visualize one distance measure at a time as well as download the 
+              visualizations. While Multi View, as the name implies, allows you to view trees with multiple distance measures 
+              but does not allow for download or highlighting functionality.
+              <br>
               <br>
 
               <br>
-Tumors are the result of an evolutionary process (Nowell 1976). Clonal trees are one way to describe the evolution of a tumor, and it is often helpful to visually and quantitatively compare these trees. We have implemented a visualization tool, VECTr, that can take two input trees and output a visual comparison between them based on a user-chosen distance metric. These distance metrics are fundamental to the comparisons and are described below
               <br>
-              <br>
-Since VECTr is a web based tool for visualizing clonal trees. You can begin by selecting the trees you will be visualizing. We currently support NEWICK and DOT tree formats so any input tree will have to be in either format. There are two example trees that are set by default but to replace those you can either select a file or input the tree manually through the textbox. You can then select the file format and save your input.
-              <br>
-              <br>
-Parent-child is the default distance metric for the tool, however, you can slect different distance metrics using the dropdown. The available distance measures are Ancestor-Descendant, Parent-Child, CASet, and DISC (More information on the distance measures can be found below). There are two options of views for you to choose from. Single View allows you to visualize one distance measure at a time as well as download the visualizations. While Multi View, as the name implies, allows you to view trees with multiple distance measures but does not allow for download or highlighting functionality.
-              <br>
-              <br>
-<a target="blank" href="distance_doc.pdf" download>Click here to learn more about the distance measures</a>
+              Below are some visualization outputs from VECTr that show comparisons between two trees that contain data from a triple-negative breast cancer data set.
               </p>
             </div>  
           </header>
           <div class="background-white full-width"> 
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
+            <div class="s-12 m-6 l-3">
+              <a class="image-with-hover-overlay image-hover-zoom" title="Tree 1 PC distance">
                 <div class="image-hover-overlay background-primary"> 
                   <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
+                    <h3 class="text-white text-size-20 margin-bottom-10">Visualization of Tree 1 using Parent-Child distance</h3>
                   </div> 
                 </div> 
-                <img class="full-img" src="img/portfolio/thumb-01.jpg" alt=""/>
+                <img class="full-img" src="images/PC1.png" alt="" style="width:500;height:auto;object-fit:cover;"/>
               </a>	
             </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
+
+            <div class="s-12 m-6 l-3">
+              <a class="image-with-hover-overlay image-hover-zoom" title="Tree 2 PC distance">
                 <div class="image-hover-overlay background-primary"> 
                   <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
+                    <h3 class="text-white text-size-20 margin-bottom-10">Visualization of Tree 2 using Parent-Child distance</h3>
                   </div> 
                 </div> 
-                <img class="full-img" src="img/portfolio/thumb-02.jpg" alt=""/>
+                <img class="full-img" src="images/PC2.png" alt="" style="width:500;height:auto;object-fit:cover;"/>
               </a>	
             </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
+
+            <div class="s-12 m-6 l-3">
+              <a class="image-with-hover-overlay image-hover-zoom" title="Tree 1 AD distance">
                 <div class="image-hover-overlay background-primary"> 
                   <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>                  
+                    <h3 class="text-white text-size-20 margin-bottom-10">Visualization of Tree 1 using Ancestor-Descendant distance</h3>
                   </div> 
                 </div> 
-                <img class="full-img" src="img/portfolio/thumb-03.jpg" alt=""/>
+                <img class="full-img" src="images/AD1.png" alt="" style="width:500;height:auto;object-fit:cover;"/>
               </a>	
             </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
+
+            <div class="s-12 m-6 l-3">
+              <a class="image-with-hover-overlay image-hover-zoom" title="Tree 2 AD distance">
                 <div class="image-hover-overlay background-primary"> 
                   <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
+                    <h3 class="text-white text-size-20 margin-bottom-10">Visualization of Tree 2 using Ancestor-Descendant distance</h3>
                   </div> 
                 </div> 
-                <img class="full-img" src="img/portfolio/thumb-04.jpg" alt=""/>
+                <img class="full-img" src="images/AD2.png" alt="" style="width:500;height:auto;object-fit:cover;"/>
               </a>	
             </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
+
+            <div class="s-12 m-6 l-3">
+              <a class="image-with-hover-overlay image-hover-zoom" title="Tree 1 CASet distance">
                 <div class="image-hover-overlay background-primary"> 
                   <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
+                    <h3 class="text-white text-size-20 margin-bottom-10">Visualization of Tree 1 using CASet distance</h3>
                   </div> 
                 </div> 
-                <img class="full-img" src="img/portfolio/thumb-05.jpg" alt=""/>
+                <img class="full-img" src="images/CAset1.png" alt="" style="width:500;height:auto;object-fit:cover;"/>
               </a>	
             </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
+
+            <div class="s-12 m-6 l-3">
+              <a class="image-with-hover-overlay image-hover-zoom" title="Tree 2 CASet distance">
                 <div class="image-hover-overlay background-primary"> 
                   <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
+                    <h3 class="text-white text-size-20 margin-bottom-10">Visualization of Tree 2 using CASet distance</h3>
                   </div> 
                 </div> 
-                <img class="full-img" src="img/portfolio/thumb-06.jpg" alt=""/>
+                <img class="full-img" src="images/CASet2.png" alt="" style="width:500;height:auto;object-fit:cover;"/>
               </a>	
             </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
+
+            <div class="s-12 m-6 l-3">
+              <a class="image-with-hover-overlay image-hover-zoom" title="Tree 1 DISC distance">
                 <div class="image-hover-overlay background-primary"> 
                   <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
+                    <h3 class="text-white text-size-20 margin-bottom-10">Visualization of Tree 1 using DISC distance</h3>
                   </div> 
                 </div> 
-                <img class="full-img" src="img/portfolio/thumb-07.jpg" alt=""/>
+                <img class="full-img" src="images/Disc1.png" alt="" style="width:500;height:auto;object-fit:cover;"/>
               </a>	
             </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
+  
+            <div class="s-12 m-6 l-3">
+              <a class="image-with-hover-overlay image-hover-zoom" title="Tree 2 DISC distance">
                 <div class="image-hover-overlay background-primary"> 
                   <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
+                    <h3 class="text-white text-size-20 margin-bottom-10">Visualization of Tree 2 using DISC distance</h3>
                   </div> 
                 </div> 
-                <img class="full-img" src="img/portfolio/thumb-08.jpg" alt=""/>
-              </a>	
-            </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
-                <div class="image-hover-overlay background-primary"> 
-                  <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
-                  </div> 
-                </div> 
-                <img class="full-img" src="img/portfolio/thumb-09.jpg" alt=""/>
-              </a>	
-            </div>
-            <div class="s-12 m-6 l-five">
-              <a class="image-with-hover-overlay image-hover-zoom" href="/" title="Portfolio Image">
-                <div class="image-hover-overlay background-primary"> 
-                  <div class="image-hover-overlay-content text-center padding-2x">
-                    <h3 class="text-white text-size-20 margin-bottom-10">Reference Title</h3>
-                    <p class="text-white text-size-14 margin-bottom-20">Duis autem vel eum iriure dolor in hendrerit in vulputate velit esse molestie. Lorem ipsum dolor sit amet, consectetuer adipiscing elit, sed diam nonummy nibh euismod.</p>  
-                  </div> 
-                </div> 
-                <img class="full-img" src="img/portfolio/thumb-10.jpg" alt=""/>
-              </a>	
-            </div>
-          </div>  
+                <img class="full-img" src="images/Disc2.png" alt="" style="width:500;height:auto;object-fit:cover;"/>
+              </a>
+            </div> 
+          </div> 
+          <br>
+          <br>
+          <p class="margin-bottom-0 text-size-16 text-dark">
+            For a brief demo of the VECTr functionality watch the video below!
+          </p>
+          <br>
+          <br>
+          <video width="720" height="480" controls>
+            <source src="img/VECTr_Demo.mp4" type="video/mp4">
+            Your browser does not support the video tag.
+          </video>
         </article>
       </main>
       
