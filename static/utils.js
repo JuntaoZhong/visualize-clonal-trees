@@ -120,7 +120,7 @@ function change_label_fill(data, label) {
  * @param {string} distance_measure: the distance measure being used to compare the clonal trees
  */
 function change_edge_stroke_width(distance_measure) {
-  return distance_measure == "parent_child_distance" ? "2px": "5px";
+  return distance_measure == "parent_child_distance" ? "5px": "2px";
 }
 
 /**

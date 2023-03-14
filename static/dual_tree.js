@@ -530,7 +530,7 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
       .classed('link', true)
       .style("transform", "translate(5, 20), scale(0.5)")
       .style("stroke-width", () => {
-        change_edge_stroke_width(distance_measure);
+        return change_edge_stroke_width(distance_measure);
       })
       .attr('x1', d =>  { return d.source.x;})
       .attr('y1', d => { return d.source.y;})
@@ -733,9 +733,16 @@ function visualize(viewtype, svg1, svg2, json_data, distance_measure, scale) {
   var t1_only_mutations = difference(t1_mutations, shared_mutations);
   var t2_only_mutations = difference(t2_mutations, shared_mutations);
 
-  shared_label.innerHTML='';
-  t1_label.innerHTML='';
-  t2_label.innerHTML='';
+  if (viewtype == "single") {
+    shared_label.innerHTML='';
+    t1_label.innerHTML='';
+    t2_label.innerHTML='';
+  }
+  else {
+    shared_label.innerHTML=shared_mutations;
+    t1_label.innerHTML=t1_only_mutations;
+    t2_label.innerHTML=t2_only_mutations;
+  }
 
   var dom_data = {
     t1_nodes,
