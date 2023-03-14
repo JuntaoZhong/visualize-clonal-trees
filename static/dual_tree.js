@@ -39,49 +39,6 @@ tree2file.addEventListener("change", function () {
   };  
 });
 
-function set_visualization_event_listeners(distance_measure) {
-  d3.selectAll(".hover-label").remove();
-  var div  = d3.select("body").append("div").classed("hover-label", true);
-  switch (distance_measure) {
-    case "caset_distance": 
-    case "disc_distance": 
-    case "ancestor_descendant_distance":
-      d3.selectAll("circle.node")
-        .on("mouseover", (d, i) => {
-          div.html(round_to_thousands(i.data.contribution));
-          div.style("opacity", 1); 
-          div.style("left", (event.pageX + 10 ) + "px")
-             .style("top", (event.pageY + 10) + "px");
-        }) // Here is the hover thing
-        .on("mouseout", () => {
-          div.style("opacity", 0); 
-        });
-      d3.selectAll("line.link")
-        .on("mouseover", null)
-        .on("mouseout", null);
-      break;
-    case "parent_child_distance": 
-      d3.selectAll("line.link")
-        .on("mouseover", (d, i) => {
-          div.html(i.target.data.contribution);
-          div.style("opacity", 1); 
-          div.style("left", (event.pageX + 10 ) + "px")
-             .style("top", (event.pageY + 10) + "px");
-        }) // Here is the hover thing
-        .on("mouseout", (d, i) => {
-          div.style("opacity", 0); 
-        });
-      d3.selectAll("circle.node")
-        .on("mouseover", null)
-        .on("mouseout", null);
-      break;
-    default:
-      console.log("Error. Invalid distance measure.");
-      break;
-  }
-}
-
-
 function visualize_singleview(jsonData, distance_measure, dom_data) {
 
   dom_data.shared_mutations.forEach(mutation => {
@@ -803,46 +760,63 @@ function visualize(viewtype, svg1, svg2, json_data, distance_measure, scale) {
   }
 }
 
-function singleView() {
-  var distance_dropdown = document.getElementById("distance-dropdown");
-  var distance_btns = document.getElementById("distance-buttons");
-  var div = document.getElementById("anyviz");
-  var legend = document.getElementById("anyscale");
-  var singleview_btn  = document.getElementById("single");
-  var multiview_btn = document.getElementById("multiple");
-  var top_five = document.getElementById("top_five");
-  var top_five_label = document.getElementById("top_five_label");
-  var top_five_tree_1 = document.getElementById("t1_top5_summary_element");
-  var top_five_tree_2 = document.getElementById("t2_top5_summary_element");
+function singleView(dom_data) {
 
   multiview_elements = document.querySelectorAll(".multiview"); 
   multiview_elements.forEach(element => {
     element.style.display = "none";
   });
 
-  top_five.style.display = "";
-  div.style.display = "flex";
-  legend.style.display = "block";
+  dom_data.top_five.style.display = "";
+  dom_data.div.style.display = "flex";
+  dom_data.legend.style.display = "block";
 
-  if (distance_dropdown.style.display === "none") {
-      distance_dropdown.style.display = "inline-block";
-      distance_btns.style.display = "none";
-      singleview_btn.style.background = "#2C7A7A50";
-      singleview_btn.style.color = "black";
-      multiview_btn.style.background = "#2C7A7A";
-      multiview_btn.style.color = "#F5F5F5";
+  var dropdown_visible = (dom_data.distance_dropdown.style.display === "inline-block");
+  dom_data.distance_dropdown.style.display = dropdown_visible? "none": "inline-block";
+  dom_data.distance_btns.style.display = "none";
+  dom_data.multiview_btn.style.background = "#2C7A7A";
+  dom_data.multiview_btn.style.color = "#F5F5F5";
+  dom_data.singleview_btn.style.background = dropdown_visible? 
+                                               "#2C7A7A": 
+                                               dom_data.singleview_btn.style.background;
+  dom_data.singleview_btn.style.color = dropdown_visible? 
+                                               "#F5F5F5": 
+                                               dom_data.singleview_btn.style.color;
+}
+
+function displayInputOptions(viewtype){
+
+  var distance_btns = document.getElementById("distance-buttons");
+  var distance_dropdown = document.getElementById('distance-dropdown')
+  var div = document.getElementById("anyviz");
+  var legend = document.getElementById("anyscale");
+  var singleview_btn = document.getElementById("single");
+  var multiview_btn = document.getElementById("multiple");
+  var top_five = document.getElementById("top_five");
+  var top_five_label = document.getElementById("top_five_label");
+  var top_five_tree_1 = document.getElementById("t1_top5_summary_element");
+  var top_five_tree_2 = document.getElementById("t2_top5_summary_element");
+
+  var dom_data = {
+    distance_btns,
+    distance_dropdown,
+    div, 
+    legend,
+    singleview_btn,
+    multiview_btn,
+    top_five, top_five_label, 
+    top_five_tree_1, top_five_tree_2
+  }
+
+  if (viewtype == "single") {
+    singleView(dom_data);
   }
   else {
-      distance_dropdown.style.display = "none";
-      distance_btns.style.display = "none";
-      singleview_btn.style.background = "#2C7A7A";
-      singleview_btn.style.color = "#F5F5F5";
-      multiview_btn.style.background = "#2C7A7A";
-      multiview_btn.style.color = "#F5F5F5";
+    multiView(dom_data);
   }
 }
 
-function multiView() {
+function multiView(dom_data) {
 
   multiview_elements = document.querySelectorAll(".multiview"); 
   multiview_elements.forEach(element => {
@@ -853,33 +827,16 @@ function multiView() {
     }
   });
 
-  var distance_btns = document.getElementById("distance-buttons");
-  var distance_dropdown = document.getElementById("distance-dropdown")
-  var div = document.getElementById("anyviz");
-  var legend = document.getElementById("anyscale");
-  var singleview_btn = document.getElementById("single");
-  var multiview_btn = document.getElementById("multiple");
-  var top_five = document.getElementById("top_five");
+  dom_data.top_five.style.display = "none";
+  dom_data.div.style.display = "none";
+  dom_data.legend.style.display = "none"
 
-  top_five.style.display = "none";
-  div.style.display = "none";
-  legend.style.display = "none"
-
-  if (distance_btns.style.display === "inline-block") {
-      distance_btns.style.display = "none";
-      distance_dropdown.style.display = "none";
-      singleview_btn.style.background = "#2C7A7A";
-      singleview_btn.style.color = "#F5F5F5";
-      multiview_btn.style.background = "#2C7A7A";
-      multiview_btn.style.color = "#F5F5F5";
-  }
-  else {
-      distance_btns.style.display = "inline-block";
-      distance_dropdown.style.display = "none";
-      multiview_btn.style.background = "#2C7A7A50";
-      multiview_btn.style.color = "black";
-      singleview_btn.style.background = "#2C7A7A";
-      singleview_btn.style.color = "#F5F5F5";
-  }
+  var btnsDisplayed = (dom_data.distance_btns.style.display === "inline-block");
+  dom_data.distance_btns.style.display = btnsDisplayed? "none": "inline-block"; 
+  dom_data.distance_dropdown.style.display = "none";
+  dom_data.singleview_btn.style.background = "#2C7A7A";
+  dom_data.singleview_btn.style.color = "#F5F5F5";
+  dom_data.multiview_btn.style.background = btnsDisplayed? "#2C7A7A": "#2C7A7A50";
+  dom_data.multiview_btn.style.color = btnsDisplayed? "black": "#F5F5F5";
 }
 
