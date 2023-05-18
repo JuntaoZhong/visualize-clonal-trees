@@ -40,6 +40,7 @@ tree2file.addEventListener("change", function () {
 });
 
 function visualize_singleview(jsonData, distance_measure, dom_data) {
+  console.log("poo")
 
   dom_data.shared_mutations.forEach(mutation => {
     dom_data.shared_label.innerHTML +=  
@@ -242,9 +243,30 @@ function visualize_singleview(jsonData, distance_measure, dom_data) {
       return d[0] + ",";
     })
 
-    .style("font-size", "0.70em")
+    .style("font-size", "0.80em")
     .style("font-family", "Monospace")
+    .style('font-weight', (d) => {
+      var mutation_contribution_dict_1 = jsonData.mutation_contribution_dict_1; 
+      var mutation_contribution_dict_2 = jsonData.mutation_contribution_dict_2; 
+      console.log("max", (mutation_contribution_dict_1, d => d["contribution"]))
+      var max1 = d3.max(Object.values(mutation_contribution_dict_1).map(d => d.contribution));
+      var max2 = d3.max(Object.values(mutation_contribution_dict_2).map(d => d.contribution));
+      if (svg_names[i] == "svg1") {
+        if (mutation_contribution_dict_1[d[0]]["contribution"] > 0) {
+          return mutation_contribution_dict_1[d[0]]["contribution"] / max1 * 900;
+        } 
+      }
+      else if (svg_names[i] == "svg2") {
+        if (mutation_contribution_dict_2[d[0]]["contribution"] > 0) {
+          return mutation_contribution_dict_2[d[0]]["contribution"] / max2 * 900;
+        } 
+      }
+
+      
+    })
     .style("fill", (d) => {
+      console.log(jsonData.mutation_contribution_dict_1);
+      console.log(jsonData.mutation_contribution_dict_2);
       var mutation_contribution_dict_1 = jsonData.mutation_contribution_dict_1; 
       var mutation_contribution_dict_2 = jsonData.mutation_contribution_dict_2; 
       if (svg_names[i] == 'svg1') {
@@ -596,7 +618,23 @@ function visualize_multiview(jsonData, distance_measure, svg1, svg2, scale, dom_
       if (i % 2 == 0) {
         return "1.1em";
       }
-    });
+    })
+    .style('font-weight', (d) => {
+      var mutation_contribution_dict_1 = jsonData.mutation_contribution_dict_1; 
+      var mutation_contribution_dict_2 = jsonData.mutation_contribution_dict_2; 
+      if (svg_names[i] == svg1) {
+        if (mutation_contribution_dict_1[d[0]]["contribution"] > 0) {
+          return mutation_contribution_dict_1["contribution"] * 100;
+        } 
+      }
+      else if (svg_names[i] == svg2) {
+        if (mutation_contribution_dict_2[d[0]]["contribution"] > 0) {
+          return mutation_contribution_dict_2["contribution"] * 100;
+        } 
+      }
+      
+    })
+    ;
  
     if (svg_names[i] == "svg1") {
       t1_max_branching_factor = get_branching_factor(dom_data.t1_nodes);

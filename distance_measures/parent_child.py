@@ -31,6 +31,7 @@ def get_contributions(g_1,g_2):
         anc_mut = pair[0]
         desc_node = utils.get_node_from_mutation(g_1,desc_mut)
         node_contribution_dict_1[desc_node]["contribution"] += 1 
+        mutation_contribution_dict_1[desc_mut]["contribution"] += 1 
         mutation_contribution_dict_1[anc_mut]["contribution"] += 1 
 
     for pair in pc_distinct_set_2:
